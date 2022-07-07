@@ -127,13 +127,13 @@ public class SteamLauncher : ILauncher
         using var stream = File.OpenRead(libraryVdfPath);
         var serializer = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
 
-        var deserializedLibraries = serializer.Deserialize<List<DeserializedSteamLibrary>>(stream);
+        var deserializedLibraries = serializer.Deserialize<Dictionary<string, DeserializedSteamLibrary>>(stream);
 
         libraryList.AddRange(deserializedLibraries.
             Select(lib =>
             {
-                lib.Path = PathUtil.Sanitize(lib.Path) ?? string.Empty;
-                return lib.SteamLibraryBuilder();
+                lib.Value.Path = PathUtil.Sanitize(lib.Value.Path) ?? string.Empty;
+                return lib.Value.SteamLibraryBuilder();
             })
 
         );

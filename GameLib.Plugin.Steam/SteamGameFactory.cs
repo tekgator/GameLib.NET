@@ -65,10 +65,10 @@ internal static class SteamGameFactory
     /// <summary>
     /// Get the executable name for the passed Steam App ID from the catalogue
     /// </summary>
-    private static SteamGame AddCatalogueData(SteamGame game, string steamAppsPath, SteamCatalogue? steamCatalogue)
+    private static void AddCatalogueData(SteamGame game, string steamAppsPath, SteamCatalogue? steamCatalogue)
     {
         if (steamCatalogue is null)
-            return game;
+            return;
 
         var catalogueItems = steamCatalogue.Catalogue
             .Where(p => p.AppID.ToString() == game.GameId)
@@ -77,34 +77,36 @@ internal static class SteamGameFactory
             .Select(p => p.Data);
 
         if (catalogueItems is null || !catalogueItems.Any())
-            return game;
+            return;
 
-        var launchers = catalogueItems.First().Config?.Launch?
-            .Where(p => !string.IsNullOrEmpty(p.Executable))
-            .Where(p => string.IsNullOrEmpty(p.Config?.OsList) || p.Config.OsList.Contains(_os, StringComparison.OrdinalIgnoreCase));
+        var catalogueItem = catalogueItems.First();
 
-        if (launchers is null || !launchers.Any())
-            return game;
+        var launcher = catalogueItem.Config?.Launch?
+            .Select(p => p.Value)
+            .Where(p => string.IsNullOrEmpty(p.Config?.OsList) || p.Config.OsList.Contains(_os, StringComparison.OrdinalIgnoreCase))
+            .Where(p => PathUtil.IsExecutable(p.Executable))
+            .OrderByDescending(p => p.Config?.OsArch?.Contains(_osArch, StringComparison.OrdinalIgnoreCase))
+            .FirstOrDefault((DeserializedSteamCatalogue.DeserializedData.DscdLaunch?)null);
 
-        foreach (var launcher in launchers
-            .OrderByDescending(p => p.Config?.OsArch?.Contains(_osArch, StringComparison.OrdinalIgnoreCase)))
-        {
-            if (PathUtil.IsExecutable(launcher.Executable))
-            {
-                game.ExecutablePath = Path.Combine(steamAppsPath, "common", game.InstallDir, PathUtil.Sanitize(launcher.Executable)!);
-                game.Executable = Path.GetFileName(game.ExecutablePath);
+        if (launcher is null)
+            return;
 
-                if (!string.IsNullOrEmpty(launcher.WorkingDir))
-                    game.ExecutablePath = Path.Combine(steamAppsPath, "common", game.InstallDir, PathUtil.Sanitize(launcher.WorkingDir)!);
+        game.ExecutablePath = Path.Combine(steamAppsPath, "common", game.InstallDir, PathUtil.Sanitize(launcher.Executable)!);
+        game.Executable = Path.GetFileName(game.ExecutablePath);
 
-                if (string.IsNullOrEmpty(game.WorkingDir))
-                    game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
+        if (!string.IsNullOrEmpty(launcher.WorkingDir))
+            game.WorkingDir = Path.Combine(steamAppsPath, "common", game.InstallDir, PathUtil.Sanitize(launcher.WorkingDir)!);
 
-                break;
-            }
-        }
+        if (string.IsNullOrEmpty(game.WorkingDir))
+            game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
 
-        return game;
+        game.Developer = catalogueItem.Extended?.Developer ?? string.Empty;
+        game.DeveloperUrl = catalogueItem.Extended?.Developer_URL ?? string.Empty;
+        game.Publisher = catalogueItem.Extended?.Publisher ?? string.Empty;
+        game.Homepage = catalogueItem.Extended?.Homepage ?? string.Empty;
+        game.GameManualUrl = catalogueItem.Extended?.GameManualUrl ?? string.Empty;
+
+        return;
     }
 
     /// <summary>

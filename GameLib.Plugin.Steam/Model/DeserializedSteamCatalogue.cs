@@ -29,13 +29,19 @@ internal class DeserializedSteamCatalogue
             public string? Developer_URL { get; set; }
             public string? Publisher { get; set; }
             public string? Homepage { get; set; }
+            public string? GameManualUrl { get; set; }
         }
 
         public class DscdConfig
         {
             public string? ContentType { get; set; }
             public string? Installdir { get; set; }
-            public List<DscdLaunch>? Launch { get; set; }
+
+            /* Used to be a list: public List<DscdLaunch>? Launch { get; set; }
+             * According to the issue https://github.com/SteamDatabase/ValveKeyValue/issues/55 if the index of an
+             * list/array cannot be guranteed a dictionary should be used
+             */
+            public Dictionary<string, DscdLaunch>? Launch { get; set; }
         }
         public class DscdLaunch
         {

@@ -36,4 +36,11 @@ public class SteamGame : IGame
     public DateTime ScheduledAutoUpdate { get; internal set; } = DateTime.MinValue;
     public bool IsUpdating =>
         Convert.ToBoolean(RegistryUtil.GetValue(RegistryHive.CurrentUser, $@"Software\Valve\Steam\Apps\{GameId}", "Updating"));
+
+    // From catalogue data
+    public string Developer { get; internal set; } = string.Empty;
+    public string DeveloperUrl { get; internal set; } = string.Empty;
+    public string Publisher { get; internal set; } = string.Empty;
+    public string Homepage { get; internal set; } = string.Empty;
+    public string GameManualUrl { get; internal set; } = string.Empty;
 }
