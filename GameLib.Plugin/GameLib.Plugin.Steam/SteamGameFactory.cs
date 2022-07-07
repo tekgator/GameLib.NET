@@ -70,16 +70,15 @@ internal static class SteamGameFactory
         if (steamCatalogue is null)
             return;
 
-        var catalogueItems = steamCatalogue.Catalogue
+        var catalogueItem = steamCatalogue.Catalogue
             .Where(p => p.AppID.ToString() == game.GameId)
             .Where(p => string.IsNullOrEmpty(p.Data?.Common?.OsList) || p.Data.Common.OsList.Contains(_os, StringComparison.OrdinalIgnoreCase))
             .Where(p => p.Data.Config?.Launch is not null)
-            .Select(p => p.Data);
+            .Select(p => p.Data)
+            .FirstOrDefault((DeserializedSteamCatalogue.DeserializedData?)null);
 
-        if (catalogueItems is null || !catalogueItems.Any())
+        if (catalogueItem is null)
             return;
-
-        var catalogueItem = catalogueItems.First();
 
         var launcher = catalogueItem.Config?.Launch?
             .Select(p => p.Value)
