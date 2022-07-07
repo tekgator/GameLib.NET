@@ -97,7 +97,7 @@ public class GogLauncher : ILauncher
         return executablePath;
     }
 
-    public static List<GogGame> GetGames()
+    private static List<GogGame> GetGames()
     {
         List<GogGame> games = new();
 
