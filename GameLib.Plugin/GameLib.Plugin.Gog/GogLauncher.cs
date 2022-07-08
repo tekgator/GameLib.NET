@@ -1,5 +1,6 @@
 ﻿using Gamelib.Util;
 using GameLib.Plugin.Gog.Model;
+using GameLib.Util;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -25,8 +26,7 @@ public class GogLauncher : ILauncher
         File.Exists(ExecutablePath);
 
     public bool IsRunning =>
-        !string.IsNullOrEmpty(ExecutablePath) &&
-        Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Executable)).Where(p => !p.HasExited).Any();
+        ProcessUtil.IsProcessRunning(Executable);
 
     public string? InstallDir =>
         Path.GetDirectoryName(ExecutablePath);

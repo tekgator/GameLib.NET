@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using GameLib.Util;
 
 namespace GameLib.Plugin.Gog.Model;
 
@@ -14,8 +14,7 @@ public class GogGame : IGame
     public string LaunchString { get; internal set; } = string.Empty;
     public DateTime InstallDate { get; internal set; } = DateTime.MinValue;
     public bool IsRunning =>
-        !string.IsNullOrEmpty(Executable) &&
-        Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(Executable)).Where(p => !p.HasExited).Any();
+        ProcessUtil.IsProcessRunning(Executable);
     #endregion
 
     public string BuildId { get; internal set; } = string.Empty;
