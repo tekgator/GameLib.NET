@@ -23,6 +23,9 @@ internal class SteamCatalogue
 
     public void Refresh()
     {
+        if (!File.Exists(_cataloguePath))
+            throw new FileNotFoundException("Configuration file not found, probalby Steam client hasn't been started at least once.", _cataloguePath);
+
         _universe = SteamUniverse.Invalid;
 
         using var stream = File.OpenRead(_cataloguePath);
