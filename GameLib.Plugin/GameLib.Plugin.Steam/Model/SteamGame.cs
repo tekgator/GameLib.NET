@@ -1,6 +1,6 @@
 ﻿using Gamelib.Util;
+using GameLib.Util;
 using Microsoft.Win32;
-using System.Diagnostics;
 
 namespace GameLib.Plugin.Steam.Model;
 
@@ -22,7 +22,7 @@ public class SteamGame : IGame
             if (string.IsNullOrEmpty(Executable))
                 return Convert.ToBoolean(RegistryUtil.GetValue(RegistryHive.CurrentUser, $@"Software\Valve\Steam\Apps\{GameId}", "Running"));
 
-            return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Executable)).Where(p => !p.HasExited).Any();
+            return ProcessUtil.IsProcessRunning(Executable);
         }
     }
     #endregion
