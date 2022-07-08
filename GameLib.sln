@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Demo.Console", "Gam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Steam", "GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj", "{DC914563-2776-4290-AE89-677D358187DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Plugin.Gog", "GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj", "{F0705DC8-7720-481C-96EF-749B2FFF4E41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Gog", "GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj", "{F0705DC8-7720-481C-96EF-749B2FFF4E41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Plugin.Ubisoft", "GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj", "{F8AB3EE4-D877-4A78-8C06-A237795CC241}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +23,22 @@ Global
 		{D8D50A18-3827-4714-94A7-F1870AB4BA82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8D50A18-3827-4714-94A7-F1870AB4BA82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8D50A18-3827-4714-94A7-F1870AB4BA82}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC914563-2776-4290-AE89-677D358187DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC914563-2776-4290-AE89-677D358187DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC914563-2776-4290-AE89-677D358187DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC914563-2776-4290-AE89-677D358187DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5754D254-EB51-4F11-AABD-81FCF238AE66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5754D254-EB51-4F11-AABD-81FCF238AE66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5754D254-EB51-4F11-AABD-81FCF238AE66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5754D254-EB51-4F11-AABD-81FCF238AE66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC914563-2776-4290-AE89-677D358187DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC914563-2776-4290-AE89-677D358187DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC914563-2776-4290-AE89-677D358187DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC914563-2776-4290-AE89-677D358187DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F0705DC8-7720-481C-96EF-749B2FFF4E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F0705DC8-7720-481C-96EF-749B2FFF4E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0705DC8-7720-481C-96EF-749B2FFF4E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0705DC8-7720-481C-96EF-749B2FFF4E41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8AB3EE4-D877-4A78-8C06-A237795CC241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8AB3EE4-D877-4A78-8C06-A237795CC241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8AB3EE4-D877-4A78-8C06-A237795CC241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8AB3EE4-D877-4A78-8C06-A237795CC241}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

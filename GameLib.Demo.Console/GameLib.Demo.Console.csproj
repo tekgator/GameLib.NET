@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameLib\GameLib.csproj" />
+	<ProjectReference Include="..\GameLib\GameLib.csproj" />
+	<ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" />
   </ItemGroup>
