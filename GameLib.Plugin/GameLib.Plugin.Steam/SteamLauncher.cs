@@ -1,5 +1,6 @@
 ﻿using Gamelib.Util;
 using GameLib.Plugin.Steam.Model;
+using GameLib.Util;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -32,8 +33,7 @@ public class SteamLauncher : ILauncher
         File.Exists(ExecutablePath);
 
     public bool IsRunning =>
-        !string.IsNullOrEmpty(ExecutablePath) &&
-        Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Executable)).Where(p => !p.HasExited).Any();
+        ProcessUtil.IsProcessRunning(ExecutablePath);
 
     public string? InstallDir =>
         Path.GetDirectoryName(ExecutablePath);
@@ -64,7 +64,13 @@ public class SteamLauncher : ILauncher
         get
         {
             if (IsInstalled && _launcherOptions.LoadLocalCatalogueData)
-                _localCatalogue ??= new SteamCatalogue(InstallDir!);
+            {
+                try
+                {
+                    _localCatalogue ??= new SteamCatalogue(InstallDir!);
+                }
+                catch { }
+            }
 
             _gameList ??= SteamGameFactory.GetGames((IEnumerable<SteamLibrary>)Libraries, _localCatalogue);
             return _gameList;
