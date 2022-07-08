@@ -72,4 +72,26 @@ public class PathUtil
     public static bool IsExecutable(string? path) =>
         Path.GetExtension(path ?? string.Empty).ToLower() == ExeName;
 
+
+    /// <summary>
+    /// Return the creation time of the directory
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns>The creation date time of the directory; otherwise <see langword="null"/></returns>
+    public static DateTime? GetCreationTime(string? path)
+    {
+        DateTime? creationDateTime = null;
+
+        if (!string.IsNullOrEmpty(path))
+        {
+            try
+            {
+                creationDateTime = Directory.GetCreationTime(path);
+            }
+            catch { }
+        }
+
+        return creationDateTime;
+    }
+
 }
