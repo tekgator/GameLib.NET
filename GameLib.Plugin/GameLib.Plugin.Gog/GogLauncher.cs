@@ -13,58 +13,48 @@ namespace GameLib.Plugin.Gog;
 [Export(typeof(ILauncher))]
 public class GogLauncher : ILauncher
 {
-    private string? _executablePath = null;
-    private List<GogLibrary>? _libraryList = null;
     private List<GogGame>? _gameList = null;
+
+    public GogLauncher()
+    {
+        ClearCache();
+    }
 
     #region Interface implementations
     public string Name => "GOG Galaxy";
 
-    public bool IsInstalled =>
-        !string.IsNullOrEmpty(ExecutablePath) &&
-        File.Exists(ExecutablePath);
+    public bool IsInstalled { get; private set; }
 
-    public bool IsRunning =>
-        ProcessUtil.IsProcessRunning(Executable);
+    public bool IsRunning => ProcessUtil.IsProcessRunning(Executable);
 
-    public string? InstallDir =>
-        Path.GetDirectoryName(ExecutablePath);
+    public string InstallDir { get; private set; } = string.Empty;
 
-    public string? ExecutablePath
+    public string ExecutablePath { get; private set; } = string.Empty;
+
+    public string Executable { get; private set; } = string.Empty;
+
+    public IEnumerable<IGame> GetGames()
     {
-        get
-        {
-            _executablePath ??= GetExecutable();
-            return _executablePath;
-        }
-    }
-
-    public string? Executable =>
-        Path.GetFileName(ExecutablePath);
-
-    public IEnumerable<ILibrary> Libraries
-    {
-        get
-        {
-            _libraryList ??= GetLibraries();
-            return _libraryList;
-        }
-    }
-
-    public IEnumerable<IGame> Games
-    {
-        get
-        {
-            _gameList ??= GetGames();
-            return _gameList;
-        }
+        _gameList ??= ObtainGames();
+        return _gameList;
     }
 
     public void ClearCache()
     {
-        _executablePath = null;
-        _libraryList = null;
         _gameList = null;
+
+        ExecutablePath = string.Empty;
+        Executable = string.Empty;
+        InstallDir = string.Empty;
+        IsInstalled = false;
+
+        ExecutablePath = ObtainExecutable() ?? string.Empty;
+        if (!string.IsNullOrEmpty(ExecutablePath))
+        {
+            Executable = Path.GetFileName(ExecutablePath);
+            InstallDir = Path.GetDirectoryName(ExecutablePath) ?? string.Empty;
+            IsInstalled = File.Exists(ExecutablePath);
+        }
     }
 
     public bool Start() =>
@@ -78,7 +68,7 @@ public class GogLauncher : ILauncher
     #endregion
 
     #region Private methods
-    private static string? GetExecutable()
+    private static string? ObtainExecutable()
     {
         string? executablePath = null;
 
@@ -96,11 +86,11 @@ public class GogLauncher : ILauncher
         return executablePath;
     }
 
-    private static List<GogGame> GetGames()
+    private List<GogGame> ObtainGames()
     {
         List<GogGame> games = new();
 
-        var executable = GetExecutable();
+        var executable = Executable;
         if (string.IsNullOrEmpty(executable))
             return games;
 
@@ -156,20 +146,6 @@ public class GogLauncher : ILauncher
         }
 
         return games;
-    }
-
-    private List<GogLibrary> GetLibraries()
-    {
-        var games = Games;
-        List<GogLibrary> libraryList = new();
-
-        libraryList.AddRange(games
-            .Select(p => PathUtil.Sanitize(Path.GetDirectoryName(p.InstallDir.ToLower())) ?? string.Empty)
-            .Where(p => !string.IsNullOrEmpty(p))
-            .Distinct()
-            .Select(installDir => new GogLibrary() { Path = installDir }));
-
-        return libraryList;
     }
     #endregion
 

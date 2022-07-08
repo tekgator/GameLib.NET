@@ -19,34 +19,26 @@ public interface ILauncher
 
     /// <summary>
     /// The installation path of the Launcher<br/>
-    /// <see langword="null"/> if not (properly) installed
+    /// <see langword="string.Empty"/> if not (properly) installed
     /// </summary>
-    public string? InstallDir { get; }
+    public string InstallDir { get; }
 
     /// <summary>
     /// The executable including the path of the Launcher<br/>
-    /// <see langword="null"/> if not (properly) installed
+    /// <see langword="string.Empty"/> if not (properly) installed
     /// </summary>
-    public string? ExecutablePath { get; }
+    public string ExecutablePath { get; }
 
     /// <summary>
     /// The executable name of the Launcher<br/>
-    /// <see langword="null"/> if not (properly) installed
+    /// <see langword="string.Empty"/> if not (properly) installed
     /// </summary>
-    public string? Executable { get; }
-
-    /// <summary>
-    /// The game libraries of the Launcher
-    /// </summary>
-    /// <remarks>
-    /// Please note: not every launcher has a library concept (only Steam?), so this list could be empty
-    /// </remarks>
-    public IEnumerable<ILibrary> Libraries { get; }
+    public string Executable { get; }
 
     /// <summary>
     /// The installed games of the Launcher
     /// </summary>
-    public IEnumerable<IGame> Games { get; }
+    public IEnumerable<IGame> GetGames();
 
     /// <summary>
     /// Starts the launcher if not already running

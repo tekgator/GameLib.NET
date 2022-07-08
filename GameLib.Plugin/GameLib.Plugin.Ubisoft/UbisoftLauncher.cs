@@ -13,86 +13,71 @@ namespace GameLib.Plugin.Ubisoft;
 public class UbisoftLauncher : ILauncher
 {
     private readonly LauncherOptions _launcherOptions;
-    private string? _executablePath = null;
-    private List<UbisoftLibrary>? _libraryList = null;
-    private List<UbisoftGame>? _gameList = null;
-    private UbisoftCatalog? _localCatalog = null;
+    private List<UbisoftGame>? _gameList;
+    private UbisoftCatalog? _localCatalog;
 
     [ImportingConstructor]
     public UbisoftLauncher(LauncherOptions? launcherOptions)
     {
         _launcherOptions = launcherOptions ?? new LauncherOptions();
+        ClearCache();
     }
 
     #region Interface implementations
     public string Name => "Ubisoft Connect";
 
-    public bool IsInstalled =>
-        !string.IsNullOrEmpty(ExecutablePath) &&
-        File.Exists(ExecutablePath);
+    public bool IsInstalled { get; private set; } = false;
 
-    public bool IsRunning =>
-        ProcessUtil.IsProcessRunning(Executable);
+    public bool IsRunning => ProcessUtil.IsProcessRunning(Executable);
 
-    public string? InstallDir =>
-        Path.GetDirectoryName(ExecutablePath);
+    public string InstallDir { get; private set; } = string.Empty;
 
-    public string? ExecutablePath
+    public string ExecutablePath { get; private set; } = string.Empty;
+
+    public string Executable { get; private set; } = string.Empty;
+
+    public IEnumerable<IGame> GetGames()
     {
-        get
+        if (IsInstalled && _launcherOptions.LoadLocalCatalogData)
         {
-            _executablePath ??= GetExecutable();
-            return _executablePath;
-        }
-    }
-
-    public string? Executable =>
-        Path.GetFileName(ExecutablePath);
-
-    public IEnumerable<ILibrary> Libraries
-    {
-        get
-        {
-            _libraryList ??= GetLibraries();
-            return _libraryList;
-        }
-    }
-
-    public IEnumerable<IGame> Games
-    {
-        get
-        {
-            if (IsInstalled && _launcherOptions.LoadLocalCatalogData)
+            try
             {
-                try
-                {
-                    _localCatalog ??= new UbisoftCatalog(InstallDir!);
-                }
-                catch { /* ignored */ }
+                _localCatalog ??= new UbisoftCatalog(InstallDir!);
             }
-
-            _gameList ??= UbisoftGameFactory.GetGames(InstallDir, _localCatalog);
-            return _gameList;
+            catch { /* ignored */ }
         }
+
+        _gameList ??= UbisoftGameFactory.GetGames(InstallDir, _localCatalog);
+        return _gameList;
     }
 
     public void ClearCache()
     {
-        _executablePath = null;
-        _libraryList = null;
         _gameList = null;
         _localCatalog = null;
+
+        ExecutablePath = string.Empty;
+        Executable = string.Empty;
+        InstallDir = string.Empty;
+        IsInstalled = false;
+
+        ExecutablePath = ObtainExecutable() ?? string.Empty;
+        if (!string.IsNullOrEmpty(ExecutablePath))
+        {
+            Executable = Path.GetFileName(ExecutablePath);
+            InstallDir = Path.GetDirectoryName(ExecutablePath) ?? string.Empty;
+            IsInstalled = File.Exists(ExecutablePath);
+        }
     }
 
     public bool Start() =>
         IsInstalled && (IsRunning || Process.Start(ExecutablePath!) is not null);
 
-    public void Stop() =>
-        ProcessUtil.StopProcess(ExecutablePath);
+    public void Stop() => ProcessUtil.StopProcess(ExecutablePath);
     #endregion
 
     #region Private methods
-    private static string? GetExecutable()
+    private static string? ObtainExecutable()
     {
         string? executablePath = null;
 
@@ -108,20 +93,6 @@ public class UbisoftLauncher : ILauncher
             executablePath = null;
 
         return executablePath;
-    }
-
-    private List<UbisoftLibrary> GetLibraries()
-    {
-        var games = Games;
-        List<UbisoftLibrary> libraryList = new();
-
-        libraryList.AddRange(games
-            .Select(p => PathUtil.Sanitize(Path.GetDirectoryName(p.InstallDir.ToLower())) ?? string.Empty)
-            .Where(p => !string.IsNullOrEmpty(p))
-            .Distinct()
-            .Select(installDir => new UbisoftLibrary() { Path = installDir }));
-
-        return libraryList;
     }
     #endregion
 

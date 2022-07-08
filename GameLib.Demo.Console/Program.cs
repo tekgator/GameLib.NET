@@ -1,4 +1,5 @@
 ﻿using GameLib;
+using GameLib.Plugin.Steam;
 
 var launcherManager = new LauncherManager();
 
@@ -24,20 +25,23 @@ foreach (var launcher in launcherManager.Launchers)
     var executable = launcher.Executable;
     Console.WriteLine($"Executable: {executable}");
 
-    var libs = launcher.Libraries;
-    SetConsoleColor(ConsoleColor.Blue);
-    Console.WriteLine("\nLibraries:");
-    ResetConsoleColor();
-    foreach (var lib in libs)
+    var libs = (launcher as SteamLauncher)?.GetLibraries();
+    if (libs is not null)
     {
-        Console.WriteLine($"Name: {lib.Name}");
-        foreach (var item in lib.GetType().GetProperties().Where(p => p.Name != "Name"))
+        SetConsoleColor(ConsoleColor.Blue);
+        Console.WriteLine("\nLibraries:");
+        ResetConsoleColor();
+        foreach (var lib in libs)
         {
-            Console.WriteLine($"\t{item.Name}: {item.GetValue(lib)}");
+            Console.WriteLine($"Name: {lib.Name}");
+            foreach (var item in lib.GetType().GetProperties().Where(p => p.Name != "Name"))
+            {
+                Console.WriteLine($"\t{item.Name}: {item.GetValue(lib)}");
+            }
         }
     }
 
-    var games = launcher.Games;
+    var games = launcher.GetGames();
     SetConsoleColor(ConsoleColor.Green);
     Console.WriteLine("\nGames:");
     ResetConsoleColor();
