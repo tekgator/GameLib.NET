@@ -1,6 +1,6 @@
 ﻿namespace GameLib.Plugin.Steam.Model;
 
-public class DeserializedSteamLibrary
+internal class DeserializedSteamLibrary
 {
     public string? Path { get; set; }
     public string? Label { get; set; }

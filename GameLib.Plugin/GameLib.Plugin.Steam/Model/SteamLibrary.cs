@@ -4,7 +4,6 @@ public class SteamLibrary : ILibrary
 {
     #region Interface implementations
     public string Name { get; internal set; } = string.Empty;
-
     public string Path { get; internal set; } = string.Empty;
     #endregion
 

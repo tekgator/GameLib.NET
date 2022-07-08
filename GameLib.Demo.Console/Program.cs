@@ -6,8 +6,8 @@ foreach (var launcher in launcherManager.Launchers)
 {
     var name = launcher.Name;
     SetConsoleColor(ConsoleColor.White, ConsoleColor.Red);
-    Console.WriteLine($"{launcher.Name}:\n");
-    ResetConsolColor();
+    Console.WriteLine($"{name}:\n");
+    ResetConsoleColor();
 
     var isInstalled = launcher.IsInstalled;
     Console.WriteLine($"Is installed: {isInstalled}");
@@ -26,8 +26,8 @@ foreach (var launcher in launcherManager.Launchers)
 
     var libs = launcher.Libraries;
     SetConsoleColor(ConsoleColor.Blue);
-    Console.WriteLine($"\nLibraries:");
-    ResetConsolColor();
+    Console.WriteLine("\nLibraries:");
+    ResetConsoleColor();
     foreach (var lib in libs)
     {
         Console.WriteLine($"Name: {lib.Name}");
@@ -39,13 +39,13 @@ foreach (var launcher in launcherManager.Launchers)
 
     var games = launcher.Games;
     SetConsoleColor(ConsoleColor.Green);
-    Console.WriteLine($"\nGames:");
-    ResetConsolColor();
+    Console.WriteLine("\nGames:");
+    ResetConsoleColor();
     foreach (var game in games)
     {
         SetConsoleColor(ConsoleColor.Magenta);
         Console.WriteLine($"Game ID: {game.GameId}");
-        ResetConsolColor();
+        ResetConsoleColor();
         foreach (var item in game.GetType().GetProperties().Where(p => p.Name != "GameId"))
         {
             Console.WriteLine($"\t{item.Name}: {item.GetValue(game)}");
@@ -60,11 +60,10 @@ static void SetConsoleColor(ConsoleColor foregroundColor, ConsoleColor? backgrou
         Console.BackgroundColor = (ConsoleColor)backgroundColor;
 }
 
-static void ResetConsolColor()
+static void ResetConsoleColor()
 {
     Console.ForegroundColor = ConsoleColor.Gray;
     Console.BackgroundColor = ConsoleColor.Black;
 }
-
 
 Console.ReadKey();

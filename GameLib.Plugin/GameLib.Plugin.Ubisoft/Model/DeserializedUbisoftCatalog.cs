@@ -1,9 +1,9 @@
 ﻿using ProtoBuf;
 
-namespace GameLauncherApi.Ubisoft.Model;
+namespace GameLib.Plugin.Ubisoft.Model;
 
 [ProtoContract]
-internal class UbisoftCatalogueItem
+internal class UbisoftCatalogItem
 {
     [ProtoMember(1)]
     public uint UplayId { get; set; }
@@ -16,10 +16,10 @@ internal class UbisoftCatalogueItem
 }
 
 [ProtoContract]
-internal class UbisoftCatalogueCollection
+internal class UbisoftCatalogCollection
 {
     [ProtoMember(1)]
-    public List<UbisoftCatalogueItem>? Games { get; set; }
+    public List<UbisoftCatalogItem>? Games { get; set; }
 }
 
 #pragma warning disable 0649
@@ -54,7 +54,6 @@ internal class UbisoftProductInformation
         public bool overlay_shop_enabled;
         public bool legacy_ticket_enabled;
         public List<Executable>? executables;
-
     }
 
     public class StartGame

@@ -2,21 +2,20 @@
 
 namespace Gamelib.Util;
 
-public class PathUtil
+public static class PathUtil
 {
     private const string ExeName = ".exe";
 
     private static readonly string replaceDirSep = Path.DirectorySeparatorChar == '\\' ? new string(Path.DirectorySeparatorChar, 2) : Path.DirectorySeparatorChar.ToString();
     private static readonly Regex multiDirSepChar = new(@$"(?<=({replaceDirSep}))\1+", RegexOptions.Compiled);
 
-
     /// <summary>
     /// Sanitize the passed Path<br/>
-    /// 1.) Correct path with OS relevant directory seperator<br/>
+    /// 1.) Correct path with OS relevant directory separator<br/>
     /// 2.) Remove leading comma ','<br/>
     /// 3.) Remove leading and trailing quotation marks '"'<br/>
-    /// 4.) Remove leading directory seperator if no UNC path<br/>
-    /// 5.) Remove trailing directory seperator<br/>
+    /// 4.) Remove leading directory separator if no UNC path<br/>
+    /// 5.) Remove trailing directory separator<br/>
     /// </summary>
     /// <returns>The sanitized path <see langword="string"/></returns>
     public static string? Sanitize(string? path)
@@ -45,12 +44,11 @@ public class PathUtil
         return path;
     }
 
-
     /// <summary>
     /// Remove arguments after the executable if any
     /// </summary>
     /// <example>
-    /// D:\Games\Game1\Bin\game.exe -withcheats -fullscreen 
+    /// D:\Games\Game1\Bin\game.exe -withcheats -fullscreen
     /// will be D:\Games\Game1\Bin\game.exe
     /// </example>
     /// <returns>The path <see langword="string"/> with removed parameters</returns>
@@ -63,7 +61,6 @@ public class PathUtil
         return path;
     }
 
-
     /// <summary>
     /// Return whether passed in path is an executable
     /// </summary>
@@ -71,7 +68,6 @@ public class PathUtil
     /// <returns>True if passed in Path is an executable; otherwise false</returns>
     public static bool IsExecutable(string? path) =>
         Path.GetExtension(path ?? string.Empty).ToLower() == ExeName;
-
 
     /// <summary>
     /// Return the creation time of the directory
@@ -93,5 +89,4 @@ public class PathUtil
 
         return creationDateTime;
     }
-
 }

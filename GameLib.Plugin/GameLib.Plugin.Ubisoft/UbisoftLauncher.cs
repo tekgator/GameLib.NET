@@ -16,7 +16,7 @@ public class UbisoftLauncher : ILauncher
     private string? _executablePath = null;
     private List<UbisoftLibrary>? _libraryList = null;
     private List<UbisoftGame>? _gameList = null;
-    private UbisoftCatalogue? _localCatalogue = null;
+    private UbisoftCatalog? _localCatalog = null;
 
     [ImportingConstructor]
     public UbisoftLauncher(LauncherOptions? launcherOptions)
@@ -62,16 +62,16 @@ public class UbisoftLauncher : ILauncher
     {
         get
         {
-            if (IsInstalled && _launcherOptions.LoadLocalCatalogueData)
+            if (IsInstalled && _launcherOptions.LoadLocalCatalogData)
             {
                 try
                 {
-                    _localCatalogue ??= new UbisoftCatalogue(InstallDir!);
+                    _localCatalog ??= new UbisoftCatalog(InstallDir!);
                 }
-                catch { }
+                catch { /* ignored */ }
             }
 
-            _gameList ??= UbisoftGameFactory.GetGames(InstallDir, _localCatalogue);
+            _gameList ??= UbisoftGameFactory.GetGames(InstallDir, _localCatalog);
             return _gameList;
         }
     }
@@ -81,7 +81,7 @@ public class UbisoftLauncher : ILauncher
         _executablePath = null;
         _libraryList = null;
         _gameList = null;
-        _localCatalogue = null;
+        _localCatalog = null;
     }
 
     public bool Start() =>
@@ -90,7 +90,6 @@ public class UbisoftLauncher : ILauncher
     public void Stop() =>
         ProcessUtil.StopProcess(ExecutablePath);
     #endregion
-
 
     #region Private methods
     private static string? GetExecutable()
@@ -125,7 +124,5 @@ public class UbisoftLauncher : ILauncher
         return libraryList;
     }
     #endregion
-
-
 
 }

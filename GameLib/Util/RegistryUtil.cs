@@ -2,7 +2,7 @@
 
 namespace Gamelib.Util;
 
-public class RegistryUtil
+public static class RegistryUtil
 {
     /// <summary>
     /// Gets the executable of the registered shell command application
@@ -42,7 +42,6 @@ public class RegistryUtil
 
         regKey32?.Dispose();
 
-
         using var baseKey64 = RegistryKey.OpenBaseKey(hive, RegistryView.Registry64);
         var regKey64 = baseKey64.OpenSubKey(keyName);
 
@@ -54,16 +53,15 @@ public class RegistryUtil
 
         regKey64?.Dispose();
 
-
         return null;
     }
 
     /// <summary>
-    /// Gets the value of the passed in registry key 
+    /// Gets the value of the passed in registry key
     /// <seealso cref="GetKey(RegistryHive, string, bool)"/>
     /// </summary>
     /// <returns>
-    /// The value of the registy key as a <see langword="string"/><br/>
+    /// The value of the registry key as a <see langword="string"/><br/>
     /// Otherwise the passed in default value string is returned
     /// </returns>
     public static string? GetValue(RegistryHive hive, string keyName, string? valueName, string? defaultValue = null)
@@ -71,5 +69,4 @@ public class RegistryUtil
         using var regKey = GetKey(hive, keyName, false);
         return regKey?.GetValue(valueName) as string ?? defaultValue;
     }
-
 }

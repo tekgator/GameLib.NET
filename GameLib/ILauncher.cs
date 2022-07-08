@@ -4,12 +4,12 @@ public interface ILauncher
 {
     /// <summary>
     /// Name of the Launcher
-    /// </summary> 
+    /// </summary>
     public string Name { get; }
 
     /// <summary>
     /// <see langword="true"/> if the launcher is (properly) installed
-    /// </summary> 
+    /// </summary>
     public bool IsInstalled { get; }
 
     /// <summary>

@@ -1,14 +1,12 @@
-﻿using GameLauncherApi.Ubisoft.Model;
-using Gamelib.Util;
+﻿using Gamelib.Util;
 using GameLib.Plugin.Ubisoft.Model;
 using Microsoft.Win32;
 
 namespace GameLib.Plugin.Ubisoft;
 
-internal class UbisoftGameFactory
+internal static class UbisoftGameFactory
 {
-
-    public static List<UbisoftGame> GetGames(string? installDir, UbisoftCatalogue? catalogue = null)
+    public static List<UbisoftGame> GetGames(string? installDir, UbisoftCatalog? catalog = null)
     {
         List<UbisoftGame> games = new();
 
@@ -35,7 +33,7 @@ internal class UbisoftGameFactory
             game.WorkingDir = game.InstallDir;
             game.LaunchString = $"uplay://launch/{game.GameId}";
 
-            AddCatalogueData(game, catalogue);
+            AddCatalogData(game, catalog);
 
             games.Add(game);
         }
@@ -43,18 +41,20 @@ internal class UbisoftGameFactory
         return games;
     }
 
-    private static void AddCatalogueData(UbisoftGame game, UbisoftCatalogue? catalogue = null)
+    private static void AddCatalogData(UbisoftGame game, UbisoftCatalog? catalog = null)
     {
-        if (catalogue?.Catalogue
+        if (catalog?.Catalog
             .Where(p => p.UplayId.ToString() == game.GameId)
-            .FirstOrDefault((UbisoftCatalogueItem?)null) is not UbisoftCatalogueItem catalogueItem)
+            .FirstOrDefault((UbisoftCatalogItem?)null) is not { } catalogItem)
+        {
             return;
+        }
 
         // get executable, executable path and working dir
         List<UbisoftProductInformation.Executable>? exeList = null;
 
-        exeList ??= catalogueItem.GameInfo?.root?.start_game?.offline?.executables;
-        exeList ??= catalogueItem.GameInfo?.root?.start_game?.online?.executables;
+        exeList ??= catalogItem.GameInfo?.root?.start_game?.offline?.executables;
+        exeList ??= catalogItem.GameInfo?.root?.start_game?.online?.executables;
 
         if (exeList is not null)
         {
@@ -68,63 +68,59 @@ internal class UbisoftGameFactory
                 if (exe.working_directory?.register?.StartsWith("HKEY") == false)
                     game.WorkingDir = PathUtil.Sanitize(exe.working_directory.register)!;
 
-                if (PathUtil.IsExecutable(game.ExecutablePath))
-                {
-                    game.Executable = Path.GetFileName(game.ExecutablePath) ?? string.Empty;
-                    break;
-                }
+                if (!PathUtil.IsExecutable(game.ExecutablePath))
+                    continue;
 
+                game.Executable = Path.GetFileName(game.ExecutablePath) ?? string.Empty;
+                break;
             }
         }
 
-        string? tmpVal = null;
-
         // get Game name
-        tmpVal = catalogueItem.GameInfo?.root?.name;
+        string? tmpVal = catalogItem.GameInfo?.root?.name;
         if (!string.IsNullOrEmpty(tmpVal))
-            tmpVal = GetLocalizedValue(catalogueItem, tmpVal, tmpVal);
+            tmpVal = GetLocalizedValue(catalogItem, tmpVal, tmpVal);
 
         if (tmpVal is "NAME" or "GAMENAME")
             tmpVal = null;
 
         if (string.IsNullOrEmpty(tmpVal))
-            tmpVal = catalogueItem.GameInfo?.root?.installer?.game_identifier;
+            tmpVal = catalogItem.GameInfo?.root?.installer?.game_identifier;
 
         if (!string.IsNullOrEmpty(tmpVal))
             game.GameName = tmpVal;
 
-        // get help url
-        tmpVal = catalogueItem.GameInfo?.root?.help_url;
+        // get help URL
+        tmpVal = catalogItem.GameInfo?.root?.help_url;
         if (!string.IsNullOrEmpty(tmpVal))
-            game.HelpUrl = GetLocalizedValue(catalogueItem, tmpVal, tmpVal);
+            game.HelpUrl = GetLocalizedValue(catalogItem, tmpVal, tmpVal);
 
-        // get facebook url
-        tmpVal = catalogueItem.GameInfo?.root?.facebook_url;
+        // get Facebook URL
+        tmpVal = catalogItem.GameInfo?.root?.facebook_url;
         if (!string.IsNullOrEmpty(tmpVal))
-            game.FacebookUrl = GetLocalizedValue(catalogueItem, tmpVal, tmpVal);
+            game.FacebookUrl = GetLocalizedValue(catalogItem, tmpVal, tmpVal);
 
-        // get homepage url
-        tmpVal = catalogueItem.GameInfo?.root?.homepage_url;
+        // get homepage URL
+        tmpVal = catalogItem.GameInfo?.root?.homepage_url;
         if (!string.IsNullOrEmpty(tmpVal))
-            game.HomepageUrl = GetLocalizedValue(catalogueItem, tmpVal, tmpVal);
+            game.HomepageUrl = GetLocalizedValue(catalogItem, tmpVal, tmpVal);
 
-        // get forum url
-        tmpVal = catalogueItem.GameInfo?.root?.forum_url;
+        // get forum URL
+        tmpVal = catalogItem.GameInfo?.root?.forum_url;
         if (!string.IsNullOrEmpty(tmpVal))
-            game.ForumUrl = GetLocalizedValue(catalogueItem, tmpVal, tmpVal);
+            game.ForumUrl = GetLocalizedValue(catalogItem, tmpVal, tmpVal);
     }
 
-    private static string GetLocalizedValue(UbisoftCatalogueItem catalogueItem, string name, string defaultValue)
+    private static string GetLocalizedValue(UbisoftCatalogItem catalogItem, string name, string defaultValue)
     {
         try
         {
-            var value = catalogueItem?.GameInfo?.localizations?.@default?[name];
+            var value = catalogItem.GameInfo?.localizations?.@default?[name];
             if (!string.IsNullOrEmpty(value))
                 return value;
         }
-        catch { }
+        catch { /* ignored */ }
 
         return defaultValue;
     }
-
 }

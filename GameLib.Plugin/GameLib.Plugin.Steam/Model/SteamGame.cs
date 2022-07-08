@@ -37,7 +37,7 @@ public class SteamGame : IGame
     public bool IsUpdating =>
         Convert.ToBoolean(RegistryUtil.GetValue(RegistryHive.CurrentUser, $@"Software\Valve\Steam\Apps\{GameId}", "Updating"));
 
-    // From catalogue data
+    // From catalog data
     public string Developer { get; internal set; } = string.Empty;
     public string DeveloperUrl { get; internal set; } = string.Empty;
     public string Publisher { get; internal set; } = string.Empty;

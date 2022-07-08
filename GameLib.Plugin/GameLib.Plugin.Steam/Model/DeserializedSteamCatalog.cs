@@ -2,7 +2,7 @@
 
 namespace GameLib.Plugin.Steam.Model;
 
-internal class DeserializedSteamCatalogue
+internal class DeserializedSteamCatalog
 {
     public uint AppID { get; set; }
     public uint Size { get; set; }
@@ -39,7 +39,7 @@ internal class DeserializedSteamCatalogue
 
             /* Used to be a list: public List<DscdLaunch>? Launch { get; set; }
              * According to the issue https://github.com/SteamDatabase/ValveKeyValue/issues/55 if the index of an
-             * list/array cannot be guranteed a dictionary should be used
+             * list/array cannot be guaranteed a dictionary should be used
              */
             public Dictionary<string, DscdLaunch>? Launch { get; set; }
         }

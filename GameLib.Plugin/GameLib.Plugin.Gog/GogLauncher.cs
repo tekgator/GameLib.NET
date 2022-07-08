@@ -17,7 +17,6 @@ public class GogLauncher : ILauncher
     private List<GogLibrary>? _libraryList = null;
     private List<GogGame>? _gameList = null;
 
-
     #region Interface implementations
     public string Name => "GOG Galaxy";
 
@@ -110,7 +109,7 @@ public class GogLauncher : ILauncher
         if (regKey is null)
             return games;
 
-        foreach (var regKeyGameId in regKey!.GetSubKeyNames())
+        foreach (var regKeyGameId in regKey.GetSubKeyNames())
         {
             using var regKeyGame = regKey.OpenSubKey(regKeyGameId);
             if (regKeyGame is null)
@@ -120,7 +119,6 @@ public class GogLauncher : ILauncher
             {
                 GameId = (string)regKeyGame.GetValue("gameID", string.Empty)!,
                 GameName = (string)regKeyGame.GetValue("gameName", string.Empty)!,
-                InstallDir = "todo",
                 ExecutablePath = (string)regKeyGame.GetValue("exe", string.Empty)!,
                 Executable = (string)regKeyGame.GetValue("exeFile", string.Empty)!,
                 WorkingDir = (string)regKeyGame.GetValue("workingDir", string.Empty)!,

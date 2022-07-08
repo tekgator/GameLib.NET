@@ -17,7 +17,7 @@ public class SteamLauncher : ILauncher
     private string? _executablePath = null;
     private List<SteamLibrary>? _libraryList = null;
     private List<SteamGame>? _gameList = null;
-    private SteamCatalogue? _localCatalogue = null;
+    private SteamCatalog? _localCatalog = null;
 
     [ImportingConstructor]
     public SteamLauncher(LauncherOptions? launcherOptions)
@@ -63,16 +63,16 @@ public class SteamLauncher : ILauncher
     {
         get
         {
-            if (IsInstalled && _launcherOptions.LoadLocalCatalogueData)
+            if (IsInstalled && _launcherOptions.LoadLocalCatalogData)
             {
                 try
                 {
-                    _localCatalogue ??= new SteamCatalogue(InstallDir!);
+                    _localCatalog ??= new SteamCatalog(InstallDir!);
                 }
-                catch { }
+                catch { /* ignored */ }
             }
 
-            _gameList ??= SteamGameFactory.GetGames((IEnumerable<SteamLibrary>)Libraries, _localCatalogue);
+            _gameList ??= SteamGameFactory.GetGames((IEnumerable<SteamLibrary>)Libraries, _localCatalog);
             return _gameList;
         }
     }
@@ -91,10 +91,9 @@ public class SteamLauncher : ILauncher
         _executablePath = null;
         _libraryList = null;
         _gameList = null;
-        _localCatalogue = null;
+        _localCatalog = null;
     }
     #endregion
-
 
     #region Private methods
     private static string? GetExecutable()
@@ -135,13 +134,13 @@ public class SteamLauncher : ILauncher
 
         var deserializedLibraries = serializer.Deserialize<Dictionary<string, DeserializedSteamLibrary>>(stream);
 
-        libraryList.AddRange(deserializedLibraries.
-            Select(lib =>
+        libraryList.AddRange(deserializedLibraries
+            .Select(lib => lib.Value)
+            .Select(value =>
             {
-                lib.Value.Path = PathUtil.Sanitize(lib.Value.Path) ?? string.Empty;
-                return lib.Value.SteamLibraryBuilder();
+                value.Path = PathUtil.Sanitize(value.Path) ?? string.Empty;
+                return value.SteamLibraryBuilder();
             })
-
         );
 
         return libraryList;

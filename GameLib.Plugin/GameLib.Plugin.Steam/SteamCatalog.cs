@@ -4,31 +4,31 @@ using ValveKeyValue;
 
 namespace GameLib.Plugin.Steam;
 
-internal class SteamCatalogue
+internal class SteamCatalog
 {
     private const uint Magic = 0x07_56_44_27;
 
-    private readonly string _cataloguePath;
+    private readonly string _catalogPath;
     private SteamUniverse _universe = SteamUniverse.Invalid;
-    private List<DeserializedSteamCatalogue> _catalogue = new();
+    private List<DeserializedSteamCatalog> _catalog = new();
 
     public SteamUniverse Universe => _universe;
-    public List<DeserializedSteamCatalogue> Catalogue => _catalogue;
+    public IEnumerable<DeserializedSteamCatalog> Catalog => _catalog;
 
-    public SteamCatalogue(string launcherPath)
+    public SteamCatalog(string launcherPath)
     {
-        _cataloguePath = Path.Combine(launcherPath, "appcache", "appinfo.vdf");
+        _catalogPath = Path.Combine(launcherPath, "appcache", "appinfo.vdf");
         Refresh();
     }
 
     public void Refresh()
     {
-        if (!File.Exists(_cataloguePath))
-            throw new FileNotFoundException("Configuration file not found, probalby Steam client hasn't been started at least once.", _cataloguePath);
+        if (!File.Exists(_catalogPath))
+            throw new FileNotFoundException("Configuration file not found, probably Steam client hasn't been started at least once.", _catalogPath);
 
         _universe = SteamUniverse.Invalid;
 
-        using var stream = File.OpenRead(_cataloguePath);
+        using var stream = File.OpenRead(_catalogPath);
         using var reader = new BinaryReader(stream);
 
         var magic = reader.ReadUInt32();
@@ -40,15 +40,15 @@ internal class SteamCatalogue
 
         var deserializer = KVSerializer.Create(KVSerializationFormat.KeyValues1Binary);
 
-        List<DeserializedSteamCatalogue> deserializedSteamCatalogueList = new();
-        do
+        List<DeserializedSteamCatalog> deserializedSteamCatalogList = new();
+        while (true)
         {
             var appId = reader.ReadUInt32();
 
             if (appId == 0)
                 break;
 
-            DeserializedSteamCatalogue item = new()
+            DeserializedSteamCatalog item = new()
             {
                 AppID = appId,
                 Size = reader.ReadUInt32(),
@@ -61,16 +61,16 @@ internal class SteamCatalogue
 
             try
             {
-                item.Data = deserializer.Deserialize<DeserializedSteamCatalogue.DeserializedData>(stream);
+                item.Data = deserializer.Deserialize<DeserializedSteamCatalog.DeserializedData>(stream);
             }
             catch
             {
                 continue;
             }
 
-            deserializedSteamCatalogueList.Add(item);
-        } while (true);
+            deserializedSteamCatalogList.Add(item);
+        }
 
-        _catalogue = deserializedSteamCatalogueList;
+        _catalog = deserializedSteamCatalogList;
     }
 }

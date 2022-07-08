@@ -9,8 +9,7 @@ public static class ProcessUtil
     /// </summary>
     public static bool IsProcessRunning(string? executable) =>
         !string.IsNullOrEmpty(executable) &&
-        Process.GetProcessesByName(Path.GetFileNameWithoutExtension(executable)).Where(p => !p.HasExited).Any();
-
+        Process.GetProcessesByName(Path.GetFileNameWithoutExtension(executable)).Any(p => !p.HasExited);
 
     /// <summary>
     /// Forcefully stops a process
@@ -25,6 +24,4 @@ public static class ProcessUtil
             runningProcess.Kill(true);
         }
     }
-
-
 }
