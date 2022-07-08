@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Steam", "Gam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Gog", "GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj", "{F0705DC8-7720-481C-96EF-749B2FFF4E41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Plugin.Ubisoft", "GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj", "{F8AB3EE4-D877-4A78-8C06-A237795CC241}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Ubisoft", "GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj", "{F8AB3EE4-D877-4A78-8C06-A237795CC241}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Origin", "GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj", "{B71C2D77-A99B-410E-81E5-69182E1E2FEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F8AB3EE4-D877-4A78-8C06-A237795CC241}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8AB3EE4-D877-4A78-8C06-A237795CC241}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8AB3EE4-D877-4A78-8C06-A237795CC241}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B71C2D77-A99B-410E-81E5-69182E1E2FEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B71C2D77-A99B-410E-81E5-69182E1E2FEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B71C2D77-A99B-410E-81E5-69182E1E2FEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B71C2D77-A99B-410E-81E5-69182E1E2FEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
