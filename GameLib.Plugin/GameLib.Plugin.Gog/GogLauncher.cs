@@ -164,7 +164,8 @@ public class GogLauncher : ILauncher
         List<GogLibrary> libraryList = new();
 
         libraryList.AddRange(games
-            .Select(p => PathUtil.Sanitize(p.InstallDir.ToLower())!)
+            .Select(p => PathUtil.Sanitize(Path.GetDirectoryName(p.InstallDir.ToLower())) ?? string.Empty)
+            .Where(p => !string.IsNullOrEmpty(p))
             .Distinct()
             .Select(installDir => new GogLibrary() { Path = installDir }));
 
