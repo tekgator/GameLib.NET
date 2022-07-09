@@ -5,7 +5,6 @@ using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using ValveKeyValue;
 
 namespace GameLib.Plugin.Steam;
 
@@ -14,8 +13,8 @@ namespace GameLib.Plugin.Steam;
 public class SteamLauncher : ILauncher
 {
     private readonly LauncherOptions _launcherOptions;
-    private List<SteamLibrary>? _libraryList;
-    private List<SteamGame>? _gameList;
+    private IEnumerable<SteamLibrary>? _libraryList;
+    private IEnumerable<SteamGame>? _gameList;
     private SteamCatalog? _localCatalog;
 
     [ImportingConstructor]
@@ -28,7 +27,7 @@ public class SteamLauncher : ILauncher
     #region Interface implementations
     public string Name => "Steam";
 
-    public bool IsInstalled { get; private set; } = false;
+    public bool IsInstalled { get; private set; }
 
     public bool IsRunning => ProcessUtil.IsProcessRunning(ExecutablePath);
 
@@ -38,7 +37,7 @@ public class SteamLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
-    public IEnumerable<IGame> GetGames()
+    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
     {
         if (IsInstalled && _launcherOptions.LoadLocalCatalogData)
         {
@@ -49,17 +48,16 @@ public class SteamLauncher : ILauncher
             catch { /* ignored */ }
         }
 
-        _gameList ??= SteamGameFactory.GetGames(ObtainLibraries(), _localCatalog);
+        _gameList ??= SteamGameFactory.GetGames(GetLibraries(), _localCatalog);
         return _gameList;
     }
 
-    public bool Start() =>
-        IsInstalled && (IsRunning || Process.Start(ExecutablePath!) is not null);
+    public bool Start() => IsRunning || ProcessUtil.StartProcess(ExecutablePath);
 
     public void Stop()
     {
         if (IsRunning)
-            Process.Start(ExecutablePath!, "-shutdown");
+            Process.Start(ExecutablePath, "-shutdown");
     }
 
     public void ClearCache()
@@ -73,7 +71,7 @@ public class SteamLauncher : ILauncher
         InstallDir = string.Empty;
         IsInstalled = false;
 
-        ExecutablePath = ObtainExecutable() ?? string.Empty;
+        ExecutablePath = GetExecutable() ?? string.Empty;
         if (!string.IsNullOrEmpty(ExecutablePath))
         {
             Executable = Path.GetFileName(ExecutablePath);
@@ -86,13 +84,13 @@ public class SteamLauncher : ILauncher
     #region Public methods
     public IEnumerable<SteamLibrary> GetLibraries()
     {
-        _libraryList ??= ObtainLibraries();
+        _libraryList ??= SteamLibraryFactory.GetLibraries(InstallDir);
         return _libraryList;
     }
     #endregion
 
     #region Private methods
-    private static string? ObtainExecutable()
+    private static string? GetExecutable()
     {
         string? executablePath = null;
 
@@ -110,36 +108,6 @@ public class SteamLauncher : ILauncher
             executablePath = null;
 
         return executablePath;
-    }
-
-    private List<SteamLibrary> ObtainLibraries()
-    {
-        List<SteamLibrary> libraryList = new();
-
-        var installDir = InstallDir;
-        if (string.IsNullOrEmpty(installDir))
-            return libraryList;
-
-        var libraryVdfPath = Path.Combine(installDir, "config", "libraryfolders.vdf");
-
-        if (!File.Exists(libraryVdfPath))
-            return libraryList;
-
-        using var stream = File.OpenRead(libraryVdfPath);
-        var serializer = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
-
-        var deserializedLibraries = serializer.Deserialize<Dictionary<string, DeserializedSteamLibrary>>(stream);
-
-        libraryList.AddRange(deserializedLibraries
-            .Select(lib => lib.Value)
-            .Select(value =>
-            {
-                value.Path = PathUtil.Sanitize(value.Path) ?? string.Empty;
-                return value.SteamLibraryBuilder();
-            })
-        );
-
-        return libraryList;
     }
     #endregion
 

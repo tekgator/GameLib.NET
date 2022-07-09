@@ -3,7 +3,7 @@ using GameLib.Plugin.Ubisoft.Model;
 using GameLib.Util;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
+
 using System.Runtime.InteropServices;
 
 namespace GameLib.Plugin.Ubisoft;
@@ -13,7 +13,7 @@ namespace GameLib.Plugin.Ubisoft;
 public class UbisoftLauncher : ILauncher
 {
     private readonly LauncherOptions _launcherOptions;
-    private List<UbisoftGame>? _gameList;
+    private IEnumerable<UbisoftGame>? _gameList;
     private UbisoftCatalog? _localCatalog;
 
     [ImportingConstructor]
@@ -26,7 +26,7 @@ public class UbisoftLauncher : ILauncher
     #region Interface implementations
     public string Name => "Ubisoft Connect";
 
-    public bool IsInstalled { get; private set; } = false;
+    public bool IsInstalled { get; private set; }
 
     public bool IsRunning => ProcessUtil.IsProcessRunning(Executable);
 
@@ -36,19 +36,21 @@ public class UbisoftLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
-    public IEnumerable<IGame> GetGames()
+    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
     {
-        if (IsInstalled && _launcherOptions.LoadLocalCatalogData)
+        var installDir = InstallDir;
+
+        if (!string.IsNullOrEmpty(InstallDir) && _launcherOptions.LoadLocalCatalogData)
         {
             try
             {
-                _localCatalog ??= new UbisoftCatalog(InstallDir!);
+                _localCatalog ??= new UbisoftCatalog(installDir);
             }
             catch { /* ignored */ }
         }
 
-        _gameList ??= UbisoftGameFactory.GetGames(InstallDir, _localCatalog);
-        return _gameList;
+        _gameList ??= UbisoftGameFactory.GetGames(_localCatalog, cancellationToken);
+        return _gameList ?? Enumerable.Empty<UbisoftGame>();
     }
 
     public void ClearCache()
@@ -61,7 +63,7 @@ public class UbisoftLauncher : ILauncher
         InstallDir = string.Empty;
         IsInstalled = false;
 
-        ExecutablePath = ObtainExecutable() ?? string.Empty;
+        ExecutablePath = GetExecutable() ?? string.Empty;
         if (!string.IsNullOrEmpty(ExecutablePath))
         {
             Executable = Path.GetFileName(ExecutablePath);
@@ -70,14 +72,13 @@ public class UbisoftLauncher : ILauncher
         }
     }
 
-    public bool Start() =>
-        IsInstalled && (IsRunning || Process.Start(ExecutablePath!) is not null);
+    public bool Start() => IsRunning || ProcessUtil.StartProcess(ExecutablePath);
 
     public void Stop() => ProcessUtil.StopProcess(ExecutablePath);
     #endregion
 
     #region Private methods
-    private static string? ObtainExecutable()
+    private static string? GetExecutable()
     {
         string? executablePath = null;
 

@@ -10,7 +10,7 @@ internal class SteamCatalog
 
     private readonly string _catalogPath;
     private SteamUniverse _universe = SteamUniverse.Invalid;
-    private List<DeserializedSteamCatalog> _catalog = new();
+    private IEnumerable<DeserializedSteamCatalog> _catalog = Enumerable.Empty<DeserializedSteamCatalog>();
 
     public SteamUniverse Universe => _universe;
     public IEnumerable<DeserializedSteamCatalog> Catalog => _catalog;
@@ -63,10 +63,7 @@ internal class SteamCatalog
             {
                 item.Data = deserializer.Deserialize<DeserializedSteamCatalog.DeserializedData>(stream);
             }
-            catch
-            {
-                continue;
-            }
+            catch { continue; }
 
             deserializedSteamCatalogList.Add(item);
         }

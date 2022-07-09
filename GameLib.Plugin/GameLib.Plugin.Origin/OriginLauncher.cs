@@ -1,19 +1,18 @@
 ﻿using Gamelib.Util;
-using GameLib.Origin.Model;
+using GameLib.Plugin.Origin.Model;
 using GameLib.Util;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace GameLib.Origin;
+namespace GameLib.Plugin.Origin;
 
 [Guid("54C9D299-107E-4990-894D-9DB402F81CA3")]
 [Export(typeof(ILauncher))]
 public class OriginLauncher : ILauncher
 {
     private readonly LauncherOptions _launcherOptions;
-    private List<OriginGame>? _gameList;
+    private IEnumerable<OriginGame>? _gameList;
 
     [ImportingConstructor]
     public OriginLauncher(LauncherOptions? launcherOptions)
@@ -25,7 +24,7 @@ public class OriginLauncher : ILauncher
     #region Interface implementations
     public string Name => "Origin";
 
-    public bool IsInstalled { get; private set; } = false;
+    public bool IsInstalled { get; private set; }
 
     public bool IsRunning => ProcessUtil.IsProcessRunning(ExecutablePath);
 
@@ -35,14 +34,13 @@ public class OriginLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
-    public IEnumerable<IGame> GetGames()
+    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
     {
-        _gameList ??= OriginGameFactory.GetGames(_launcherOptions.QueryOnlineData);
+        _gameList ??= OriginGameFactory.GetGames(_launcherOptions.QueryOnlineData, _launcherOptions.OnlineQueryTimeout, cancellationToken);
         return _gameList;
     }
 
-    public bool Start() =>
-        IsInstalled && (IsRunning || Process.Start(ExecutablePath!) is not null);
+    public bool Start() => IsRunning || ProcessUtil.StartProcess(ExecutablePath);
 
     public void Stop()
     {
@@ -59,7 +57,7 @@ public class OriginLauncher : ILauncher
         InstallDir = string.Empty;
         IsInstalled = false;
 
-        ExecutablePath = ObtainExecutable() ?? string.Empty;
+        ExecutablePath = GetExecutable() ?? string.Empty;
         if (!string.IsNullOrEmpty(ExecutablePath))
         {
             Executable = Path.GetFileName(ExecutablePath);
@@ -70,7 +68,7 @@ public class OriginLauncher : ILauncher
     #endregion
 
     #region Private methods
-    private static string? ObtainExecutable()
+    private static string? GetExecutable()
     {
         string? executablePath = null;
 

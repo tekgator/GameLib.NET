@@ -6,8 +6,8 @@ public static class PathUtil
 {
     private const string ExeName = ".exe";
 
-    private static readonly string replaceDirSep = Path.DirectorySeparatorChar == '\\' ? new string(Path.DirectorySeparatorChar, 2) : Path.DirectorySeparatorChar.ToString();
-    private static readonly Regex multiDirSepChar = new(@$"(?<=({replaceDirSep}))\1+", RegexOptions.Compiled);
+    private static readonly string ReplaceDirSep = Path.DirectorySeparatorChar == '\\' ? new string(Path.DirectorySeparatorChar, 2) : Path.DirectorySeparatorChar.ToString();
+    private static readonly Regex MultiDirSepChar = new(@$"(?<=({ReplaceDirSep}))\1+", RegexOptions.Compiled);
 
     /// <summary>
     /// Sanitize the passed Path<br/>
@@ -36,7 +36,7 @@ public static class PathUtil
             path = path.TrimStart(Path.DirectorySeparatorChar);
 
         // 5.) e.g. "D:\Games\\Game1\\\Bin\\ will be "D:\Games\Game1\Bin\"
-        path = multiDirSepChar.Replace(path, "");
+        path = MultiDirSepChar.Replace(path, "");
 
         // 6.) e.g. "D:\Games\Game1\Bin\" will be "D:\Games\Game1\Bin"
         path = path.TrimEnd(Path.DirectorySeparatorChar);
@@ -84,7 +84,7 @@ public static class PathUtil
             {
                 creationDateTime = Directory.GetCreationTime(path);
             }
-            catch { }
+            catch { /* ignore */ }
         }
 
         return creationDateTime;

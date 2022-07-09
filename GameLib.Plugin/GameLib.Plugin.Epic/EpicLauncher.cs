@@ -3,7 +3,7 @@ using GameLib.Plugin.Epic.Model;
 using GameLib.Util;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
+
 using System.Runtime.InteropServices;
 
 namespace GameLib.Plugin.Epic;
@@ -12,7 +12,7 @@ namespace GameLib.Plugin.Epic;
 [Export(typeof(ILauncher))]
 public class EpicLauncher : ILauncher
 {
-    private List<EpicGame>? _gameList;
+    private IEnumerable<EpicGame>? _gameList;
 
     public EpicLauncher()
     {
@@ -22,7 +22,7 @@ public class EpicLauncher : ILauncher
     #region Interface implementations
     public string Name => "Epic Games";
 
-    public bool IsInstalled { get; private set; } = false;
+    public bool IsInstalled { get; private set; }
 
     public bool IsRunning => ProcessUtil.IsProcessRunning(ExecutablePath);
 
@@ -32,14 +32,13 @@ public class EpicLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
-    public IEnumerable<IGame> GetGames()
+    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
     {
-        _gameList ??= EpicGameFactory.GetGames();
+        _gameList ??= EpicGameFactory.GetGames(cancellationToken);
         return _gameList;
     }
 
-    public bool Start() =>
-        IsInstalled && (IsRunning || Process.Start(ExecutablePath!) is not null);
+    public bool Start() => IsRunning || ProcessUtil.StartProcess(ExecutablePath);
 
     public void Stop()
     {
@@ -56,7 +55,7 @@ public class EpicLauncher : ILauncher
         InstallDir = string.Empty;
         IsInstalled = false;
 
-        ExecutablePath = ObtainExecutable() ?? string.Empty;
+        ExecutablePath = GetExecutable() ?? string.Empty;
         if (!string.IsNullOrEmpty(ExecutablePath))
         {
             Executable = Path.GetFileName(ExecutablePath);
@@ -67,7 +66,7 @@ public class EpicLauncher : ILauncher
     #endregion
 
     #region Private methods
-    private static string? ObtainExecutable()
+    private static string? GetExecutable()
     {
         string? executablePath = null;
 

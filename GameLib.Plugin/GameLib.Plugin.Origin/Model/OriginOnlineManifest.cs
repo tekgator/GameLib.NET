@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace GameLib.Origin.Model;
+namespace GameLib.Plugin.Origin.Model;
 
 internal class OriginOnlineManifest
 {

@@ -38,7 +38,7 @@ public interface ILauncher
     /// <summary>
     /// The installed games of the Launcher
     /// </summary>
-    public IEnumerable<IGame> GetGames();
+    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the launcher if not already running

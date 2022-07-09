@@ -7,38 +7,23 @@ namespace GameLib.Plugin.Epic;
 
 internal static class EpicGameFactory
 {
-    public static List<EpicGame> GetGames()
+    public static IEnumerable<EpicGame> GetGames(CancellationToken cancellationToken = default)
     {
-        List<EpicGame> gameList = new();
-
         var metaDataDir = GetMetadataDir();
         if (string.IsNullOrEmpty(metaDataDir))
-            return gameList;
+            return Enumerable.Empty<EpicGame>();
 
-        foreach (var manifestFile in Directory.GetFiles(metaDataDir, "*.item"))
-        {
-            DeserializedEpicGame? deserializedEpicGame;
-            try
-            {
-                var manifestJson = File.ReadAllText(manifestFile);
-                deserializedEpicGame = JsonConvert.DeserializeObject<DeserializedEpicGame>(manifestJson);
-                if (deserializedEpicGame is null)
-                    throw new ApplicationException("Cannot deserialize JSON stream");
-            }
-            catch { continue; }
-
-            var game = deserializedEpicGame.EpicGameBuilder();
-
-            game.ExecutablePath = Path.Combine(PathUtil.Sanitize(game.InstallDir)!, game.Executable);
-            game.LaunchString = $"com.epicgames.launcher://apps/{game.GameId}?action=launch&silent=true";
-            game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
-
-            gameList.Add(game);
-        }
-
-        return gameList;
+        return Directory.GetFiles(metaDataDir, "*.item")
+            .AsParallel()
+            .WithCancellation(cancellationToken)
+            .Select(DeserializeManifest)
+            .Where(game => game is not null)
+            .ToList()!;
     }
 
+    /// <summary>
+    /// Get the meta data directory from registry; if not found try to locate in Common Application data
+    /// </summary>
     private static string? GetMetadataDir()
     {
         string? metadataDir = null;
@@ -58,5 +43,29 @@ internal static class EpicGameFactory
             return null;
 
         return metadataDir;
+    }
+
+    /// <summary>
+    /// Deserialize the Epic game manifest file into a <see cref="EpicGame"/> object
+    /// </summary>
+    private static EpicGame? DeserializeManifest(string manifestFile)
+    {
+        DeserializedEpicGame? deserializedEpicGame;
+        try
+        {
+            var manifestJson = File.ReadAllText(manifestFile);
+            deserializedEpicGame = JsonConvert.DeserializeObject<DeserializedEpicGame>(manifestJson);
+            if (deserializedEpicGame is null)
+                throw new ApplicationException("Cannot deserialize JSON stream");
+        }
+        catch { return null; }
+
+        var game = deserializedEpicGame.EpicGameBuilder();
+
+        game.ExecutablePath = Path.Combine(PathUtil.Sanitize(game.InstallDir)!, game.Executable);
+        game.LaunchString = $"com.epicgames.launcher://apps/{game.GameId}?action=launch&silent=true";
+        game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
+
+        return game;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace GameLib.Origin.Model;
+namespace GameLib.Plugin.Origin.Model;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Only used for deserialization")]
 [XmlRoot("game")]

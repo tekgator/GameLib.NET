@@ -1,6 +1,6 @@
 ﻿using GameLib.Util;
 
-namespace GameLib.Origin.Model;
+namespace GameLib.Plugin.Origin.Model;
 
 public class OriginGame : IGame
 {

@@ -7,75 +7,66 @@ namespace GameLib.Plugin.Steam;
 
 internal static class SteamGameFactory
 {
-    private static readonly string _os = GetOs();
-    private static readonly string _osArch = GetOsArch();
+    private static readonly string Os = GetOs();
+    private static readonly string OsArch = GetOsArch();
 
     /// <summary>
     /// Get games installed in for the passed Steam libraries
     /// </summary>
-    public static List<SteamGame> GetGames(IEnumerable<SteamLibrary> libraries, SteamCatalog? catalog = null)
-    {
-        List<SteamGame> gameList = new();
-
-        foreach (var library in libraries)
-            gameList.AddRange(GetGames(library, catalog));
-
-        return gameList;
-    }
+    public static IEnumerable<SteamGame> GetGames(IEnumerable<SteamLibrary> libraries, SteamCatalog? catalog = null) =>
+        libraries.SelectMany(lib => GetGames(lib, catalog)).ToList();
 
     /// <summary>
     /// Get games installed in for the passed Steam library
     /// </summary>
-    public static List<SteamGame> GetGames(SteamLibrary library, SteamCatalog? catalog = null)
+    public static IEnumerable<SteamGame> GetGames(SteamLibrary library, SteamCatalog? catalog = null)
     {
-        List<SteamGame> gameList = new();
-
         var appsPath = Path.Combine(library.Path, "steamapps");
         if (!Directory.Exists(appsPath))
-            return gameList;
+            return Enumerable.Empty<SteamGame>();
 
-        var serializer = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
+        return Directory.GetFiles(appsPath, "*.acf")
+            .Select(manifestFile => DeserializeManifest(library.Path, manifestFile))
+            .Where(game => game is not null)
+            .Select(game => AddCatalogData(game!, appsPath, catalog))
+            .ToList();
+    }
 
-        foreach (var file in Directory.GetFiles(appsPath, "*.acf"))
+    /// <summary>
+    /// Deserialize the Steam Game manifest file into a <see cref="SteamGame"/> object
+    /// </summary>
+    private static SteamGame? DeserializeManifest(string libraryPath, string manifestFile)
+    {
+        SteamGame game;
+        try
         {
-            using var stream = File.OpenRead(file);
-
-            SteamGame game;
-            try
-            {
-                game = serializer.Deserialize<DeserializedSteamGame>(stream).SteamGameBuilder();
-            }
-            catch
-            {
-                continue;
-            }
-
-            game.LaunchString = $"steam://rungameid/{game.GameId}";
-            game.InstallDir = Path.Combine(library.Path, "steamapps", "common", PathUtil.Sanitize(game.InstallDir) ?? string.Empty);
-            game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
-
-            AddCatalogData(game, appsPath, catalog);
-
-            gameList.Add(game);
+            using var stream = File.OpenRead(manifestFile);
+            var serializer = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
+            game = serializer.Deserialize<DeserializedSteamGame>(stream).SteamGameBuilder();
         }
+        catch { return null; }
 
-        return gameList;
+        game.LaunchString = $"steam://rungameid/{game.GameId}";
+        game.InstallDir = Path.Combine(libraryPath, "steamapps", "common", PathUtil.Sanitize(game.InstallDir) ?? string.Empty);
+        game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
+
+        return game;
     }
 
     /// <summary>
     /// Get the executable name for the passed Steam App ID from the catalog
     /// </summary>
-    private static void AddCatalogData(SteamGame game, string appsPath, SteamCatalog? catalog)
+    private static SteamGame AddCatalogData(SteamGame game, string appsPath, SteamCatalog? catalog)
     {
         if (catalog?.Catalog
             .Where(p =>
                 p.AppID.ToString() == game.GameId &&
-                (string.IsNullOrEmpty(p.Data.Common?.OsList) || p.Data.Common.OsList.Contains(_os, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrEmpty(p.Data.Common?.OsList) || p.Data.Common.OsList.Contains(Os, StringComparison.OrdinalIgnoreCase)) &&
                 p.Data.Config?.Launch is not null)
             .Select(p => p.Data)
-            .FirstOrDefault((DeserializedSteamCatalog.DeserializedData?)null) is not { } catalogItem)
+            .FirstOrDefault(defaultValue: null) is not DeserializedSteamCatalog.DeserializedData catalogItem)
         {
-            return;
+            return game;
         }
 
         game.Developer = catalogItem.Extended?.Developer ?? string.Empty;
@@ -87,12 +78,12 @@ internal static class SteamGameFactory
         if (catalogItem.Config?.Launch?
             .Select(p => p.Value)
             .Where(p =>
-                (string.IsNullOrEmpty(p.Config?.OsList) || p.Config.OsList.Contains(_os, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrEmpty(p.Config?.OsList) || p.Config.OsList.Contains(Os, StringComparison.OrdinalIgnoreCase)) &&
                 PathUtil.IsExecutable(p.Executable))
-            .OrderByDescending(p => p.Config?.OsArch?.Contains(_osArch, StringComparison.OrdinalIgnoreCase))
-            .FirstOrDefault((DeserializedSteamCatalog.DeserializedData.DscdLaunch?)null) is not { } launcher)
+            .OrderByDescending(p => p.Config?.OsArch?.Contains(OsArch, StringComparison.OrdinalIgnoreCase))
+            .FirstOrDefault(defaultValue: null) is not DeserializedSteamCatalog.DeserializedData.DscdLaunch launcher)
         {
-            return;
+            return game;
         }
 
         game.ExecutablePath = Path.Combine(appsPath, "common", game.InstallDir, PathUtil.Sanitize(launcher.Executable)!);
@@ -103,6 +94,8 @@ internal static class SteamGameFactory
 
         if (string.IsNullOrEmpty(game.WorkingDir))
             game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
+
+        return game;
     }
 
     /// <summary>

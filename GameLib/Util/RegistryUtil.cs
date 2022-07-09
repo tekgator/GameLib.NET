@@ -66,7 +66,7 @@ public static class RegistryUtil
     /// </returns>
     public static string? GetValue(RegistryHive hive, string keyName, string? valueName, string? defaultValue = null)
     {
-        using var regKey = GetKey(hive, keyName, false);
+        using var regKey = GetKey(hive, keyName);
         return regKey?.GetValue(valueName) as string ?? defaultValue;
     }
 }

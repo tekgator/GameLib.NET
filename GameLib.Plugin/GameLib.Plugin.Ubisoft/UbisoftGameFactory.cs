@@ -6,48 +6,59 @@ namespace GameLib.Plugin.Ubisoft;
 
 internal static class UbisoftGameFactory
 {
-    public static List<UbisoftGame> GetGames(string? installDir, UbisoftCatalog? catalog = null)
+    /// <summary>
+    /// Get games installed for the Ubisoft launcher
+    /// </summary>
+    public static IEnumerable<UbisoftGame> GetGames(UbisoftCatalog? catalog = null, CancellationToken cancellationToken = default)
     {
-        List<UbisoftGame> games = new();
-
         using var regKey = RegistryUtil.GetKey(RegistryHive.LocalMachine, @"SOFTWARE\Ubisoft\Launcher\Installs", true);
 
-        if (string.IsNullOrEmpty(installDir) || regKey is null)
-            return games;
+        if (regKey is null)
+            return Enumerable.Empty<UbisoftGame>();
 
-        foreach (var regKeyGameId in regKey.GetSubKeyNames())
-        {
-            using var regKeyGame = regKey.OpenSubKey(regKeyGameId);
-            if (regKeyGame is null)
-                continue;
-
-            var game = new UbisoftGame()
-            {
-                GameId = regKeyGameId,
-                InstallDir = PathUtil.Sanitize((string?)regKeyGame.GetValue("InstallDir")) ?? string.Empty,
-                Language = (string)regKeyGame.GetValue("Language", string.Empty)!,
-            };
-
-            game.GameName = Path.GetFileName(game.InstallDir) ?? string.Empty;
-            game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
-            game.WorkingDir = game.InstallDir;
-            game.LaunchString = $"uplay://launch/{game.GameId}";
-
-            AddCatalogData(game, catalog);
-
-            games.Add(game);
-        }
-
-        return games;
+        return regKey.GetSubKeyNames()
+            .AsParallel()
+            .WithCancellation(cancellationToken)
+            .Select(LoadFromRegistry)
+            .Where(game => game is not null)
+            .Select(game => AddCatalogData(game!, catalog))
+            .ToList();
     }
 
-    private static void AddCatalogData(UbisoftGame game, UbisoftCatalog? catalog = null)
+    /// <summary>
+    /// Load the Ubisoft game registry entry into a <see cref="UbisoftGame"/> object
+    /// </summary>
+    private static UbisoftGame? LoadFromRegistry(string gameId)
+    {
+        using var regKey = RegistryUtil.GetKey(RegistryHive.LocalMachine, $@"SOFTWARE\Ubisoft\Launcher\Installs\{gameId}");
+        if (regKey is null)
+            return null;
+
+        var game = new UbisoftGame()
+        {
+            GameId = gameId,
+            InstallDir = PathUtil.Sanitize((string?)regKey.GetValue("InstallDir")) ?? string.Empty,
+            Language = (string)regKey.GetValue("Language", string.Empty)!,
+        };
+
+        game.GameName = Path.GetFileName(game.InstallDir) ?? string.Empty;
+        game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
+        game.WorkingDir = game.InstallDir;
+        game.LaunchString = $"uplay://launch/{game.GameId}";
+
+        return game;
+    }
+
+    /// <summary>
+    /// Get the executable and game name from the catalog
+    /// </summary>
+    private static UbisoftGame AddCatalogData(UbisoftGame game, UbisoftCatalog? catalog = null)
     {
         if (catalog?.Catalog
             .Where(p => p.UplayId.ToString() == game.GameId)
             .FirstOrDefault((UbisoftCatalogItem?)null) is not { } catalogItem)
         {
-            return;
+            return game;
         }
 
         // get executable, executable path and working dir
@@ -109,6 +120,8 @@ internal static class UbisoftGameFactory
         tmpVal = catalogItem.GameInfo?.root?.forum_url;
         if (!string.IsNullOrEmpty(tmpVal))
             game.ForumUrl = GetLocalizedValue(catalogItem, tmpVal, tmpVal);
+
+        return game;
     }
 
     private static string GetLocalizedValue(UbisoftCatalogItem catalogItem, string name, string defaultValue)
