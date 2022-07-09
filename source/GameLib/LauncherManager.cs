@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.Reflection;
 
 namespace GameLib;
 
@@ -17,8 +18,9 @@ public class LauncherManager
     {
         LauncherOptions = options ?? new LauncherOptions();
 
+        var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? ".";
         var catalog = new AggregateCatalog();
-        catalog.Catalogs.Add(new DirectoryCatalog("."));
+        catalog.Catalogs.Add(new DirectoryCatalog(path));
 
         var container = new CompositionContainer(catalog);
         container.ComposeParts(this);
