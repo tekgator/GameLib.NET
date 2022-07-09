@@ -1,4 +1,4 @@
-![GameLib.NET](ressources/logo-color-64px.png "GameLib.NET") 
+![GameLib.NET](resources/logos/logo-color-64px.png "GameLib.NET") 
 GameLib.NET
 ======
 

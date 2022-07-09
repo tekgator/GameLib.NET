@@ -24,7 +24,7 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
-    <None Include="..\..\ressources\logo-color-128px.png">
+    <None Include="..\..\resources\logos\logo-color-128px.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
