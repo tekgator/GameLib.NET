@@ -1,9 +1,8 @@
-﻿using Gamelib.Util;
+﻿using Gamelib.Api.Util;
+using GameLib.Api;
 using GameLib.Plugin.Ubisoft.Model;
-using GameLib.Util;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
-
 using System.Runtime.InteropServices;
 
 namespace GameLib.Plugin.Ubisoft;

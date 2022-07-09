@@ -6,12 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-	<PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\GameLib.Api\GameLib.Api.csproj" />
-  </ItemGroup>
-
 </Project>

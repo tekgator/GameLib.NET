@@ -1,4 +1,5 @@
-﻿using GameLib.Util;
+﻿using Gamelib.Api.Util;
+using GameLib.Api;
 
 namespace GameLib.Plugin.Gog.Model;
 
@@ -13,8 +14,7 @@ public class GogGame : IGame
     public string WorkingDir { get; internal set; } = string.Empty;
     public string LaunchString { get; internal set; } = string.Empty;
     public DateTime InstallDate { get; internal set; } = DateTime.MinValue;
-    public bool IsRunning =>
-        ProcessUtil.IsProcessRunning(Executable);
+    public bool IsRunning => ProcessUtil.IsProcessRunning(Executable);
     #endregion
 
     public string BuildId { get; internal set; } = string.Empty;

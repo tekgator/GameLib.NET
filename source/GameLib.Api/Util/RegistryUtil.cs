@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace Gamelib.Util;
+namespace Gamelib.Api.Util;
 
 public static class RegistryUtil
 {

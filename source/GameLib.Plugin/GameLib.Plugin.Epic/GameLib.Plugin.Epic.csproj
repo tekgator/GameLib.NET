@@ -10,10 +10,9 @@
 	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
   </ItemGroup>
-	
-	
+
   <ItemGroup>
-    <ProjectReference Include="..\..\GameLib\GameLib.csproj" />
+    <ProjectReference Include="..\..\GameLib.Api\GameLib.Api.csproj" />
   </ItemGroup>
 
 </Project>

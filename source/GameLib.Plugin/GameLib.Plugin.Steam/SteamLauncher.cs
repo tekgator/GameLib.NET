@@ -1,6 +1,6 @@
-﻿using Gamelib.Util;
+﻿using Gamelib.Api.Util;
+using GameLib.Api;
 using GameLib.Plugin.Steam.Model;
-using GameLib.Util;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Diagnostics;

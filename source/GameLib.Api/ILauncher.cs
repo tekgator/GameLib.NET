@@ -1,4 +1,4 @@
-﻿namespace GameLib;
+﻿namespace GameLib.Api;
 
 public interface ILauncher
 {
