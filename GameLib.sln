@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib", "GameLib\GameLib.csproj", "{D8D50A18-3827-4714-94A7-F1870AB4BA82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Demo.Console", "GameLib.Demo.Console\GameLib.Demo.Console.csproj", "{5754D254-EB51-4F11-AABD-81FCF238AE66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Demo.Console", "GameLib.Demo\GameLib.Demo.Console\GameLib.Demo.Console.csproj", "{5754D254-EB51-4F11-AABD-81FCF238AE66}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Steam", "GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj", "{DC914563-2776-4290-AE89-677D358187DE}"
 EndProject
