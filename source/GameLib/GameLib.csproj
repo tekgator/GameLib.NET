@@ -20,10 +20,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-	<None Include="..\..\LICENSE">
-	  <Pack>True</Pack>
-	  <PackagePath>\</PackagePath>
-	</None>
+	  <None Include="..\..\LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
     <None Include="..\..\ressources\logo-color-128px.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -35,11 +35,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-	<!-- Add package references of plugins here, otherwise Nuget dependencies will not be correct -->
-	<PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
-	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	<PackageReference Include="ValveKeyValue" Version="0.8.0.139" />
-	<PackageReference Include="protobuf-net" Version="3.1.17" />
+	  <!-- Add package references of plugins here, otherwise Nuget dependencies will not be correct -->
+	  <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <PackageReference Include="ValveKeyValue" Version="0.8.0.139" />
+	  <PackageReference Include="protobuf-net" Version="3.1.17" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
@@ -47,9 +47,9 @@
     <ProjectReference Include="..\GameLib.Api\GameLib.Api.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" PrivateAssets="all" />
-	<ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" PrivateAssets="all" />
-	<ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj" PrivateAssets="all" />
-	<ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj" PrivateAssets="all" />
+	  <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" PrivateAssets="all" />
+	  <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj" PrivateAssets="all" />
+	  <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>
