@@ -3,7 +3,7 @@ name: "CI"
 on: ["push"]
 
 env:
-  PROJECT_PATH: GameLib.sln
+  PROJECT_PATH: source/GameLib.sln
 
 jobs:
   build:
