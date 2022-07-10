@@ -25,4 +25,21 @@ public class LauncherManager
         var container = new CompositionContainer(catalog);
         container.ComposeParts(this);
     }
+
+    public void ClearCache()
+    {
+        foreach (var launcher in Launchers)
+        {
+            launcher.ClearCache();
+        }
+    }
+
+    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
+    {
+        return Launchers
+            .AsParallel()
+            .WithCancellation(cancellationToken)
+            .SelectMany(launcher => launcher.GetGames(cancellationToken))
+            .ToList();
+    }
 }
