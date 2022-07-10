@@ -2,7 +2,7 @@
 Origin Plugin for GameLib.NET
 ======
 
-`Origin` plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md), Please check out the core documention for first.
+[Origin](https://www.origin.com) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md), Please check out the core documention for first.
 
 The plugin will deliver information about the installation status of the `Origin` launcher as well the installed games within the launcher.
 

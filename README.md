@@ -7,11 +7,11 @@ GameLib.NET is a library to give .NET developers easy access to the users instal
 While this repository is providing already the plugins to gather the games from the most popular game launchers, it easily extendible via the MEF Framework. A developer guide will follow, but I'm pretty sure the geeks will find out themselfes on how to do it.
 
 Following plugins are available to detect the game launchers including their installed games:
-- [Steam](https://store.steampowered.com/)
-- [Epic Games](https://store.epicgames.com)
-- [Ubisoft Connect](https://ubisoftconnect.com/)
-- [Origin](https://www.origin.com/)
-- [GOG Galaxy 2.0](https://www.gog.com/galaxy)
+- [Steam](src/GameLib.Plugin/GameLib.Plugin.Steam)
+- [Epic Games](src/GameLib.Plugin/GameLib.Plugin.Epic)
+- [Ubisoft Connect](src/GameLib.Plugin/GameLib.Plugin.Ubisoft)
+- [Origin](src/GameLib.Plugin/GameLib.Plugin.Origin)
+- [GOG Galaxy 2.0](src/GameLib.Plugin/GameLib.Plugin.Gog)
 
 ## Installing
 

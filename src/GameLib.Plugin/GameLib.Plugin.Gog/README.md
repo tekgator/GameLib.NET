@@ -2,7 +2,7 @@
 GOG Galaxy Plugin for GameLib.NET
 ======
 
-`GOG Galaxy` plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md), Please check out the core documention for first.
+[GOG Galaxy](https://www.gog.com/galaxy) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md), Please check out the core documention for first.
 
 The plugin will deliver information about the installation status of the `GOG Galaxy` launcher as well the installed games within the launcher.
 

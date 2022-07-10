@@ -2,7 +2,7 @@
 Epic Games Plugin for GameLib.NET
 ======
 
-`Epic Games` plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md), Please check out the core documention for first.
+[Epic Games](https://www.epicgames.com) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md), Please check out the core documention for first.
 
 The plugin will deliver information about the installation status of the `Epic Games` launcher as well the installed games within the launcher.
 
