@@ -32,7 +32,7 @@ foreach (var launcher in launcherManager.Launchers)
     foreach (var game in games)
     {
         SetConsoleColor(ConsoleColor.Magenta);
-        Console.WriteLine($"Game ID: {game.GameId}");
+        Console.WriteLine($"Game ID: {game.Id}");
         ResetConsoleColor();
         foreach (var item in game.GetType().GetProperties().Where(p => p.Name != "GameId"))
         {

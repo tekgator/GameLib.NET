@@ -121,8 +121,8 @@ public class DeserializedEpicGame
 
     public EpicGame EpicGameBuilder() => new()
     {
-        GameId = AppName,
-        GameName = DisplayName,
+        Id = AppName,
+        Name = DisplayName,
         InstallDir = InstallLocation,
         Executable = PathUtil.IsExecutable(MainWindowProcessName) ? MainWindowProcessName : LaunchExecutable,
         WorkingDir = InstallLocation,

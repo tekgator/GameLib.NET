@@ -6,8 +6,8 @@ namespace GameLib.Plugin.Steam.Model;
 public class SteamGame : IGame
 {
     #region Interface implementations
-    public string GameId { get; internal set; } = string.Empty;
-    public string GameName { get; internal set; } = string.Empty;
+    public string Id { get; internal set; } = string.Empty;
+    public string Name { get; internal set; } = string.Empty;
     public string InstallDir { get; internal set; } = string.Empty;
     public string ExecutablePath { get; internal set; } = string.Empty;
     public string Executable { get; internal set; } = string.Empty;
@@ -19,7 +19,7 @@ public class SteamGame : IGame
         get
         {
             if (string.IsNullOrEmpty(Executable))
-                return Convert.ToBoolean(RegistryUtil.GetValue(RegistryHive.CurrentUser, $@"Software\Valve\Steam\Apps\{GameId}", "Running"));
+                return Convert.ToBoolean(RegistryUtil.GetValue(RegistryHive.CurrentUser, $@"Software\Valve\Steam\Apps\{Id}", "Running"));
 
             return ProcessUtil.IsProcessRunning(Executable);
         }
@@ -34,7 +34,7 @@ public class SteamGame : IGame
     public bool AllowOtherDownloadsWhileRunning { get; internal set; } = false;
     public DateTime ScheduledAutoUpdate { get; internal set; } = DateTime.MinValue;
     public bool IsUpdating =>
-        Convert.ToBoolean(RegistryUtil.GetValue(RegistryHive.CurrentUser, $@"Software\Valve\Steam\Apps\{GameId}", "Updating"));
+        Convert.ToBoolean(RegistryUtil.GetValue(RegistryHive.CurrentUser, $@"Software\Valve\Steam\Apps\{Id}", "Updating"));
 
     // From catalog data
     public string Developer { get; internal set; } = string.Empty;

@@ -44,15 +44,15 @@ internal static class OriginGameFactory
 
         var game = new OriginGame()
         {
-            GameId = valueCollection["id"] ?? string.Empty,
+            Id = valueCollection["id"] ?? string.Empty,
             InstallDir = PathUtil.Sanitize(valueCollection["dipInstallPath"]) ?? string.Empty,
             Locale = valueCollection["locale"] ?? string.Empty,
         };
 
-        if (string.IsNullOrEmpty(game.GameId) || string.IsNullOrEmpty(game.InstallDir))
+        if (string.IsNullOrEmpty(game.Id) || string.IsNullOrEmpty(game.InstallDir))
             return null;
 
-        game.LaunchString = $"origin://launchgame/{game.GameId}";
+        game.LaunchString = $"origin://launchgame/{game.Id}";
         game.TotalBytes = long.TryParse(valueCollection["totalbytes"], out long tmpResult) ? tmpResult : 0;
         game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
 
@@ -71,8 +71,8 @@ internal static class OriginGameFactory
         if (!AddFromLocalDipManifestData(game, installerXmlPath, contendIds))
             AddFromLocalGameManifestData(game, installerXmlPath, contendIds);
 
-        if (string.IsNullOrEmpty(game.GameName) && contendIds.Count > 0)
-            game.GameName = RegistryUtil.GetValue(RegistryHive.LocalMachine, $@"SOFTWARE\Origin Games\{contendIds[0]}", "DisplayName", string.Empty)!;
+        if (string.IsNullOrEmpty(game.Name) && contendIds.Count > 0)
+            game.Name = RegistryUtil.GetValue(RegistryHive.LocalMachine, $@"SOFTWARE\Origin Games\{contendIds[0]}", "DisplayName", string.Empty)!;
 
         if (string.IsNullOrEmpty(game.Locale) && contendIds.Count > 0)
             game.Locale = RegistryUtil.GetValue(RegistryHive.LocalMachine, $@"SOFTWARE\Origin Games\{contendIds[0]}", "Locale", string.Empty)!;
@@ -103,10 +103,10 @@ internal static class OriginGameFactory
         if (diPManifest is null)
             return false;
 
-        if (string.IsNullOrEmpty(game.GameName))
+        if (string.IsNullOrEmpty(game.Name))
         {
             var gameTitle = diPManifest.gameTitles?.FirstOrDefault(defaultValue: null);
-            game.GameName = gameTitle?.Value ?? game.GameName;
+            game.Name = gameTitle?.Value ?? game.Name;
         }
 
         if (diPManifest.contentIDs is not null)
@@ -155,10 +155,10 @@ internal static class OriginGameFactory
         if (gameManifest is null)
             return;
 
-        if (string.IsNullOrEmpty(game.GameName))
+        if (string.IsNullOrEmpty(game.Name))
         {
             var gameTitle = gameManifest.metadata?.localeInfo?.FirstOrDefault(defaultValue: null)?.title;
-            game.GameName = gameTitle ?? game.GameName;
+            game.Name = gameTitle ?? game.Name;
         }
 
         if (gameManifest.contentIDs is not null)
@@ -171,24 +171,24 @@ internal static class OriginGameFactory
     /// </summary>
     private static OriginGame AddOnlineData(OriginGame game, TimeSpan? queryTimeout = null)
     {
-        if (!string.IsNullOrEmpty(game.GameName) && !string.IsNullOrEmpty(game.ExecutablePath))
+        if (!string.IsNullOrEmpty(game.Name) && !string.IsNullOrEmpty(game.ExecutablePath))
             return game;
 
         OriginOnlineManifest? manifest;
         try
         {
-            var manifestJson = GetManifestFromUrl(game.GameId, queryTimeout);
+            var manifestJson = GetManifestFromUrl(game.Id, queryTimeout);
             manifest = JsonConvert.DeserializeObject<OriginOnlineManifest>(manifestJson);
             if (manifest is null)
                 throw new ApplicationException("Cannot deserialize JSON stream");
         }
         catch { return game; }
 
-        if (string.IsNullOrEmpty(game.GameName))
-            game.GameName = manifest.LocalizableAttributes?.DisplayName ?? game.GameName;
+        if (string.IsNullOrEmpty(game.Name))
+            game.Name = manifest.LocalizableAttributes?.DisplayName ?? game.Name;
 
-        if (string.IsNullOrEmpty(game.GameName))
-            game.GameName = manifest.ItemName ?? game.GameName;
+        if (string.IsNullOrEmpty(game.Name))
+            game.Name = manifest.ItemName ?? game.Name;
 
         if (string.IsNullOrEmpty(game.ExecutablePath) && manifest.Publishing?.SoftwareList?.Software is not null)
         {

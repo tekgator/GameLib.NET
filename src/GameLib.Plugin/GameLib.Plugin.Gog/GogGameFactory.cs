@@ -36,8 +36,8 @@ internal static class GogGameFactory
 
         var game = new GogGame()
         {
-            GameId = (string)regKey.GetValue("gameID", string.Empty)!,
-            GameName = (string)regKey.GetValue("gameName", string.Empty)!,
+            Id = (string)regKey.GetValue("gameID", string.Empty)!,
+            Name = (string)regKey.GetValue("gameName", string.Empty)!,
             ExecutablePath = (string)regKey.GetValue("exe", string.Empty)!,
             Executable = (string)regKey.GetValue("exeFile", string.Empty)!,
             WorkingDir = (string)regKey.GetValue("workingDir", string.Empty)!,
@@ -63,11 +63,11 @@ internal static class GogGameFactory
             Version = (string)regKey.GetValue("ver", string.Empty)!,
         };
 
-        if (string.IsNullOrEmpty(game.GameId))
+        if (string.IsNullOrEmpty(game.Id))
             return null;
 
         game.InstallDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
-        game.LaunchString = $"\"{launcherExecutable}\" /command=runGame /gameId={game.GameId}";
+        game.LaunchString = $"\"{launcherExecutable}\" /command=runGame /gameId={game.Id}";
         if (!string.IsNullOrEmpty(game.WorkingDir))
             game.LaunchString += $" /path=\"{game.WorkingDir}\"";
 

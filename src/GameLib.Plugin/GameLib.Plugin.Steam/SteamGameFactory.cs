@@ -46,7 +46,7 @@ internal static class SteamGameFactory
         }
         catch { return null; }
 
-        game.LaunchString = $"steam://rungameid/{game.GameId}";
+        game.LaunchString = $"steam://rungameid/{game.Id}";
         game.InstallDir = Path.Combine(libraryPath, "steamapps", "common", PathUtil.Sanitize(game.InstallDir) ?? string.Empty);
         game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
 
@@ -60,7 +60,7 @@ internal static class SteamGameFactory
     {
         if (catalog?.Catalog
             .Where(p =>
-                p.AppID.ToString() == game.GameId &&
+                p.AppID.ToString() == game.Id &&
                 (string.IsNullOrEmpty(p.Data.Common?.OsList) || p.Data.Common.OsList.Contains(Os, StringComparison.OrdinalIgnoreCase)) &&
                 p.Data.Config?.Launch is not null)
             .Select(p => p.Data)

@@ -36,15 +36,15 @@ internal static class UbisoftGameFactory
 
         var game = new UbisoftGame()
         {
-            GameId = gameId,
+            Id = gameId,
             InstallDir = PathUtil.Sanitize((string?)regKey.GetValue("InstallDir")) ?? string.Empty,
             Language = (string)regKey.GetValue("Language", string.Empty)!,
         };
 
-        game.GameName = Path.GetFileName(game.InstallDir) ?? string.Empty;
+        game.Name = Path.GetFileName(game.InstallDir) ?? string.Empty;
         game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
         game.WorkingDir = game.InstallDir;
-        game.LaunchString = $"uplay://launch/{game.GameId}";
+        game.LaunchString = $"uplay://launch/{game.Id}";
 
         return game;
     }
@@ -55,7 +55,7 @@ internal static class UbisoftGameFactory
     private static UbisoftGame AddCatalogData(UbisoftGame game, UbisoftCatalog? catalog = null)
     {
         if (catalog?.Catalog
-            .Where(p => p.UplayId.ToString() == game.GameId)
+            .Where(p => p.UplayId.ToString() == game.Id)
             .FirstOrDefault((UbisoftCatalogItem?)null) is not { } catalogItem)
         {
             return game;
@@ -73,7 +73,7 @@ internal static class UbisoftGameFactory
                 .Where(p => !string.IsNullOrEmpty(p.path?.relative)))
             {
                 game.ExecutablePath = PathUtil.Sanitize(Path.Combine(game.InstallDir, exe.path!.relative!))!;
-                game.GameName = exe.shortcut_name ?? game.GameName;
+                game.Name = exe.shortcut_name ?? game.Name;
 
                 game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
                 if (exe.working_directory?.register?.StartsWith("HKEY") == false)
@@ -99,7 +99,7 @@ internal static class UbisoftGameFactory
             tmpVal = catalogItem.GameInfo?.root?.installer?.game_identifier;
 
         if (!string.IsNullOrEmpty(tmpVal))
-            game.GameName = tmpVal;
+            game.Name = tmpVal;
 
         // get help URL
         tmpVal = catalogItem.GameInfo?.root?.help_url;

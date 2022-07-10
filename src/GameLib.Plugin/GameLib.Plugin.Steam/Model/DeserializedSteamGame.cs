@@ -16,8 +16,8 @@ internal class DeserializedSteamGame
 
     public SteamGame SteamGameBuilder() => new()
     {
-        GameId = AppId.ToString(),
-        GameName = Name ?? string.Empty,
+        Id = AppId.ToString(),
+        Name = Name ?? string.Empty,
         InstallDir = InstallDir ?? string.Empty,
         Universe = (SteamUniverse)Universe,
         LastUpdated = DateTimeOffset.FromUnixTimeSeconds(LastUpdated).LocalDateTime,

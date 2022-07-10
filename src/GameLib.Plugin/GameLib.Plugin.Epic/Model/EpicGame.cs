@@ -5,8 +5,8 @@ namespace GameLib.Plugin.Epic.Model;
 public class EpicGame : IGame
 {
     #region Interface implementations
-    public string GameId { get; internal set; } = string.Empty;
-    public string GameName { get; internal set; } = string.Empty;
+    public string Id { get; internal set; } = string.Empty;
+    public string Name { get; internal set; } = string.Empty;
     public string InstallDir { get; internal set; } = string.Empty;
     public string ExecutablePath { get; internal set; } = string.Empty;
     public string Executable { get; internal set; } = string.Empty;

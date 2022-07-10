@@ -5,12 +5,12 @@ public interface IGame
     /// <summary>
     /// Unique game Id if the launcher
     /// </summary>
-    public string GameId { get; }
+    public string Id { get; }
 
     /// <summary>
     /// Name of the Game
     /// </summary>
-    public string GameName { get; }
+    public string Name { get; }
 
     /// <summary>
     /// Installation dir of the game
@@ -41,7 +41,7 @@ public interface IGame
     /// When the game got installed; if the launcher cannot provide the information the creation date of the InstallDir is returned
     /// </summary>
     public DateTime InstallDate { get; }
-    
+
     /// <summary>
     /// Check whether the game is currently running (works only if launch executable is also the game executable)
     /// e.g. GTA5 is launched with PlayGTAV.exe but the actual game is running via GTAV.exe
