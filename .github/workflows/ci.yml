@@ -1,9 +1,14 @@
 name: "CI"
 
-on: ["push"]
+on:
+  push:
+    branches:
+      - "main"
 
 env:
-  PROJECT_PATH: src/GameLib.sln
+  SOLUTION_PATH: src/GameLib.sln
+  PACKAGE_OUTPUT_DIR: ${{ github.workspace }}\output
+  NUGET_SOURCE_URL: "https://api.nuget.org/v3/index.json"
 
 jobs:
   build:
@@ -19,7 +24,13 @@ jobs:
           dotnet-version: "6.0.x"
 
       - name: "Restore packages"
-        run: dotnet restore ${{ env.PROJECT_PATH }}
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
 
       - name: "Build project"
-        run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
+        run: dotnet build ${{ env.SOLUTION_PATH }} --no-restore --configuration Release
+
+      - name: "Pack project"
+        run: dotnet pack ${{ env.SOLUTION_PATH }} --no-restore --configuration Release --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIR }}
+
+      - name: "Push package"
+        run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIR }}\*.nupkg --api-key ${{ secrets.NUGET_AUTH_TOKEN }} --source ${{ env.NUGET_SOURCE_URL }}
