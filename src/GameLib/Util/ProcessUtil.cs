@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Gamelib.Api.Util;
+namespace Gamelib.Util;
 
 public static class ProcessUtil
 {

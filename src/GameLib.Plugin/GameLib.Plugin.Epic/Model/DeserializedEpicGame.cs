@@ -1,4 +1,4 @@
-﻿using Gamelib.Api.Util;
+﻿using Gamelib.Util;
 using Newtonsoft.Json;
 
 namespace GameLib.Plugin.Epic.Model;

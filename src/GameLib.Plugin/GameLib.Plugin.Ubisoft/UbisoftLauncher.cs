@@ -1,5 +1,4 @@
-﻿using Gamelib.Api.Util;
-using GameLib.Api;
+﻿using Gamelib.Util;
 using GameLib.Plugin.Ubisoft.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;

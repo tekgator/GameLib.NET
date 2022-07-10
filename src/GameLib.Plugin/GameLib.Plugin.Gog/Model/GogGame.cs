@@ -1,5 +1,4 @@
-﻿using Gamelib.Api.Util;
-using GameLib.Api;
+﻿using Gamelib.Util;
 
 namespace GameLib.Plugin.Gog.Model;
 

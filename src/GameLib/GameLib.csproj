@@ -43,13 +43,4 @@
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\GameLib.Api\GameLib.Api.csproj" PrivateAssets="all" />
-    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj" PrivateAssets="all" />
-    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" PrivateAssets="all" />
-	  <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" PrivateAssets="all" />
-	  <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj" PrivateAssets="all" />
-	  <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj" PrivateAssets="all" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,4 @@
-﻿using Gamelib.Api.Util;
+﻿using Gamelib.Util;
 using GameLib.Plugin.Gog.Model;
 using Microsoft.Win32;
 using System.Globalization;
