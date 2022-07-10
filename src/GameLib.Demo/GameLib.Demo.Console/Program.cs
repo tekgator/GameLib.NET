@@ -1,5 +1,5 @@
 ﻿using GameLib;
-using GameLib.Plugin.Steam;
+using System.Diagnostics;
 
 var launcherManager = new LauncherManager();
 
@@ -24,22 +24,6 @@ foreach (var launcher in launcherManager.Launchers)
 
     var executable = launcher.Executable;
     Console.WriteLine($"Executable: {executable}");
-
-    var libs = (launcher as SteamLauncher)?.GetLibraries();
-    if (libs is not null)
-    {
-        SetConsoleColor(ConsoleColor.Blue);
-        Console.WriteLine("\nLibraries:");
-        ResetConsoleColor();
-        foreach (var lib in libs)
-        {
-            Console.WriteLine($"Name: {lib.Name}");
-            foreach (var item in lib.GetType().GetProperties().Where(p => p.Name != "Name"))
-            {
-                Console.WriteLine($"\t{item.Name}: {item.GetValue(lib)}");
-            }
-        }
-    }
 
     var games = launcher.GetGames();
     SetConsoleColor(ConsoleColor.Green);
@@ -70,4 +54,4 @@ static void ResetConsoleColor()
     Console.BackgroundColor = ConsoleColor.Black;
 }
 
-Console.ReadKey();
+Debugger.Break();
