@@ -1,18 +1,46 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net6.0-windows</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+  <PropertyGroup>
+	<TargetFramework>net6.0-windows</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<PackageId>GameLib.NET.Origin</PackageId>
+	<Authors>tekgator,Patrick Weiss</Authors>
+	<Description>GameLib.NET plugin to provide information about Origin launcher and it's installed games</Description>
+	<Product>GameLib.NET.Origin</Product>
+	<Title>Origin plugin for GameLib.NET</Title>
+	<Copyright>@Patrick Weiss 2022</Copyright>
+	<PackageProjectUrl>https://github.com/tekgator/GameLib.NET</PackageProjectUrl>
+	<PackageIcon>GameLibNET-Origin-Logo-128px.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryUrl>https://github.com/tekgator/GameLib.NET</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageTags>GameLib;Game Launcher;Origin;EA;Electronic Arts;Origin Launcher;EA Play;EA launcher</PackageTags>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
-    </ItemGroup>
+  <ItemGroup>
+	<None Include="..\..\..\resources\GameLibNET-Origin-Logo-128px.png">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Include="..\..\..\LICENSE">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Update="README.md">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\GameLib\GameLib.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\GameLib\GameLib.csproj" />
+  </ItemGroup>
     
 </Project>
