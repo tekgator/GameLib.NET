@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>GameLib.NET</PackageId>
-    <Authors>tekgator,Patrick Weiss</Authors>
+    <Authors>Patrick Weiss</Authors>
     <Product>GameLib.NET</Product>
 	<Title>GameLib.NET</Title>
     <PackageProjectUrl>https://github.com/tekgator/GameLib.NET</PackageProjectUrl>
