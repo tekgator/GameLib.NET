@@ -10,9 +10,9 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/source/GameLib.Demo/GameLib.Demo.Console/bin/Debug/net6.0-windows/GameLib.Demo.Console.dll",
+      "program": "${workspaceFolder}/src/GameLib.Demo/GameLib.Demo.Console/bin/Debug/net6.0-windows/GameLib.Demo.Console.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/source/GameLib.Demo/GameLib.Demo.Console",
+      "cwd": "${workspaceFolder}/src/GameLib.Demo/GameLib.Demo.Console",
       // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
       "console": "internalConsole",
       "stopAtEntry": false

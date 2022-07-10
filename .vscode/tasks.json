@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/source/GameLib.Demo/GameLib.Demo.Console/GameLib.Demo.Console.csproj",
+        "${workspaceFolder}/src/GameLib.Demo/GameLib.Demo.Console/GameLib.Demo.Console.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/source/GameLib.Demo/GameLib.Demo.Console/GameLib.Demo.Console.csproj",
+        "${workspaceFolder}/src/GameLib.Demo/GameLib.Demo.Console/GameLib.Demo.Console.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -33,7 +33,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/source/GameLib.Demo/GameLib.Demo.Console/GameLib.Demo.Console.csproj"
+        "${workspaceFolder}/src/GameLib.Demo/GameLib.Demo.Console/GameLib.Demo.Console.csproj"
       ],
       "problemMatcher": "$msCompile"
     }
