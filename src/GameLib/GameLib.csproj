@@ -8,7 +8,7 @@
     <Authors>tekgator,Patrick Weiss</Authors>
     <Product>GameLib.NET</Product>
     <PackageProjectUrl>https://github.com/tekgator/GameLib.NET</PackageProjectUrl>
-    <PackageIcon>logo-color-128px.png</PackageIcon>
+    <PackageIcon>GameLibNET-Logo-128px.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/tekgator/GameLib.NET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -24,23 +24,14 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
-    <None Include="..\..\resources\logos\logo-color-128px.png">
+    <None Include="..\..\resources\GameLibNET-Logo-128px.png.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Teronis.MSBuild.Packaging.ProjectBuildInPackage" Version="1.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-	  <!-- Add package references of plugins here, otherwise Nuget dependencies will not be correct -->
 	  <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	  <PackageReference Include="ValveKeyValue" Version="0.8.0.139" />
-	  <PackageReference Include="protobuf-net" Version="3.1.17" />
-    <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
 </Project>
