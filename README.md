@@ -19,7 +19,11 @@ Install, using the [Nuget Gallery](https://www.nuget.org/packages?q=tekgator+Gam
 
 You can also use the following command in the Package Manager Console:
 ```ps
-Install-Package GameLib.NET
+Install-Package GameLib.NET.Steam
+Install-Package GameLib.NET.Epic
+Install-Package GameLib.NET.Ubisoft
+Install-Package GameLib.NET.Origin
+Install-Package GameLib.NET.Gog
 ```
 
 ## Usage
