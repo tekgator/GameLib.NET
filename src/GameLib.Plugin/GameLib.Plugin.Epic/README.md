@@ -2,18 +2,14 @@
 Epic Games Plugin for GameLib.NET
 ======
 
-[Epic Games](https://www.epicgames.com) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md), Please check out the core documention for first.
+[Epic Games](https://www.epicgames.com) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md). 
 
 The plugin will deliver information about the installation status of the `Epic Games` launcher as well the installed games within the launcher.
 
 ## Installing
 
-Install, using the [Nuget Gallery](https://www.nuget.org/packages?q=GameLib.NET.Epic).
+The plugin is already bundled with the core library ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md)
 
-You can also use the following command in the Package Manager Console:
-```ps
-Install-Package GameLib.NET.Epic
-```
 
 ## Additional information the plugin is providing
 

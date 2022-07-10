@@ -1,4 +1,5 @@
-﻿using Gamelib.Util;
+﻿using Gamelib.Core.Util;
+using GameLib.Core;
 using GameLib.Plugin.Origin.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;

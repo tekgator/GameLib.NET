@@ -2,18 +2,13 @@
 Steam Plugin for GameLib.NET
 ======
 
-[Steam](https://store.steampowered.com) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md), Please check out the core documention for first.
+[Steam](https://store.steampowered.com) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md).
 
 The plugin will deliver information about the installation status of the `Steam` launcher as well the installed games within the launcher.
 
 ## Installing
 
-Install, using the [Nuget Gallery](https://www.nuget.org/packages?q=GameLib.NET.Steam).
-
-You can also use the following command in the Package Manager Console:
-```ps
-Install-Package GameLib.NET.Steam
-```
+The plugin is already bundled with the core library ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md)
 
 ## Additional information the plugin is providing
 

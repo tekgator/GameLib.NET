@@ -1,4 +1,5 @@
-﻿using Gamelib.Util;
+﻿using Gamelib.Core.Util;
+using GameLib.Core;
 using Microsoft.Win32;
 
 namespace GameLib.Plugin.Steam.Model;

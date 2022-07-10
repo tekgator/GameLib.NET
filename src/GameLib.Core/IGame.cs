@@ -1,4 +1,4 @@
-﻿namespace GameLib;
+﻿namespace GameLib.Core;
 
 public interface IGame
 {

@@ -1,4 +1,5 @@
-﻿using Gamelib.Util;
+﻿using Gamelib.Core.Util;
+using GameLib.Core;
 
 namespace GameLib.Plugin.Origin.Model;
 

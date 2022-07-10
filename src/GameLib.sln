@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Origin", "Ga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Epic", "GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj", "{3119A573-2CB1-4DD9-A703-83E89485391C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Core", "GameLib.Core\GameLib.Core.csproj", "{FBB6130A-2055-4B08-9AE9-5640E02D17A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{3119A573-2CB1-4DD9-A703-83E89485391C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3119A573-2CB1-4DD9-A703-83E89485391C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3119A573-2CB1-4DD9-A703-83E89485391C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBB6130A-2055-4B08-9AE9-5640E02D17A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB6130A-2055-4B08-9AE9-5640E02D17A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB6130A-2055-4B08-9AE9-5640E02D17A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB6130A-2055-4B08-9AE9-5640E02D17A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

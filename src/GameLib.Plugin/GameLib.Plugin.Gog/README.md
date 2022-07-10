@@ -2,18 +2,13 @@
 GOG Galaxy Plugin for GameLib.NET
 ======
 
-[GOG Galaxy](https://www.gog.com/galaxy) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md), Please check out the core documention for first.
+[GOG Galaxy](https://www.gog.com/galaxy) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md).
 
 The plugin will deliver information about the installation status of the `GOG Galaxy` launcher as well the installed games within the launcher.
 
 ## Installing
 
-Install, using the [Nuget Gallery](https://www.nuget.org/packages?q=GameLib.NET.Gog).
-
-You can also use the following command in the Package Manager Console:
-```ps
-Install-Package GameLib.NET.Gog
-```
+The plugin is already bundled with the core library ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md)
 
 ## Additional information the plugin is providing
 

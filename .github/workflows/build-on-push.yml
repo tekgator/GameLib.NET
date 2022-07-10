@@ -1,9 +1,10 @@
-name: "CI"
+name: "build-and-publish"
 
 on:
   push:
-    tags:
-      - "v*"
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 env:
   SOLUTION_PATH: src/GameLib.sln
@@ -28,13 +29,3 @@ jobs:
 
       - name: "Build project"
         run: dotnet build ${{ env.SOLUTION_PATH }} --no-restore --configuration Release
-
-      - name: "Get version"
-        id: version
-        uses: battila7/get-version-action@v2
-
-      - name: "Pack project"
-        run: dotnet pack ${{ env.SOLUTION_PATH }} --no-restore --configuration Release --p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIR }}
-
-      - name: "Push package"
-        run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIR }}\*.nupkg --api-key ${{ secrets.NUGET_AUTH_TOKEN }} --source ${{ env.NUGET_SOURCE_URL }}

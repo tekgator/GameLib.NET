@@ -6,7 +6,7 @@ GameLib.NET is a library to give .NET developers easy access to the users instal
 
 While this repository is providing already the plugins to gather the games from the most popular game launchers, it easily extendible via the MEF Framework. A developer guide will follow, but I'm pretty sure the geeks will find out themselfes on how to do it.
 
-Following plugins are available to detect the game launchers including their installed games:
+Following plugins are already bundled with GameLib.NET to detect the game launchers including their installed games:
 - [Steam](src/GameLib.Plugin/GameLib.Plugin.Steam)
 - [Epic Games](src/GameLib.Plugin/GameLib.Plugin.Epic)
 - [Ubisoft Connect](src/GameLib.Plugin/GameLib.Plugin.Ubisoft)
@@ -15,16 +15,18 @@ Following plugins are available to detect the game launchers including their ins
 
 ## Installing
 
-Install, using the [Nuget Gallery](https://www.nuget.org/packages?q=tekgator+GameLib.net), the corrosponding launcher plugins you like to have. Since the actual core is a dependency it will install it automatically.
+Multiple options are available to install within your project:
 
-You can also use the following command in the Package Manager Console:
-```ps
-Install-Package GameLib.NET.Steam
-Install-Package GameLib.NET.Epic
-Install-Package GameLib.NET.Ubisoft
-Install-Package GameLib.NET.Origin
-Install-Package GameLib.NET.Gog
-```
+1. Install, using the [Nuget Gallery](https://www.nuget.org/packages/GameLib.NET)
+
+2. Install using the Package Manager Console: 
+   ```ps
+   Install-Package GameLib.NET 
+   ```
+3. Install using .NET CLI
+   ```cmd
+   dotnet add package GameLib.NET
+   ```
 
 ## Usage
 
@@ -59,7 +61,7 @@ Also have a look at the [Console Demo](src/GameLib.Demo/GameLib.Demo.Console) wi
 
 ### What launcher / game information is the library providing?
 
-To make a long story short have a look at the [`ILauncher`](src/GameLib/ILauncher.cs) interface as well as the [`IGame`](src/GameLib/IGame.cs) interface to see what values are returned by default. Each plugin can provide more information, which can be found in the README.md the corresponding plugin.
+To make a long story short have a look at the [`ILauncher`](src/GameLib.Core/ILauncher.cs) interface as well as the [`IGame`](src/GameLib.Core/IGame.cs) interface to see what values are returned by default. Each plugin can provide more information, which can be found in the README.md the corresponding plugin.
 
 **Please note:** Not all launchers will fill all properties in the ``IGame`` interface instance. Further information are provided in the README.md of each plugin.
 
@@ -73,6 +75,8 @@ If I've helped you, feel free to buy me a coffee or see the Sponsor link [at the
 
 ## Dependencies and Credits
 
+- Teneko's [Teronis.DotNet](https://github.com/teneko/Teronis.DotNet/tree/develop/src/MSBuild/Packaging/ProjectBuildInPackage) which allows project reference content to be added to the NuGet-package during pack process
+  
 - Thanks to [Josef Nemec](https://github.com/JosefNemec) and contributers of [Playnite](https://github.com/JosefNemec/Playnite) for the inspiration of decoding the proprietary manifest and catalog data of each launcher 
 
 - The team of [SteamDB](https://steamdb.info) providing [Valve's KeyValue for .NET](https://github.com/SteamDatabase/ValveKeyValue) for reading Steam's proprietary key value format files

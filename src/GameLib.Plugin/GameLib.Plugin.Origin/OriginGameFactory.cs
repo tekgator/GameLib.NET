@@ -1,4 +1,4 @@
-﻿using Gamelib.Util;
+﻿using Gamelib.Core.Util;
 using GameLib.Plugin.Origin.Model;
 using Microsoft.Win32;
 using Newtonsoft.Json;

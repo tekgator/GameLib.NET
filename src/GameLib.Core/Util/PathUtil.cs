@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Gamelib.Util;
+namespace Gamelib.Core.Util;
 
 public static class PathUtil
 {

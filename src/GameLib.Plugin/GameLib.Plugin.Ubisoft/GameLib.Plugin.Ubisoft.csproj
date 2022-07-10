@@ -4,36 +4,8 @@
 	<TargetFramework>net6.0-windows</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
-	<PackageId>GameLib.NET.Ubisoft</PackageId>
-	<Authors>tekgator,Patrick Weiss</Authors>
-	<Description>GameLib.NET plugin to provide information about Ubisoft Connect launcher and it's installed games</Description>
-	<Product>GameLib.NET.Ubisoft</Product>
-	<Title>Ubisoft plugin for GameLib.NET</Title>
-	<Copyright>@Patrick Weiss 2022</Copyright>
-	<PackageProjectUrl>https://github.com/tekgator/GameLib.NET</PackageProjectUrl>
-	<PackageIcon>GameLibNET-Ubisoft-Logo-128px.png</PackageIcon>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<RepositoryUrl>https://github.com/tekgator/GameLib.NET</RepositoryUrl>
-	<RepositoryType>git</RepositoryType>
-	<PackageTags>GameLib;Game Launcher;Ubisoft;Ubisoft Connect;UPlay;Ubisoft Launcher;UPlay launcher</PackageTags>
-	<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	<IsPackable>false</IsPackable>
   </PropertyGroup>
-
-
-  <ItemGroup>
-	<None Include="..\..\..\resources\GameLibNET-Ubisoft-Logo-128px.png">
-	  <Pack>True</Pack>
-	  <PackagePath>\</PackagePath>
-	</None>
-	<None Include="..\..\..\LICENSE">
-	  <Pack>True</Pack>
-	  <PackagePath>\</PackagePath>
-	</None>
-	<None Update="README.md">
-	  <Pack>True</Pack>
-	  <PackagePath>\</PackagePath>
-	</None>
-  </ItemGroup>
 
   <ItemGroup>
 	<PackageReference Include="protobuf-net" Version="3.1.17" />
@@ -42,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GameLib\GameLib.csproj" />
+    <ProjectReference Include="..\..\GameLib.Core\GameLib.Core.csproj" />
   </ItemGroup>
 
 </Project>

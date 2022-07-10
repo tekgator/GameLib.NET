@@ -1,4 +1,4 @@
-﻿using Gamelib.Util;
+﻿using Gamelib.Core.Util;
 using GameLib.Plugin.Steam.Model;
 using System.Runtime.InteropServices;
 using ValveKeyValue;
