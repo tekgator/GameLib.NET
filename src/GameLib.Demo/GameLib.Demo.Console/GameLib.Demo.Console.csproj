@@ -5,7 +5,12 @@
 	<TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ApplicationIcon>GameLibNET-icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="GameLibNET-icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
 	<ProjectReference Include="..\..\GameLib\GameLib.csproj" />
