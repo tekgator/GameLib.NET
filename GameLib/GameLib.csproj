@@ -20,15 +20,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\README.md">
+    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\..\LICENSE">
+    <None Include="..\LICENSE">
 	  <Pack>True</Pack>
 	  <PackagePath>\</PackagePath>
 	</None>
-    <None Include="..\..\resources\GameLibNET-Logo-128px.png">
+    <None Include="..\Resources\GameLibNET-Logo-128px.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

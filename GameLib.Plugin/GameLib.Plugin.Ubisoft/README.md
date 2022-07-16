@@ -1,14 +1,14 @@
-![GameLib.NET](../../../resources/GameLibNET-Ubisoft-Logo-64px.png "GameLib.NET Ubisoft") 
+![GameLib.NET](../../Resources/GameLibNET-Ubisoft-Logo-64px.png "GameLib.NET Ubisoft") 
 Ubisoft Connect Plugin for GameLib.NET
 ======
 
-[Ubisoft connect](https://ubisoftconnect.com) plugin for ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md).
+[Ubisoft connect](https://ubisoftconnect.com) plugin for ![GameLib.NET](../../Resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md).
 
 The plugin will deliver information about the installation status of the `Ubisoft Connect` launcher as well the installed games within the launcher.
 
 ## Installing
 
-The plugin is already bundled with the core library ![GameLib.NET](../../../resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md)
+The plugin is already bundled with the core library ![GameLib.NET](../../Resources/GameLibNET-Logo-16px.png "GameLib.NET") [GameLib.NET](README.md)
 
 ## Additional information the plugin is providing
 
