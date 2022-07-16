@@ -7,7 +7,7 @@ on:
     branches: [main, dev]
 
 env:
-  SOLUTION_PATH: src/GameLib.sln
+  SOLUTION_PATH: GameLib.sln
   PACKAGE_OUTPUT_DIR: ${{ github.workspace }}\output
   NUGET_SOURCE_URL: "https://api.nuget.org/v3/index.json"
 
