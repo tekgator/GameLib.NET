@@ -2,14 +2,20 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+
+## [1.0.3] - 2022-10-08
 ### Added
 - Changelog file
+- Add changelog file to Nuget
 - 32px game launcher icons
+- Provide Icon property on ILauncher interface
 
 ### Changed
 - Restructioring of the project by removing SRC folder
 - Demo executable icon is loaded from Ressource folder instead of keeping it with the project
 - Add game launcher icons to ReadMe
+- Rearrange resource files from solution into plugin resource folders
 
 
 ## [1.0.2] - 2022-10-07
