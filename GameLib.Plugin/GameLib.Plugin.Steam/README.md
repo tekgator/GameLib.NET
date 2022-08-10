@@ -1,4 +1,4 @@
-![GameLib.NET](../../Resources/GameLibNET-Steam-Logo-64px.png "GameLib.NET Steam") 
+![GameLib.NET](Resources/GameLibPluginLogo64px.png "GameLib.NET Steam") 
 Steam Plugin for GameLib.NET
 ======
 

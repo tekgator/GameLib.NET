@@ -1,4 +1,4 @@
-![GameLib.NET](../../Resources/GameLibNET-Ubisoft-Logo-64px.png "GameLib.NET Ubisoft") 
+![GameLib.NET](Resources/GameLibPluginLogo64px.png "GameLib.NET Ubisoft") 
 Ubisoft Connect Plugin for GameLib.NET
 ======
 

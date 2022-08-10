@@ -7,11 +7,11 @@ GameLib.NET is a library to give .NET developers easy access to the users instal
 While this repository is providing already the plugins to gather the games from the most popular game launchers, it easily extendible via the MEF Framework. A developer guide will follow, but I'm pretty sure the geeks will find out themselfes on how to do it.
 
 Following plugins are already bundled with GameLib.NET to detect the game launchers including their installed games:
-- ![Steam](Resources/Steam-logo32px.png) [Steam](GameLib.Plugin/GameLib.Plugin.Steam)
-- ![Epic](Resources/Epic-logo32px.png) [Epic Games](GameLib.Plugin/GameLib.Plugin.Epic)
-- ![Ubisoft Connect](Resources/Ubisoft-logo32px.png) [Ubisoft Connect](GameLib.Plugin/GameLib.Plugin.Ubisoft)
-- ![Origin](Resources/Origin-logo32px.png) [Origin](GameLib.Plugin/GameLib.Plugin.Origin)
-- ![GOG Galaxy 2.0](Resources/Gog-logo32px.png) [GOG Galaxy 2.0](GameLib.Plugin/GameLib.Plugin.Gog)
+- ![Steam](GameLib.Plugin/GameLib.Plugin.Steam/Resources/Logo32px.png) [Steam](GameLib.Plugin/GameLib.Plugin.Steam)
+- ![Epic](GameLib.Plugin/GameLib.Plugin.Epic/Resources/Logo32px.png) [Epic Games](GameLib.Plugin/GameLib.Plugin.Epic)
+- ![Ubisoft Connect](GameLib.Plugin/GameLib.Plugin.Ubisoft/Resources/Logo32px.png) [Ubisoft Connect](GameLib.Plugin/GameLib.Plugin.Ubisoft)
+- ![Origin](GameLib.Plugin/GameLib.Plugin.Origin/Resources/Logo32px.png) [Origin](GameLib.Plugin/GameLib.Plugin.Origin)
+- ![GOG Galaxy 2.0](GameLib.Plugin/GameLib.Plugin.Gog/Resources/Logo32px.png) [GOG Galaxy 2.0](GameLib.Plugin/GameLib.Plugin.Gog)
 
 ## Installing
 

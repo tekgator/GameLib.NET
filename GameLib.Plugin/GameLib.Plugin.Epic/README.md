@@ -1,4 +1,4 @@
-![GameLib.NET](../../Resources/GameLibNET-Epic-Logo-64px.png "GameLib.NET Epic Games") 
+![GameLib.NET](Resources/GameLibPluginLogo64px.png "GameLib.NET Epic Games") 
 Epic Games Plugin for GameLib.NET
 ======
 

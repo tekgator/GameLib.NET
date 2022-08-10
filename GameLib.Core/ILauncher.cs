@@ -1,11 +1,18 @@
-﻿namespace GameLib.Core;
+﻿using System.Drawing;
+
+namespace GameLib.Core;
 
 public interface ILauncher
 {
     /// <summary>
-    /// Name of the Launcher
+    /// Name of the launcher
     /// </summary>
     public string Name { get; }
+
+    /// <summary>
+    /// Icon of the launcher
+    /// </summary>
+    public Image? Icon { get; }
 
     /// <summary>
     /// <see langword="true"/> if the launcher is (properly) installed

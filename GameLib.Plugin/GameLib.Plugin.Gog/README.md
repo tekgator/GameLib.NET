@@ -1,4 +1,4 @@
-![GameLib.NET](../../Resources/GameLibNET-Gog-Logo-64px.png "GameLib.NET GOG Galaxy") 
+![GameLib.NET](Resources/GameLibPluginLogo64px.png "GameLib.NET GOG Galaxy") 
 GOG Galaxy Plugin for GameLib.NET
 ======
 

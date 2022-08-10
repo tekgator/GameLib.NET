@@ -4,6 +4,7 @@ using GameLib.Plugin.Steam.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace GameLib.Plugin.Steam;
@@ -26,6 +27,8 @@ public class SteamLauncher : ILauncher
 
     #region Interface implementations
     public string Name => "Steam";
+
+    public Image Icon => Properties.Resources.Logo32px;
 
     public bool IsInstalled { get; private set; }
 

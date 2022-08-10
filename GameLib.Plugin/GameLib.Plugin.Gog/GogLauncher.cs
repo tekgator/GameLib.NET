@@ -4,6 +4,7 @@ using GameLib.Plugin.Gog.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace GameLib.Plugin.Gog;
@@ -21,6 +22,8 @@ public class GogLauncher : ILauncher
 
     #region Interface implementations
     public string Name => "GOG Galaxy";
+
+    public Image Icon => Properties.Resources.Logo32px;
 
     public bool IsInstalled { get; private set; }
 

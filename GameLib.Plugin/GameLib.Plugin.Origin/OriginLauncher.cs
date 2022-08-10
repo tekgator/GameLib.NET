@@ -3,6 +3,7 @@ using GameLib.Core;
 using GameLib.Plugin.Origin.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace GameLib.Plugin.Origin;
@@ -23,6 +24,8 @@ public class OriginLauncher : ILauncher
 
     #region Interface implementations
     public string Name => "Origin";
+
+    public Image Icon => Properties.Resources.Logo32px;
 
     public bool IsInstalled { get; private set; }
 

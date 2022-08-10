@@ -3,6 +3,7 @@ using GameLib.Core;
 using GameLib.Plugin.Epic.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace GameLib.Plugin.Epic;
@@ -20,6 +21,8 @@ public class EpicLauncher : ILauncher
 
     #region Interface implementations
     public string Name => "Epic Games";
+
+    public Image Icon => Properties.Resources.Logo32px;
 
     public bool IsInstalled { get; private set; }
 

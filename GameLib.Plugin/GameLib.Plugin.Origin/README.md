@@ -1,4 +1,4 @@
-![GameLib.NET](../../Resources/GameLibNET-Origin-Logo-64px.png "GameLib.NET Origin") 
+![GameLib.NET](Resources/GameLibPluginLogo64px.png "GameLib.NET Origin") 
 Origin Plugin for GameLib.NET
 ======
 
