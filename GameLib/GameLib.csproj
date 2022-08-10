@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>GameLib.NET</PackageId>
+    <Authors>Patrick Weiss</Authors>
+    <Product>GameLib.NET</Product>
+	<Title>GameLib.NET</Title>
+    <PackageProjectUrl>https://github.com/tekgator/GameLib.NET</PackageProjectUrl>
+    <PackageIcon>GameLibNET-Logo-128px.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/tekgator/GameLib.NET</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>GameLib.NET is a library to give .NET developers easy access to the users installed game launchers and installed games. </Description>
+    <Copyright>@Patrick Weiss 2022</Copyright>
+    <PackageTags>GameLib;Game Launcher;Steam;Origin;Ubisoft Connect;Ubisoft;Epic Games;Epic;GOG;Galaxy;Rockstar</PackageTags>
+	<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(SolutionDir)/CHANGELOG.md"))</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\LICENSE">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Include="..\CHANGELOG.md">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Include="..\Resources\GameLibNET-Logo-128px.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Teronis.MSBuild.Packaging.ProjectBuildInPackage" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	
+	<!-- Add package references of plugins here, otherwise Nuget dependencies will not be correct -->
+	<PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
+	<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+	<PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	<PackageReference Include="ValveKeyValue" Version="0.8.0.139" />
+	<PackageReference Include="protobuf-net" Version="3.1.17" />
+	<PackageReference Include="YamlDotNet" Version="11.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameLib.Core\GameLib.Core.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

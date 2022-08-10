@@ -2,12 +2,20 @@ name: "build-on-push"
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - 'Resources/**'
   pull_request:
-    branches: [main]
+    branches: [main, dev]
+    paths-ignore:
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
 
 env:
-  SOLUTION_PATH: src/GameLib.sln
+  SOLUTION_PATH: GameLib.sln
   PACKAGE_OUTPUT_DIR: ${{ github.workspace }}\output
   NUGET_SOURCE_URL: "https://api.nuget.org/v3/index.json"
 

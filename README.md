@@ -1,4 +1,4 @@
-![GameLib.NET](resources/GameLibNET-Logo-64px.png "GameLib.NET") 
+![GameLib.NET](Resources/GameLibNET-Logo-64px.png "GameLib.NET") 
 GameLib.NET
 ======
 
@@ -7,11 +7,11 @@ GameLib.NET is a library to give .NET developers easy access to the users instal
 While this repository is providing already the plugins to gather the games from the most popular game launchers, it easily extendible via the MEF Framework. A developer guide will follow, but I'm pretty sure the geeks will find out themselfes on how to do it.
 
 Following plugins are already bundled with GameLib.NET to detect the game launchers including their installed games:
-- [Steam](src/GameLib.Plugin/GameLib.Plugin.Steam)
-- [Epic Games](src/GameLib.Plugin/GameLib.Plugin.Epic)
-- [Ubisoft Connect](src/GameLib.Plugin/GameLib.Plugin.Ubisoft)
-- [Origin](src/GameLib.Plugin/GameLib.Plugin.Origin)
-- [GOG Galaxy 2.0](src/GameLib.Plugin/GameLib.Plugin.Gog)
+- ![Steam](GameLib.Plugin/GameLib.Plugin.Steam/Resources/Logo32px.png) [Steam](GameLib.Plugin/GameLib.Plugin.Steam)
+- ![Epic](GameLib.Plugin/GameLib.Plugin.Epic/Resources/Logo32px.png) [Epic Games](GameLib.Plugin/GameLib.Plugin.Epic)
+- ![Ubisoft Connect](GameLib.Plugin/GameLib.Plugin.Ubisoft/Resources/Logo32px.png) [Ubisoft Connect](GameLib.Plugin/GameLib.Plugin.Ubisoft)
+- ![Origin](GameLib.Plugin/GameLib.Plugin.Origin/Resources/Logo32px.png) [Origin](GameLib.Plugin/GameLib.Plugin.Origin)
+- ![GOG Galaxy 2.0](GameLib.Plugin/GameLib.Plugin.Gog/Resources/Logo32px.png) [GOG Galaxy 2.0](GameLib.Plugin/GameLib.Plugin.Gog)
 
 ## Installing
 
@@ -54,14 +54,14 @@ foreach (var launcher in launcherManager.Launchers)
 
 ```
 
-Also have a look at the [Console Demo](src/GameLib.Demo/GameLib.Demo.Console) within the repository. It will run straight out of the box to give you a hint what the library can do for you.
+Also have a look at the [Console Demo](GameLib.Demo/GameLib.Demo.Console) within the repository. It will run straight out of the box to give you a hint what the library can do for you.
 
 **Please note:** All values are cached within each launcher to save computing time on the next call. If you like to get refreshed values (e.g. new game installed while the lib is running) the `ClearCache()` Method on the `LauncherManager` or on the actual `ILauncher` has to be called.
 
 
 ### What launcher / game information is the library providing?
 
-To make a long story short have a look at the [`ILauncher`](src/GameLib.Core/ILauncher.cs) interface as well as the [`IGame`](src/GameLib.Core/IGame.cs) interface to see what values are returned by default. Each plugin can provide more information, which can be found in the README.md the corresponding plugin.
+To make a long story short have a look at the [`ILauncher`](GameLib.Core/ILauncher.cs) interface as well as the [`IGame`](GameLib.Core/IGame.cs) interface to see what values are returned by default. Each plugin can provide more information, which can be found in the README.md the corresponding plugin.
 
 **Please note:** Not all launchers will fill all properties in the ``IGame`` interface instance. Further information are provided in the README.md of each plugin.
 
