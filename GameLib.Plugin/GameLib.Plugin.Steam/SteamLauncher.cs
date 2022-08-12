@@ -28,7 +28,9 @@ public class SteamLauncher : ILauncher
     #region Interface implementations
     public string Name => "Steam";
 
-    public Image Icon => Properties.Resources.Logo32px;
+    public Image SmallLogo => Properties.Resources.Logo32px;
+
+    public Image LargeLogo => Properties.Resources.Logo512px;
 
     public bool IsInstalled { get; private set; }
 

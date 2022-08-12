@@ -22,7 +22,9 @@ public class EpicLauncher : ILauncher
     #region Interface implementations
     public string Name => "Epic Games";
 
-    public Image Icon => Properties.Resources.Logo32px;
+    public Image SmallLogo => Properties.Resources.Logo32px;
+
+    public Image LargeLogo => Properties.Resources.Logo128px;
 
     public bool IsInstalled { get; private set; }
 

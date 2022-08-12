@@ -25,7 +25,9 @@ public class OriginLauncher : ILauncher
     #region Interface implementations
     public string Name => "Origin";
 
-    public Image Icon => Properties.Resources.Logo32px;
+    public Image SmallLogo => Properties.Resources.Logo32px;
+
+    public Image LargeLogo => Properties.Resources.Logo256px;
 
     public bool IsInstalled { get; private set; }
 
