@@ -10,9 +10,14 @@ public interface ILauncher
     public string Name { get; }
 
     /// <summary>
-    /// Icon of the launcher
+    /// Small logo of the launcher
     /// </summary>
-    public Image? Icon { get; }
+    public Image? SmallLogo { get; }
+
+    /// <summary>
+    /// Large logo of the launcher
+    /// </summary>
+    public Image? LargeLogo { get; }
 
     /// <summary>
     /// <see langword="true"/> if the launcher is (properly) installed

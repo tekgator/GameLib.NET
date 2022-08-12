@@ -26,7 +26,9 @@ public class UbisoftLauncher : ILauncher
     #region Interface implementations
     public string Name => "Ubisoft Connect";
 
-    public Image Icon => Properties.Resources.Logo32px;
+    public Image SmallLogo => Properties.Resources.Logo32px;
+
+    public Image LargeLogo => Properties.Resources.Logo96px;
 
     public bool IsInstalled { get; private set; }
 

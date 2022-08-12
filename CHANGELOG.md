@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.4] - 2022-12-08
+### Added
+- Add LargeLogo property on ILauncher interface
+
+### Changed
+- Rename Icon property to SmallLogo on ILauncher interface
 
 ## [1.0.3] - 2022-10-08
 ### Added
