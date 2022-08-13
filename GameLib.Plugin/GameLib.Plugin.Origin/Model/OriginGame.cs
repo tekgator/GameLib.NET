@@ -7,6 +7,7 @@ public class OriginGame : IGame
 {
     #region Interface implementations
     public string Id { get; internal set; } = string.Empty;
+    public Guid LauncherId { get; internal set; } = Guid.Empty;
     public string Name { get; internal set; } = string.Empty;
     public string InstallDir { get; internal set; } = string.Empty;
     public string ExecutablePath { get; internal set; } = string.Empty;

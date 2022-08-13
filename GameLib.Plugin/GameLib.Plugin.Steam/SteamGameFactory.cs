@@ -13,13 +13,13 @@ internal static class SteamGameFactory
     /// <summary>
     /// Get games installed in for the passed Steam libraries
     /// </summary>
-    public static IEnumerable<SteamGame> GetGames(IEnumerable<SteamLibrary> libraries, SteamCatalog? catalog = null) =>
-        libraries.SelectMany(lib => GetGames(lib, catalog)).ToList();
+    public static IEnumerable<SteamGame> GetGames(Guid launcherId, IEnumerable<SteamLibrary> libraries, SteamCatalog? catalog = null) =>
+        libraries.SelectMany(lib => GetGames(launcherId, lib, catalog)).ToList();
 
     /// <summary>
     /// Get games installed in for the passed Steam library
     /// </summary>
-    public static IEnumerable<SteamGame> GetGames(SteamLibrary library, SteamCatalog? catalog = null)
+    public static IEnumerable<SteamGame> GetGames(Guid launcherId, SteamLibrary library, SteamCatalog? catalog = null)
     {
         var appsPath = Path.Combine(library.Path, "steamapps");
         if (!Directory.Exists(appsPath))
@@ -28,6 +28,7 @@ internal static class SteamGameFactory
         return Directory.GetFiles(appsPath, "*.acf")
             .Select(manifestFile => DeserializeManifest(library.Path, manifestFile))
             .Where(game => game is not null)
+            .Select(game => { game!.LauncherId = launcherId; return game; })
             .Select(game => AddCatalogData(game!, appsPath, catalog))
             .ToList();
     }

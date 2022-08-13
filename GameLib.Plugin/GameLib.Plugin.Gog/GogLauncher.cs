@@ -21,11 +21,11 @@ public class GogLauncher : ILauncher
     }
 
     #region Interface implementations
+    public Guid Id => GetType().GUID;
+
     public string Name => "GOG Galaxy";
 
-    public Image SmallLogo => Properties.Resources.Logo32px;
-
-    public Image LargeLogo => Properties.Resources.Logo128px;
+    public Image Logo => Properties.Resources.Logo128px;
 
     public bool IsInstalled { get; private set; }
 
@@ -40,7 +40,7 @@ public class GogLauncher : ILauncher
     public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
     {
         if (!string.IsNullOrEmpty(ExecutablePath))
-            _gameList ??= GogGameFactory.GetGames(ExecutablePath, cancellationToken);
+            _gameList ??= GogGameFactory.GetGames(Id, ExecutablePath, cancellationToken);
 
         return _gameList ?? Enumerable.Empty<GogGame>();
     }

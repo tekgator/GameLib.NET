@@ -23,11 +23,11 @@ public class OriginLauncher : ILauncher
     }
 
     #region Interface implementations
+    public Guid Id => GetType().GUID;
+
     public string Name => "Origin";
 
-    public Image SmallLogo => Properties.Resources.Logo32px;
-
-    public Image LargeLogo => Properties.Resources.Logo256px;
+    public Image Logo => Properties.Resources.Logo256px;
 
     public bool IsInstalled { get; private set; }
 
@@ -41,7 +41,7 @@ public class OriginLauncher : ILauncher
 
     public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
     {
-        _gameList ??= OriginGameFactory.GetGames(_launcherOptions.QueryOnlineData, _launcherOptions.OnlineQueryTimeout, cancellationToken);
+        _gameList ??= OriginGameFactory.GetGames(Id, _launcherOptions.QueryOnlineData, _launcherOptions.OnlineQueryTimeout, cancellationToken);
         return _gameList;
     }
 

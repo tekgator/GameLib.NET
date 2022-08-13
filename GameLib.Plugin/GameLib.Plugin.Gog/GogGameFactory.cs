@@ -10,7 +10,7 @@ internal static class GogGameFactory
     /// <summary>
     /// Get games installed for the GoG launcher
     /// </summary>
-    public static IEnumerable<GogGame> GetGames(string launcherExecutable, CancellationToken cancellationToken = default)
+    public static IEnumerable<GogGame> GetGames(Guid launcherId, string launcherExecutable, CancellationToken cancellationToken = default)
     {
         using var regKey = RegistryUtil.GetKey(RegistryHive.LocalMachine, @"SOFTWARE\GOG.com\Games", true);
 
@@ -22,6 +22,7 @@ internal static class GogGameFactory
             .WithCancellation(cancellationToken)
             .Select(gameId => LoadFromRegistry(launcherExecutable, gameId))
             .Where(game => game is not null)
+            .Select(game => { game!.LauncherId = launcherId; return game; })
             .ToList()!;
     }
 

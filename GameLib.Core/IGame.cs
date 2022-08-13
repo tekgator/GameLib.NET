@@ -3,9 +3,14 @@
 public interface IGame
 {
     /// <summary>
-    /// Unique game Id if the launcher
+    /// Unique game Id if the launcher provides it
     /// </summary>
     public string Id { get; }
+
+    /// <summary>
+    /// Guid of the Launcher
+    /// </summary>
+    public Guid LauncherId { get; }
 
     /// <summary>
     /// Name of the Game
@@ -28,7 +33,7 @@ public interface IGame
     public string Executable { get; }
 
     /// <summary>
-    /// Working direcetory of the game
+    /// Working directory of the game
     /// </summary>
     public string WorkingDir { get; }
 

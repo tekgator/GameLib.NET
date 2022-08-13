@@ -24,11 +24,11 @@ public class UbisoftLauncher : ILauncher
     }
 
     #region Interface implementations
+    public Guid Id => GetType().GUID;
+
     public string Name => "Ubisoft Connect";
 
-    public Image SmallLogo => Properties.Resources.Logo32px;
-
-    public Image LargeLogo => Properties.Resources.Logo96px;
+    public Image Logo => Properties.Resources.Logo96px;
 
     public bool IsInstalled { get; private set; }
 
@@ -53,7 +53,7 @@ public class UbisoftLauncher : ILauncher
             catch { /* ignored */ }
         }
 
-        _gameList ??= UbisoftGameFactory.GetGames(_localCatalog, cancellationToken);
+        _gameList ??= UbisoftGameFactory.GetGames(Id, _localCatalog, cancellationToken);
         return _gameList ?? Enumerable.Empty<UbisoftGame>();
     }
 

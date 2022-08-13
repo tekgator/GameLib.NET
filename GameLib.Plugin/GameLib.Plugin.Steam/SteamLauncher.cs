@@ -26,11 +26,11 @@ public class SteamLauncher : ILauncher
     }
 
     #region Interface implementations
+    public Guid Id => GetType().GUID;
+
     public string Name => "Steam";
 
-    public Image SmallLogo => Properties.Resources.Logo32px;
-
-    public Image LargeLogo => Properties.Resources.Logo512px;
+    public Image Logo => Properties.Resources.Logo512px;
 
     public bool IsInstalled { get; private set; }
 
@@ -53,7 +53,7 @@ public class SteamLauncher : ILauncher
             catch { /* ignored */ }
         }
 
-        _gameList ??= SteamGameFactory.GetGames(GetLibraries(), _localCatalog);
+        _gameList ??= SteamGameFactory.GetGames(Id, GetLibraries(), _localCatalog);
         return _gameList;
     }
 
