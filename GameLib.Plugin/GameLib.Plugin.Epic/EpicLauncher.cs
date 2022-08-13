@@ -20,11 +20,11 @@ public class EpicLauncher : ILauncher
     }
 
     #region Interface implementations
+    public Guid Id => GetType().GUID;
+
     public string Name => "Epic Games";
 
-    public Image SmallLogo => Properties.Resources.Logo32px;
-
-    public Image LargeLogo => Properties.Resources.Logo128px;
+    public Image Logo => Properties.Resources.Logo128px;
 
     public bool IsInstalled { get; private set; }
 
@@ -38,7 +38,7 @@ public class EpicLauncher : ILauncher
 
     public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
     {
-        _gameList ??= EpicGameFactory.GetGames(cancellationToken);
+        _gameList ??= EpicGameFactory.GetGames(Id, cancellationToken);
         return _gameList;
     }
 

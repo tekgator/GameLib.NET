@@ -17,7 +17,7 @@ internal static class OriginGameFactory
     /// <summary>
     /// Get games installed for the Origin launcher
     /// </summary>
-    public static IEnumerable<OriginGame> GetGames(bool queryOnlineData, TimeSpan? queryTimeout = null, CancellationToken cancellationToken = default)
+    public static IEnumerable<OriginGame> GetGames(Guid launcherId, bool queryOnlineData, TimeSpan? queryTimeout = null, CancellationToken cancellationToken = default)
     {
         var localContentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Origin", "LocalContent");
 
@@ -29,6 +29,7 @@ internal static class OriginGameFactory
             .WithCancellation(cancellationToken)
             .Select(manifestFile => DeserializeManifest(manifestFile))
             .Where(game => game is not null)
+            .Select(game => { game!.LauncherId = launcherId; return game; })
             .Select(game => AddLocalCatalogData(game!))
             .Select(game => queryOnlineData ? AddOnlineData(game, queryTimeout) : game)
             .ToList();

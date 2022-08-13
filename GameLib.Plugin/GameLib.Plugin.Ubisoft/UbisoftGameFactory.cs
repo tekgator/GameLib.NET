@@ -9,7 +9,7 @@ internal static class UbisoftGameFactory
     /// <summary>
     /// Get games installed for the Ubisoft launcher
     /// </summary>
-    public static IEnumerable<UbisoftGame> GetGames(UbisoftCatalog? catalog = null, CancellationToken cancellationToken = default)
+    public static IEnumerable<UbisoftGame> GetGames(Guid launcherId, UbisoftCatalog? catalog = null, CancellationToken cancellationToken = default)
     {
         using var regKey = RegistryUtil.GetKey(RegistryHive.LocalMachine, @"SOFTWARE\Ubisoft\Launcher\Installs", true);
 
@@ -21,6 +21,7 @@ internal static class UbisoftGameFactory
             .WithCancellation(cancellationToken)
             .Select(LoadFromRegistry)
             .Where(game => game is not null)
+            .Select(game => { game!.LauncherId = launcherId; return game; })
             .Select(game => AddCatalogData(game!, catalog))
             .ToList();
     }

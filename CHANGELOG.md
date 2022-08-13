@@ -3,12 +3,27 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+
+## [1.0.5] - 2022-13-08
+### Added
+- Add ID property on ILauncher interface
+- Add Launcher ID property on IGame interface in order to know what launcher the game belongs to
+
+### Changed
+- Rename LargeLogo property to Logo on ILauncher interface
+- Simplify console demo by writing every property of the ILauncher interface
+
+### Deleted
+- Remove SmallLogo property on ILauncher interface
+
+
 ## [1.0.4] - 2022-12-08
 ### Added
 - Add LargeLogo property on ILauncher interface
 
 ### Changed
 - Rename Icon property to SmallLogo on ILauncher interface
+
 
 ## [1.0.3] - 2022-10-08
 ### Added
@@ -26,7 +41,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.2] - 2022-10-07
 ### Added
-- Add reference to [Teronis.DotNet](https://github.com/teneko/Teronis.DotNet/tree/develop/src/MSBuild/Packaging/ProjectBuildInPackage) to be able to add project reference content to be added to the NuGet-package during pack process
+- Add reference to Teronis.DotNet to be able to add project reference content to be added to the NuGet-package during pack process
 
 ### Changed
 - Plugins will not create own Nuget anymore

@@ -7,7 +7,7 @@ namespace GameLib.Plugin.Epic;
 
 internal static class EpicGameFactory
 {
-    public static IEnumerable<EpicGame> GetGames(CancellationToken cancellationToken = default)
+    public static IEnumerable<EpicGame> GetGames(Guid launcherId, CancellationToken cancellationToken = default)
     {
         var metaDataDir = GetMetadataDir();
         if (string.IsNullOrEmpty(metaDataDir))
@@ -18,6 +18,7 @@ internal static class EpicGameFactory
             .WithCancellation(cancellationToken)
             .Select(DeserializeManifest)
             .Where(game => game is not null)
+            .Select(game => { game!.LauncherId = launcherId; return game; })
             .ToList()!;
     }
 
