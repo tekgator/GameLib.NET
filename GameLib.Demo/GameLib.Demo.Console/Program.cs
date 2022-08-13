@@ -7,36 +7,26 @@ foreach (var launcher in launcherManager.Launchers)
 {
     var name = launcher.Name;
     SetConsoleColor(ConsoleColor.White, ConsoleColor.Red);
-    Console.WriteLine($"{name}:\n");
+    Console.WriteLine($"\n{name}:");
     ResetConsoleColor();
 
-    var isInstalled = launcher.IsInstalled;
-    Console.WriteLine($"Is installed: {isInstalled}");
-
-    var isRunning = launcher.IsRunning;
-    Console.WriteLine($"Is running: {isRunning}");
-
-    var installDir = launcher.InstallDir;
-    Console.WriteLine($"Install dir: {installDir}");
-
-    var executablePath = launcher.ExecutablePath;
-    Console.WriteLine($"Executable path: {executablePath}");
-
-    var executable = launcher.Executable;
-    Console.WriteLine($"Executable: {executable}");
+    foreach (var item in launcher.GetType().GetProperties().Where(p => p.Name != "Name"))
+    {
+        Console.WriteLine($"\t{item.Name}: {item.GetValue(launcher)}");
+    }
 
     var games = launcher.GetGames();
     SetConsoleColor(ConsoleColor.Green);
-    Console.WriteLine("\nGames:");
+    Console.WriteLine("\n\tGames:");
     ResetConsoleColor();
     foreach (var game in games)
     {
         SetConsoleColor(ConsoleColor.Magenta);
-        Console.WriteLine($"Game ID: {game.Id}");
+        Console.WriteLine($"\tGame ID: {game.Id}");
         ResetConsoleColor();
         foreach (var item in game.GetType().GetProperties().Where(p => p.Name != "GameId"))
         {
-            Console.WriteLine($"\t{item.Name}: {item.GetValue(game)}");
+            Console.WriteLine($"\t\t{item.Name}: {item.GetValue(game)}");
         }
     }
 }
