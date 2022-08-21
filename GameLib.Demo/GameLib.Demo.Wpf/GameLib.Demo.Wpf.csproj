@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+	</ItemGroup>
+
+	<!-- 
+		// Temporary bug fix for duplicating code from source code generators in .NET 6.0 (MVVM Toolkit)
+		// (https://github.com/dotnet/core/blob/main/release-notes/6.0/known-issues.md#issues-building-wpf-application-with-windows-desktop-607-and-608) 
+	-->
+	<Target Name="RemoveDuplicateAnalyzers" BeforeTargets="CoreCompile">
+		<ItemGroup>
+			<FilteredAnalyzer Include="@(Analyzer-&gt;Distinct())" />
+			<Analyzer Remove="@(Analyzer)" />
+			<Analyzer Include="@(FilteredAnalyzer)" />
+		</ItemGroup>
+	</Target>
+	
+	<ItemGroup>
+		<None Remove="Resources\about-black.png" />
+		<None Remove="Resources\about-white.png" />
+		<None Remove="Resources\check-color.png" />
+		<None Remove="Resources\contribute-black.png" />
+		<None Remove="Resources\contribute-white.png" />
+		<None Remove="Resources\copy-black.png" />
+		<None Remove="Resources\copy-white.png" />
+		<None Remove="Resources\cross-color.png" />
+		<None Remove="Resources\game-black.png" />
+		<None Remove="Resources\game-white.png" />
+		<None Remove="Resources\GameLibNET-Logo-64px.png" />
+		<None Remove="Resources\home-black.png" />
+		<None Remove="Resources\home-white.png" />
+		<None Remove="Resources\icon.ico" />
+		<None Remove="Resources\launcher-black.png" />
+		<None Remove="Resources\launcher-white.png" />
+		<None Remove="Resources\navigation-drawer-black.png" />
+		<None Remove="Resources\navigation-drawer-white.png" />
+		<None Remove="Resources\open-black.png" />
+		<None Remove="Resources\open-white.png" />
+		<None Remove="Resources\play-black.png" />
+		<None Remove="Resources\play-white.png" />
+		<None Remove="Resources\refresh-black.png" />
+		<None Remove="Resources\refresh-white.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Resources\about-black.png" />
+		<Resource Include="Resources\about-white.png" />
+		<Resource Include="Resources\check-color.png" />
+		<Resource Include="Resources\contribute-black.png" />
+		<Resource Include="Resources\contribute-white.png" />
+		<Resource Include="Resources\copy-black.png" />
+		<Resource Include="Resources\copy-white.png" />
+		<Resource Include="Resources\cross-color.png" />
+		<Resource Include="Resources\game-black.png" />
+		<Resource Include="Resources\game-white.png" />
+		<Resource Include="Resources\GameLibNET-Logo-64px.png" />
+		<Resource Include="Resources\home-black.png" />
+		<Resource Include="Resources\home-white.png" />
+		<Resource Include="Resources\icon.ico" />
+		<Resource Include="Resources\launcher-black.png" />
+		<Resource Include="Resources\launcher-white.png" />
+		<Resource Include="Resources\navigation-drawer-black.png" />
+		<Resource Include="Resources\navigation-drawer-white.png" />
+		<Resource Include="Resources\open-black.png" />
+		<Resource Include="Resources\open-white.png" />
+		<Resource Include="Resources\play-black.png" />
+		<Resource Include="Resources\play-white.png" />
+		<Resource Include="Resources\refresh-black.png" />
+		<Resource Include="Resources\refresh-white.png" />
+	</ItemGroup>
+
+	
+	
+</Project>
