@@ -5,10 +5,14 @@ namespace GameLib.Demo.Wpf.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    NavigationBarViewModel _navigationBarViewModel = default!;
+    private NavigationBarViewModel _navigationBarViewModel = default!;
+
+    [ObservableProperty]
+    private ViewModelBase? _currentViewModel;
 
     public MainViewModel()
     {
         NavigationBarViewModel = new NavigationBarViewModel();
+        CurrentViewModel = new LauncherViewModel();
     }
 }
