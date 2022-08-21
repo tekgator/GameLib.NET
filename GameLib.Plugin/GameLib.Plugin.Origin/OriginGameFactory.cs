@@ -25,8 +25,8 @@ internal static class OriginGameFactory
             return Enumerable.Empty<OriginGame>();
 
         return Directory.GetFiles(localContentPath, "*.mfst", SearchOption.AllDirectories)
-            .AsParallel()
-            .WithCancellation(cancellationToken)
+            //.AsParallel()
+            //.WithCancellation(cancellationToken)
             .Select(manifestFile => DeserializeManifest(manifestFile))
             .Where(game => game is not null)
             .Select(game => { game!.LauncherId = launcherId; return game; })
@@ -78,7 +78,7 @@ internal static class OriginGameFactory
         if (string.IsNullOrEmpty(game.Locale) && contendIds.Count > 0)
             game.Locale = RegistryUtil.GetValue(RegistryHive.LocalMachine, $@"SOFTWARE\Origin Games\{contendIds[0]}", "Locale", string.Empty)!;
 
-        if (string.IsNullOrEmpty(game.ExecutablePath))
+        if (!string.IsNullOrEmpty(game.ExecutablePath))
         {
             game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
             game.Executable = Path.GetFileName(game.ExecutablePath);
@@ -211,6 +211,12 @@ internal static class OriginGameFactory
 
                     game.ExecutablePath = string.Empty;
                 }
+            }
+
+            if (!string.IsNullOrEmpty(game.ExecutablePath))
+            {
+                game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
+                game.Executable = Path.GetFileName(game.ExecutablePath);
             }
         }
 
