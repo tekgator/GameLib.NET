@@ -1,44 +1,33 @@
 ﻿using GameLib.Demo.Wpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using System;
 using System.Windows;
 
 namespace GameLib.Demo.Wpf;
 
 public partial class App : Application
 {
-    private readonly IHost _host;
+    private readonly IServiceProvider _serviceProvider;
 
     public App()
     {
-        _host = Host
-            .CreateDefaultBuilder()
-            .ConfigureServices(services =>
-            {
-                services.AddSingleton<MainViewModel>();
+        IServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton(s => new MainWindow()
-                {
-                    DataContext = s.GetRequiredService<MainViewModel>()
-                });
-            })
-            .Build();
+        services.AddSingleton<MainViewModel>();
+
+        services.AddSingleton(s => new MainWindow()
+        {
+            DataContext = s.GetRequiredService<MainViewModel>()
+        });
+
+        _serviceProvider = services.BuildServiceProvider();
     }
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        _host.Start();
-
-        MainWindow = _host.Services.GetRequiredService<MainWindow>();
+        MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
         MainWindow.Show();
 
         base.OnStartup(e);
     }
-
-    protected override void OnExit(ExitEventArgs e)
-    {
-        _host.Dispose();
-        base.OnExit(e);
-    }
-
 }

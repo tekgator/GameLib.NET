@@ -2,4 +2,7 @@
 
 public class MainViewModel : ViewModelBase
 {
+    NavigationBarViewModel _navigationBarViewModel;
+
+
 }

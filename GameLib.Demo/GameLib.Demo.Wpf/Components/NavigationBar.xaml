@@ -1,0 +1,102 @@
+﻿<UserControl
+    x:Class="GameLib.Demo.Wpf.Components.NavigationBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GameLib.Demo.Wpf.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:GameLib.Demo.Wpf.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:NavigationBarViewModel}"
+    d:DesignHeight="150"
+    d:DesignWidth="1200"
+    Background="{StaticResource NavigationBarBackgroundColor}"
+    FontSize="16"
+    Foreground="{StaticResource NavigationBarForegroundColor}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="{StaticResource NavigationBarForegroundColor}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                        <Border
+                            MaxHeight="45"
+                            Padding="15"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="3">
+                            <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="20,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
+            Grid.Column="0"
+            Margin="0,0,20,0"
+            Orientation="Horizontal">
+            <Image
+                Width="48"
+                Height="48"
+                Source="/Resources/GameLibNET-Logo-64px.png" />
+            <TextBlock
+                Margin="5,0,0,0"
+                VerticalAlignment="Center"
+                FontSize="18"
+                Text="GameLib.NET" />
+        </StackPanel>
+
+        <RadioButton
+            Grid.Column="1"
+            Margin="5,0,0,0"
+            Command="{Binding NavigateHomeCommand}"
+            Content="Home" />
+
+        <RadioButton
+            Grid.Column="2"
+            Margin="5,0,0,0"
+            Command="{Binding NavigateLauncherCommand}"
+            Content="Launcher" />
+
+        <RadioButton
+            Grid.Column="3"
+            Margin="5,0,0,0"
+            Command="{Binding NavigateGameCommand}"
+            Content="Games" />
+
+        <RadioButton
+            Grid.Column="4"
+            Margin="5,0,0,0"
+            Command="{Binding NavigateContributeCommand}"
+            Content="Contribute" />
+
+        <RadioButton
+            Grid.Column="5"
+            Margin="5,0,0,0"
+            Command="{Binding NavigateAboutCommand}"
+            Content="About" />
+    </Grid>
+
+</UserControl>
