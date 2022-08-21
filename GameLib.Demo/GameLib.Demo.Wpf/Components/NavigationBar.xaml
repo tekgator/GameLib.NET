@@ -19,6 +19,7 @@
             <Setter Property="Foreground" Value="{StaticResource NavigationBarForegroundColor}" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
@@ -26,17 +27,29 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
                             </Trigger>
-                            <Trigger Property="IsChecked" Value="true">
+                            <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                         <Border
-                            MaxHeight="45"
                             Padding="15"
                             Background="{TemplateBinding Background}"
                             CornerRadius="3">
                             <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" />
                         </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -50,6 +63,8 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
@@ -97,6 +112,17 @@
             Margin="5,0,0,0"
             Command="{Binding NavigateAboutCommand}"
             Content="About" />
+
+        <StackPanel
+            Grid.Column="7"
+            Margin="20,0,0,0"
+            Orientation="Horizontal">
+            <Button
+                Width="32"
+                Height="32"
+                Command="{Binding NavigateGithubCommand}"
+                Content="/Resources/github-white.png" />
+        </StackPanel>
     </Grid>
 
 </UserControl>

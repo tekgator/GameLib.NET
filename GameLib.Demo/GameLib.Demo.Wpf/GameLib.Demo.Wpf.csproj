@@ -37,6 +37,8 @@
 		<None Remove="Resources\game-black.png" />
 		<None Remove="Resources\game-white.png" />
 		<None Remove="Resources\GameLibNET-Logo-64px.png" />
+		<None Remove="Resources\github-black.png" />
+		<None Remove="Resources\github-white.png" />
 		<None Remove="Resources\home-black.png" />
 		<None Remove="Resources\home-white.png" />
 		<None Remove="Resources\icon.ico" />
@@ -64,6 +66,8 @@
 		<Resource Include="Resources\game-black.png" />
 		<Resource Include="Resources\game-white.png" />
 		<Resource Include="Resources\GameLibNET-Logo-64px.png" />
+		<Resource Include="Resources\github-black.png" />
+		<Resource Include="Resources\github-white.png" />
 		<Resource Include="Resources\home-black.png" />
 		<Resource Include="Resources\home-white.png" />
 		<Resource Include="Resources\icon.ico" />

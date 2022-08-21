@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GameLib.Demo.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:GameLib.Demo.Wpf.ViewModels"
     Title="GameLib.NET"
     Width="1200"
     Height="800"
@@ -19,7 +20,14 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <components:NavigationBar Grid.Row="0" />
+
+        <ContentControl Grid.Row="0" Content="{Binding NavigationBarViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:NavigationBarViewModel}">
+                    <components:NavigationBar />
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 
 </Window>

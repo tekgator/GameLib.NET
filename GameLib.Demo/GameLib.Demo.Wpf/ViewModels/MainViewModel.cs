@@ -1,8 +1,14 @@
-﻿namespace GameLib.Demo.Wpf.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-public class MainViewModel : ViewModelBase
+namespace GameLib.Demo.Wpf.ViewModels;
+
+public partial class MainViewModel : ViewModelBase
 {
-    NavigationBarViewModel _navigationBarViewModel;
+    [ObservableProperty]
+    NavigationBarViewModel _navigationBarViewModel = default!;
 
-
+    public MainViewModel()
+    {
+        NavigationBarViewModel = new NavigationBarViewModel();
+    }
 }
