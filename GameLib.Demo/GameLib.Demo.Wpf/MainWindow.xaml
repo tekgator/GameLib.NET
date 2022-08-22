@@ -31,6 +31,9 @@
 
         <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
+                    <views:HomeView />
+                </DataTemplate>
                 <DataTemplate DataType="{x:Type viewmodels:LauncherViewModel}">
                     <views:LauncherView />
                 </DataTemplate>

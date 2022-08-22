@@ -24,6 +24,10 @@
             BorderBrush="{StaticResource ThirdBackgroundColor}"
             BorderThickness="0,0,1,0" />
 
+        <TextBlock
+            Grid.Column="1"
+            FontSize="72"
+            Text="Launcher" />
 
     </Grid>
 

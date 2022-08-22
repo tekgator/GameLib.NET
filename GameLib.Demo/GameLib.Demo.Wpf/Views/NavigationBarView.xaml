@@ -15,24 +15,25 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Style TargetType="RadioButton">
+        <Style TargetType="ListViewItem">
             <Setter Property="Foreground" Value="{StaticResource NavigationBarForegroundColor}" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
+                    <ControlTemplate TargetType="ListViewItem">
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
                             </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
+                            <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                         <Border
-                            Padding="15"
+                            Margin="10,0,0,0"
+                            Padding="10"
                             Background="{TemplateBinding Background}"
                             CornerRadius="3">
                             <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" />
@@ -60,10 +61,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
@@ -83,38 +80,27 @@
                 Text="GameLib.NET" />
         </StackPanel>
 
-        <RadioButton
+        <ListView
             Grid.Column="1"
             Margin="5,0,0,0"
-            Command="{Binding NavigateHomeCommand}"
-            Content="Home" />
+            Background="Transparent"
+            BorderThickness="0"
+            SelectedItem="{Binding SelectedItem}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
 
-        <RadioButton
-            Grid.Column="2"
-            Margin="5,0,0,0"
-            Command="{Binding NavigateLauncherCommand}"
-            Content="Launcher" />
-
-        <RadioButton
-            Grid.Column="3"
-            Margin="5,0,0,0"
-            Command="{Binding NavigateGameCommand}"
-            Content="Games" />
-
-        <RadioButton
-            Grid.Column="4"
-            Margin="5,0,0,0"
-            Command="{Binding NavigateContributeCommand}"
-            Content="Contribute" />
-
-        <RadioButton
-            Grid.Column="5"
-            Margin="5,0,0,0"
-            Command="{Binding NavigateAboutCommand}"
-            Content="About" />
+            <ListViewItem Content="Home" />
+            <ListViewItem Content="Launcher" />
+            <ListViewItem Content="Games" />
+            <ListViewItem Content="Contribute" />
+            <ListViewItem Content="About" />
+        </ListView>
 
         <StackPanel
-            Grid.Column="7"
+            Grid.Column="3"
             Margin="20,0,0,0"
             Orientation="Horizontal">
             <Button

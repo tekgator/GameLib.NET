@@ -1,22 +1,44 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GameLib.Demo.Wpf.Services;
 using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GameLib.Demo.Wpf.ViewModels;
 
 public partial class NavigationBarViewModel : ViewModelBase
 {
+    private readonly INavigationService<HomeViewModel> _homeNavigationService;
+    private readonly INavigationService<LauncherViewModel> _launcherNavigationService;
+
+    [ObservableProperty]
+    private ListViewItem? _selectedItem;
+
+    public NavigationBarViewModel(
+        INavigationService<HomeViewModel> homeNavigationService,
+        INavigationService<LauncherViewModel> launcherNavigationService)
+    {
+        _homeNavigationService = homeNavigationService;
+        _launcherNavigationService = launcherNavigationService;
+    }
+
+    partial void OnSelectedItemChanged(ListViewItem? value)
+    {
+        throw new NotImplementedException();
+    }
+
     [RelayCommand]
     public void NavigateHome()
     {
-
+        _homeNavigationService.Navigate();
     }
 
     [RelayCommand]
     public void NavigateLauncher()
     {
-
+        _launcherNavigationService.Navigate();
     }
 
     [RelayCommand]
