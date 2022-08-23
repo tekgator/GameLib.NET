@@ -1,62 +1,47 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GameLib.Demo.Wpf.Models;
 using GameLib.Demo.Wpf.Services;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace GameLib.Demo.Wpf.ViewModels;
 
 public partial class NavigationBarViewModel : ViewModelBase
 {
-    private readonly INavigationService<HomeViewModel> _homeNavigationService;
-    private readonly INavigationService<LauncherViewModel> _launcherNavigationService;
+    [ObservableProperty]
+    private ObservableCollection<NavigationBarMenuItemModel> _menuItems = default!;
 
     [ObservableProperty]
-    private ListViewItem? _selectedItem;
+    private NavigationBarMenuItemModel? _selectedMenuItem;
 
     public NavigationBarViewModel(
         INavigationService<HomeViewModel> homeNavigationService,
         INavigationService<LauncherViewModel> launcherNavigationService)
     {
-        _homeNavigationService = homeNavigationService;
-        _launcherNavigationService = launcherNavigationService;
+        MenuItems = new(new List<NavigationBarMenuItemModel>()
+        {
+            new NavigationBarMenuItemModel()
+            {
+                Text = "Home",
+                ImageSource = "/Resources/home-white.png",
+                Navigate = homeNavigationService.Navigate
+            },
+            new NavigationBarMenuItemModel()
+            {
+                Text = "Launchers",
+                ImageSource = "/Resources/launcher-white.png",
+                Navigate = launcherNavigationService.Navigate
+            },
+        });
     }
 
-    partial void OnSelectedItemChanged(ListViewItem? value)
+    partial void OnSelectedMenuItemChanged(NavigationBarMenuItemModel? value)
     {
-        throw new NotImplementedException();
-    }
-
-    [RelayCommand]
-    public void NavigateHome()
-    {
-        _homeNavigationService.Navigate();
-    }
-
-    [RelayCommand]
-    public void NavigateLauncher()
-    {
-        _launcherNavigationService.Navigate();
-    }
-
-    [RelayCommand]
-    public void NavigateGame()
-    {
-
-    }
-
-    [RelayCommand]
-    public void NavigateContribute()
-    {
-
-    }
-
-    [RelayCommand]
-    public void NavigateAbout()
-    {
-
+        value?.Navigate();
     }
 
     [RelayCommand]

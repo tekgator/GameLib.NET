@@ -15,34 +15,6 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Style TargetType="ListViewItem">
-            <Setter Property="Foreground" Value="{StaticResource NavigationBarForegroundColor}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListViewItem">
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                        <Border
-                            Margin="10,0,0,0"
-                            Padding="10"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="3">
-                            <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <Style TargetType="Button">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Background" Value="Transparent" />
@@ -85,18 +57,59 @@
             Margin="5,0,0,0"
             Background="Transparent"
             BorderThickness="0"
-            SelectedItem="{Binding SelectedItem}">
+            ItemsSource="{Binding MenuItems}"
+            SelectedItem="{Binding SelectedMenuItem}">
+
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
 
-            <ListViewItem Content="Home" />
-            <ListViewItem Content="Launcher" />
-            <ListViewItem Content="Games" />
-            <ListViewItem Content="Contribute" />
-            <ListViewItem Content="About" />
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border
+                                    Margin="5,0,0,0"
+                                    Padding="10"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="0"
+                                    CornerRadius="10"
+                                    Cursor="Hand">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource NavigationBarSelectedItemBackgroundColor}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image
+                            Width="24"
+                            Height="24"
+                            Source="{Binding ImageSource}" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="{StaticResource NavigationBarForegroundColor}"
+                            Text="{Binding Text}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
 
         <StackPanel
