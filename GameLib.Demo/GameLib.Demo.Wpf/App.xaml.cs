@@ -18,10 +18,13 @@ public partial class App : Application
         services.AddSingleton<NavigationStore>();
 
         services.AddSingleton<INavigationService<HomeViewModel>>(s => CreateHomeNavigationService(s));
-        services.AddSingleton<INavigationService<LauncherViewModel>>(s => CreateLauncherNavigationService(s));
-
         services.AddTransient<HomeViewModel>();
+
+        services.AddSingleton<INavigationService<LauncherViewModel>>(s => CreateLauncherNavigationService(s));
         services.AddTransient<LauncherViewModel>();
+
+        services.AddSingleton<INavigationService<GameViewModel>>(s => CreateGameNavigationService(s));
+        services.AddTransient<GameViewModel>();
 
         services.AddSingleton<NavigationBarViewModel>(CreateNavigationBarViewModel);
 
@@ -59,10 +62,18 @@ public partial class App : Application
             () => serviceProvider.GetRequiredService<LauncherViewModel>());
     }
 
+    private static INavigationService<GameViewModel> CreateGameNavigationService(IServiceProvider serviceProvider)
+    {
+        return new NavigationService<GameViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            () => serviceProvider.GetRequiredService<GameViewModel>());
+    }
+
     private static NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider serviceProvider)
     {
         return new NavigationBarViewModel(
             CreateHomeNavigationService(serviceProvider),
-            CreateLauncherNavigationService(serviceProvider));
+            CreateLauncherNavigationService(serviceProvider),
+            CreateGameNavigationService(serviceProvider));
     }
 }

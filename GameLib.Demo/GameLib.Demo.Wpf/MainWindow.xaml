@@ -37,6 +37,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:LauncherViewModel}">
                     <views:LauncherView />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:GameViewModel}">
+                    <views:GameView />
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

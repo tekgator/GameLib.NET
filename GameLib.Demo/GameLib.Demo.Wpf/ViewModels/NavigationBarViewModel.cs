@@ -20,7 +20,8 @@ public partial class NavigationBarViewModel : ViewModelBase
 
     public NavigationBarViewModel(
         INavigationService<HomeViewModel> homeNavigationService,
-        INavigationService<LauncherViewModel> launcherNavigationService)
+        INavigationService<LauncherViewModel> launcherNavigationService,
+        INavigationService<GameViewModel> gameNavigationService)
     {
         MenuItems = new(new List<NavigationBarMenuItemModel>()
         {
@@ -35,6 +36,12 @@ public partial class NavigationBarViewModel : ViewModelBase
                 Text = "Launchers",
                 ImageSource = "/Resources/launcher-white.png",
                 Navigate = launcherNavigationService.Navigate
+            },
+            new NavigationBarMenuItemModel()
+            {
+                Text = "Games",
+                ImageSource = "/Resources/game-white.png",
+                Navigate = gameNavigationService.Navigate
             },
         });
     }
