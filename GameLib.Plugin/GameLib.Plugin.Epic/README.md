@@ -24,7 +24,7 @@ using GameLib.Plugin.Epic.Model;
 var launcherManager = new LauncherManager();
 
 // not required to cast here just to add to the documentation
-var launcher = (EpicLauncher?)launcherManager.Launchers
+var launcher = (EpicLauncher?)launcherManager.GetLaunchers()
     .Where(launcher => launcher.Name == "Epic Games")
     // GUID of the class could also be used instead of the name
     //.Where(launcher => launcher.GetType().GUID == new Guid("282B9BB6-54CA-4293-83CF-6F1134CDEEC6"))
