@@ -37,7 +37,7 @@ using GameLib;
 
 var launcherManager = new LauncherManager(new LauncherOptions() { QueryOnlineData = true });
 
-foreach (var launcher in launcherManager.Launchers)
+foreach (var launcher in launcherManager.GetLaunchers())
 {
     Console.WriteLine($"Launcher name: {launcher.Name}");
     Console.WriteLine("Games:");

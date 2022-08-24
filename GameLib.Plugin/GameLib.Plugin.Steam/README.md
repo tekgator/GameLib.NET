@@ -22,7 +22,7 @@ using GameLib.Plugin.Steam.Model;
 
 var launcherManager = new LauncherManager();
 
-var launcher = (SteamLauncher?)launcherManager.Launchers
+var launcher = (SteamLauncher?)launcherManager.GetLaunchers()
     .Where(launcher => launcher.Name == "Steam")
     // GUID of the class could also be used instead of the name
     //.Where(launcher => launcher.GetType().GUID == new Guid("5BB973D0-BF3D-4C3E-98B2-41AEFCB1506A"))

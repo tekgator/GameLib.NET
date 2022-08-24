@@ -23,7 +23,7 @@ using GameLib.Plugin.Ubisoft.Model;
 var launcherManager = new LauncherManager();
 
 // not required to cast here just to add to the documentation
-var launcher = (UbisoftLauncher?)launcherManager.Launchers
+var launcher = (UbisoftLauncher?)launcherManager.GetLaunchers()
     .Where(launcher => launcher.Name == "Ubisoft Connect")
     // GUID of the class could also be used instead of the name
     //.Where(launcher => launcher.GetType().GUID == new Guid("CE276C05-6CD1-4D99-9A5A-2E03ECFB6028"))
