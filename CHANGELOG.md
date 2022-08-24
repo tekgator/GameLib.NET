@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [1.0.6] - 2022-24-08
 ### Fixed
 - Origin plugin did not return working directory and executable name for online queries
 
