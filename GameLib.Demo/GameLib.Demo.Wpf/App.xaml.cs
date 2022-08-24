@@ -39,9 +39,6 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        var initialNavigationService = _serviceProvider.GetRequiredService<INavigationService<HomeViewModel>>();
-        initialNavigationService.Navigate();
-
         MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
         MainWindow.Show();
 

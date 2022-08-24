@@ -120,6 +120,7 @@
                 Width="32"
                 Height="32"
                 Command="{Binding NavigateGithubCommand}"
+                CommandParameter="https://github.com/tekgator/GameLib.NET"
                 Content="/Resources/github-white.png" />
         </StackPanel>
     </Grid>

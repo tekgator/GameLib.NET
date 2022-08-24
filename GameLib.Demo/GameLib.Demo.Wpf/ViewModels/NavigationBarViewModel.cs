@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 
 namespace GameLib.Demo.Wpf.ViewModels;
@@ -44,6 +45,8 @@ public partial class NavigationBarViewModel : ViewModelBase
                 Navigate = gameNavigationService.Navigate
             },
         });
+
+        SelectedMenuItem = MenuItems.FirstOrDefault();
     }
 
     partial void OnSelectedMenuItemChanged(NavigationBarMenuItemModel? value)
@@ -52,13 +55,13 @@ public partial class NavigationBarViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public void NavigateGithub()
+    public void NavigateGithub(string address)
     {
         try
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://github.com/tekgator/GameLib.NET",
+                FileName = address,
                 UseShellExecute = true
             });
         }
