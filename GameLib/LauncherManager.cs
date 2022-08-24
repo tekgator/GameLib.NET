@@ -7,9 +7,12 @@ namespace GameLib;
 
 public class LauncherManager
 {
+#pragma warning disable 0649
     [ImportMany(typeof(ILauncher))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0044:Add read only modifier", Justification = "read only cannot be applied for MEF framework to work")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Roslynator", "RCS1169:Make field read-only.", Justification = "read only cannot be applied for MEF framework to work")]
     private IEnumerable<ILauncher>? _launchers;
+#pragma warning restore 0649
 
     [Export]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0052:Remove unread private members", Justification = "Field is used in MEF framework")]

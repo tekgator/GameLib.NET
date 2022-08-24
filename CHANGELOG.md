@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Fixed
+- disable 0649 to avoid compiler warning for MEF variable
+
 
 ## [1.0.6] - 2022-24-08
 ### Fixed
