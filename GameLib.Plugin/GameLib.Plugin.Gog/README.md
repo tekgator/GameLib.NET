@@ -23,7 +23,7 @@ using GameLib.Plugin.Gog.Model;
 var launcherManager = new LauncherManager();
 
 // not required to cast here just to add to the documentation
-var launcher = (GogLauncher?)launcherManager.Launchers
+var launcher = (GogLauncher?)launcherManager.GetLaunchers()
     .Where(launcher => launcher.Name == "GOG Galaxy")
     // GUID of the class could also be used instead of the name
     //.Where(launcher => launcher.GetType().GUID == new Guid("54C9D299-107E-4990-894D-9DB402F81CA3"))

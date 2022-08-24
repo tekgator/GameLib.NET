@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Origin plugin did not return working directory and executable name for online queries
 
+### Changed
+- Launchers property replaced with GetLaunchers method on LauncherManager as a property should not be an expensive call. As on first call the plugins are loaded the property can be executing for a bit depending on the system.
+
 
 ## [1.0.5] - 2022-13-08
 ### Added

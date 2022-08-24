@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 var launcherManager = new LauncherManager();
 
-foreach (var launcher in launcherManager.Launchers)
+foreach (var launcher in launcherManager.GetLaunchers())
 {
     var name = launcher.Name;
     SetConsoleColor(ConsoleColor.White, ConsoleColor.Red);
