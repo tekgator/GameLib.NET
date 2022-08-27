@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GameLib.Core;
+using GameLib.Demo.Wpf.Util;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,17 +32,6 @@ public partial class LauncherViewModel : ViewModelBase
     [ObservableProperty]
     private string _isRunningLogo = CrossImagePath;
 
-    public int InstalledGameCount
-    {
-        get
-        {
-            if (_selectedLauncher is null)
-                return 0;
-
-            return _selectedLauncher.GetGames().Count();
-        }
-    }
-
     public LauncherViewModel(LauncherManager launcherManager)
     {
         LoadData(launcherManager);
@@ -56,7 +47,6 @@ public partial class LauncherViewModel : ViewModelBase
             try
             {
                 launchers = launcherManager.GetLaunchers();
-                launcherManager.GetGames();
             }
             catch { /* ignore */ }
         });
@@ -79,47 +69,53 @@ public partial class LauncherViewModel : ViewModelBase
                 IsRunningLogo = value.IsRunning ? CheckImagePath : CrossImagePath;
                 break;
         }
-        OnPropertyChanged(nameof(InstalledGameCount));
-        RunLauncherCommand.NotifyCanExecuteChanged();
     }
 
     [RelayCommand]
-    public void RefreshIsRunning()
+    public void RefreshLauncherIsRunning()
     {
         OnPropertyChanged(nameof(SelectedLauncher));
     }
 
-    [RelayCommand(CanExecute = nameof(RunLauncherCanExecute))]
-    public void RunLauncher(string exePath)
+    [RelayCommand]
+    public static void RunLauncher(ILauncher? launcher)
     {
-        if (string.IsNullOrEmpty(exePath))
+        if (launcher is null || !launcher.IsInstalled)
+        {
             return;
+        }
 
-        Process.Start(exePath);
+        if (launcher.IsRunning)
+        {
+            FocusUtil.FocusProcess(Path.GetFileNameWithoutExtension(launcher.Executable));
+            return;
+        }
+
+        Process.Start(launcher.ExecutablePath);
     }
 
-    public bool RunLauncherCanExecute() =>
-        SelectedLauncher is not null && SelectedLauncher.IsInstalled && !SelectedLauncher.IsRunning;
-
     [RelayCommand]
-    public void OpenPath()
+    public static void OpenPath(ILauncher? launcher)
     {
-        switch (SelectedLauncher)
+        switch (launcher)
         {
-            case not null when !string.IsNullOrEmpty(SelectedLauncher.ExecutablePath):
-                Process.Start("explorer.exe", $"/select,\"{SelectedLauncher.ExecutablePath}\"");
+            case not null when !string.IsNullOrEmpty(launcher.ExecutablePath):
+                Process.Start("explorer.exe", $"/select,\"{launcher.ExecutablePath}\"");
                 break;
-            case not null when !string.IsNullOrEmpty(SelectedLauncher.InstallDir):
-                Process.Start("explorer.exe", SelectedLauncher.InstallDir);
+
+            case not null when !string.IsNullOrEmpty(launcher.InstallDir):
+                Process.Start("explorer.exe", launcher.InstallDir);
                 break;
         }
     }
 
     [RelayCommand]
-    public static void CopyToClipboard(string text)
+    public static void CopyToClipboard(string? text)
     {
         if (string.IsNullOrEmpty(text))
+        {
             return;
+        }
 
         Clipboard.SetText(text);
     }

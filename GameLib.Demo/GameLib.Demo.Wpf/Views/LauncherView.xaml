@@ -263,6 +263,7 @@
                         Margin="5,0,0,0"
                         Background="#373737"
                         Command="{Binding OpenPathCommand}"
+                        CommandParameter="{Binding SelectedLauncher}"
                         ToolTip="Open in explorer">
                         <Image
                             Width="20"
@@ -304,8 +305,9 @@
                         Margin="5,0,0,0"
                         Background="#373737"
                         Command="{Binding RunLauncherCommand}"
-                        CommandParameter="{Binding SelectedLauncher.ExecutablePath}"
-                        ToolTip="Start launcher">
+                        CommandParameter="{Binding SelectedLauncher}"
+                        ToolTip="Start launcher"
+                        Visibility="{Binding SelectedLauncher.IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Image
                             Width="20"
                             Height="20"
@@ -381,7 +383,7 @@
                     Orientation="Horizontal">
                     <Button
                         Background="#373737"
-                        Command="{Binding RefreshIsRunningCommand}"
+                        Command="{Binding RefreshLauncherIsRunningCommand}"
                         ToolTip="Refresh">
                         <Image
                             Width="20"
@@ -402,7 +404,7 @@
                     Grid.Column="2"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="{Binding InstalledGameCount}" />
+                    Text="{Binding SelectedLauncher.Games.Count}" />
                 <StackPanel
                     Grid.Row="17"
                     Grid.Column="4"
