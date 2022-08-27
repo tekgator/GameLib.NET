@@ -24,15 +24,14 @@ var launcherManager = new LauncherManager();
 
 var launcher = (SteamLauncher?)launcherManager.GetLaunchers()
     .Where(launcher => launcher.Name == "Steam")
-    // GUID of the class could also be used instead of the name
-    //.Where(launcher => launcher.GetType().GUID == new Guid("5BB973D0-BF3D-4C3E-98B2-41AEFCB1506A"))
+    // Plugin ID could also be used instead of the name
+    //.Where(launcher => launcher.Id == new Guid("5BB973D0-BF3D-4C3E-98B2-41AEFCB1506A"))
     .FirstOrDefault();
 
 if (launcher is not null)
 {
     // Steam launcher provides libraries (games can reside on different disks)
-    var libs = launcher.GetLibraries();
-    foreach (var lib in libs)
+    foreach (var lib in launcher.Libraries)
     {
         Console.WriteLine($"\nLibrary");
         Console.WriteLine($"\tName: {lib.Name}");
@@ -41,10 +40,10 @@ if (launcher is not null)
         Console.WriteLine($"\tTotalSize: {lib.TotalSize}");
     }
 
-    var games = (IEnumerable<SteamGame>)launcher.GetGames();
+    var games = (IEnumerable<SteamGame>)launcher.Games;
     foreach (var game in games)
     {
-        // Write addtional data Steam is providing for a game besides from the IGame inteface
+        // Write additional data Steam is providing for a game besides from the IGame interface
         Console.WriteLine($"\nGame");
         Console.WriteLine($"\tUniverse: {game.Universe}");
         Console.WriteLine($"\tLastUpdated: {game.LastUpdated}");

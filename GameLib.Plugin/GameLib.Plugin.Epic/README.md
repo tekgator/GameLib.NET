@@ -26,16 +26,16 @@ var launcherManager = new LauncherManager();
 // not required to cast here just to add to the documentation
 var launcher = (EpicLauncher?)launcherManager.GetLaunchers()
     .Where(launcher => launcher.Name == "Epic Games")
-    // GUID of the class could also be used instead of the name
-    //.Where(launcher => launcher.GetType().GUID == new Guid("282B9BB6-54CA-4293-83CF-6F1134CDEEC6"))
+    // Plugin ID could also be used instead of the name
+    //.Where(launcher => launcher.Id == new Guid("282B9BB6-54CA-4293-83CF-6F1134CDEEC6"))
     .FirstOrDefault();
 
 if (launcher is not null)
 {
-    var games = (IEnumerable<EpicGame>)launcher.GetGames();
+    var games = (IEnumerable<EpicGame>)launcher.Games;
     foreach (var game in games)
     {
-        // Write addtional data Epic Games is providing for a game besides from the IGame inteface
+        // Write additional data Epic Games is providing for a game besides from the IGame interface
         Console.WriteLine($"\nGame");
         Console.WriteLine($"\tInstallSize: {game.InstallSize}");
         Console.WriteLine($"\tVersion: {game.Version}");

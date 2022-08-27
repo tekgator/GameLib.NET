@@ -1,4 +1,5 @@
 ﻿using Gamelib.Core.Util;
+using GameLib.Core;
 using GameLib.Plugin.Gog.Model;
 using Microsoft.Win32;
 using System.Globalization;
@@ -10,20 +11,31 @@ internal static class GogGameFactory
     /// <summary>
     /// Get games installed for the GoG launcher
     /// </summary>
-    public static IEnumerable<GogGame> GetGames(Guid launcherId, string launcherExecutable, CancellationToken cancellationToken = default)
+    public static IEnumerable<GogGame> GetGames(ILauncher launcher, CancellationToken cancellationToken = default)
     {
         using var regKey = RegistryUtil.GetKey(RegistryHive.LocalMachine, @"SOFTWARE\GOG.com\Games", true);
 
         if (regKey is null)
+        {
             return Enumerable.Empty<GogGame>();
+        }
 
         return regKey.GetSubKeyNames()
             .AsParallel()
             .WithCancellation(cancellationToken)
-            .Select(gameId => LoadFromRegistry(launcherExecutable, gameId))
+            .Select(gameId => LoadFromRegistry(launcher.ExecutablePath, gameId))
             .Where(game => game is not null)
-            .Select(game => { game!.LauncherId = launcherId; return game; })
+            .Select(game => AddLauncherId(launcher, game!))
             .ToList()!;
+    }
+
+    /// <summary>
+    /// Add launcher ID to Game
+    /// </summary>
+    private static GogGame AddLauncherId(ILauncher launcher, GogGame game)
+    {
+        game.LauncherId = launcher.Id;
+        return game;
     }
 
     /// <summary>
@@ -33,7 +45,9 @@ internal static class GogGameFactory
     {
         using var regKey = RegistryUtil.GetKey(RegistryHive.LocalMachine, $@"SOFTWARE\GOG.com\Games\{gameId}");
         if (regKey is null)
+        {
             return null;
+        }
 
         var game = new GogGame()
         {
@@ -65,12 +79,16 @@ internal static class GogGameFactory
         };
 
         if (string.IsNullOrEmpty(game.Id))
+        {
             return null;
+        }
 
         game.InstallDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
         game.LaunchString = $"\"{launcherExecutable}\" /command=runGame /gameId={game.Id}";
         if (!string.IsNullOrEmpty(game.WorkingDir))
+        {
             game.LaunchString += $" /path=\"{game.WorkingDir}\"";
+        }
 
         return game;
     }

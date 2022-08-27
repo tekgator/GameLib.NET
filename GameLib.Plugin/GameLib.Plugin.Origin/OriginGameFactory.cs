@@ -1,4 +1,5 @@
 ﻿using Gamelib.Core.Util;
+using GameLib.Core;
 using GameLib.Plugin.Origin.Model;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -17,21 +18,23 @@ internal static class OriginGameFactory
     /// <summary>
     /// Get games installed for the Origin launcher
     /// </summary>
-    public static IEnumerable<OriginGame> GetGames(Guid launcherId, bool queryOnlineData, TimeSpan? queryTimeout = null, CancellationToken cancellationToken = default)
+    public static IEnumerable<OriginGame> GetGames(ILauncher launcher, CancellationToken cancellationToken = default)
     {
         var localContentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Origin", "LocalContent");
 
         if (!Directory.Exists(localContentPath))
+        {
             return Enumerable.Empty<OriginGame>();
+        }
 
         return Directory.GetFiles(localContentPath, "*.mfst", SearchOption.AllDirectories)
-            //.AsParallel()
-            //.WithCancellation(cancellationToken)
+            .AsParallel()
+            .WithCancellation(cancellationToken)
             .Select(manifestFile => DeserializeManifest(manifestFile))
             .Where(game => game is not null)
-            .Select(game => { game!.LauncherId = launcherId; return game; })
+            .Select(game => AddLauncherId(launcher, game!))
             .Select(game => AddLocalCatalogData(game!))
-            .Select(game => queryOnlineData ? AddOnlineData(game, queryTimeout) : game)
+            .Select(game => AddOnlineData(launcher, game))
             .ToList();
     }
 
@@ -51,12 +54,23 @@ internal static class OriginGameFactory
         };
 
         if (string.IsNullOrEmpty(game.Id) || string.IsNullOrEmpty(game.InstallDir))
+        {
             return null;
+        }
 
         game.LaunchString = $"origin://launchgame/{game.Id}";
         game.TotalBytes = long.TryParse(valueCollection["totalbytes"], out long tmpResult) ? tmpResult : 0;
         game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
 
+        return game;
+    }
+
+    /// <summary>
+    /// Add launcher ID to Game
+    /// </summary>
+    private static OriginGame AddLauncherId(ILauncher launcher, OriginGame game)
+    {
+        game.LauncherId = launcher.Id;
         return game;
     }
 
@@ -70,13 +84,19 @@ internal static class OriginGameFactory
         List<string> contendIds = new();
 
         if (!AddFromLocalDipManifestData(game, installerXmlPath, contendIds))
+        {
             AddFromLocalGameManifestData(game, installerXmlPath, contendIds);
+        }
 
         if (string.IsNullOrEmpty(game.Name) && contendIds.Count > 0)
+        {
             game.Name = RegistryUtil.GetValue(RegistryHive.LocalMachine, $@"SOFTWARE\Origin Games\{contendIds[0]}", "DisplayName", string.Empty)!;
+        }
 
         if (string.IsNullOrEmpty(game.Locale) && contendIds.Count > 0)
+        {
             game.Locale = RegistryUtil.GetValue(RegistryHive.LocalMachine, $@"SOFTWARE\Origin Games\{contendIds[0]}", "Locale", string.Empty)!;
+        }
 
         if (!string.IsNullOrEmpty(game.ExecutablePath))
         {
@@ -102,7 +122,9 @@ internal static class OriginGameFactory
         catch { /* ignore */ }
 
         if (diPManifest is null)
+        {
             return false;
+        }
 
         if (string.IsNullOrEmpty(game.Name))
         {
@@ -111,7 +133,9 @@ internal static class OriginGameFactory
         }
 
         if (diPManifest.contentIDs is not null)
+        {
             contendIds.AddRange(diPManifest.contentIDs);
+        }
 
         if (string.IsNullOrEmpty(game.ExecutablePath))
         {
@@ -154,7 +178,9 @@ internal static class OriginGameFactory
         catch { /* ignore */ }
 
         if (gameManifest is null)
+        {
             return;
+        }
 
         if (string.IsNullOrEmpty(game.Name))
         {
@@ -163,33 +189,51 @@ internal static class OriginGameFactory
         }
 
         if (gameManifest.contentIDs is not null)
+        {
             contendIds.AddRange(gameManifest.contentIDs);
+        }
     }
 
     /// <summary>
     /// Load data from online manifest file in JSON format
     /// This is the only method to get the executables for older games it seems
     /// </summary>
-    private static OriginGame AddOnlineData(OriginGame game, TimeSpan? queryTimeout = null)
+    private static OriginGame AddOnlineData(ILauncher launcher, OriginGame game)
     {
-        if (!string.IsNullOrEmpty(game.Name) && !string.IsNullOrEmpty(game.ExecutablePath))
+        if (!launcher.LauncherOptions.QueryOnlineData)
+        {
             return game;
+        }
+
+        if (!string.IsNullOrEmpty(game.Name) && !string.IsNullOrEmpty(game.ExecutablePath))
+        {
+            return game;
+        }
 
         OriginOnlineManifest? manifest;
         try
         {
-            var manifestJson = GetManifestFromUrl(game.Id, queryTimeout);
+            var manifestJson = GetManifestFromUrl(game.Id, launcher.LauncherOptions.OnlineQueryTimeout);
             manifest = JsonConvert.DeserializeObject<OriginOnlineManifest>(manifestJson);
             if (manifest is null)
+            {
                 throw new ApplicationException("Cannot deserialize JSON stream");
+            }
         }
-        catch { return game; }
+        catch
+        {
+            return game;
+        }
 
         if (string.IsNullOrEmpty(game.Name))
+        {
             game.Name = manifest.LocalizableAttributes?.DisplayName ?? game.Name;
+        }
 
         if (string.IsNullOrEmpty(game.Name))
+        {
             game.Name = manifest.ItemName ?? game.Name;
+        }
 
         if (string.IsNullOrEmpty(game.ExecutablePath) && manifest.Publishing?.SoftwareList?.Software is not null)
         {
@@ -207,7 +251,9 @@ internal static class OriginGameFactory
                     }
 
                     if (PathUtil.IsExecutable(game.ExecutablePath) && File.Exists(game.ExecutablePath))
+                    {
                         break;
+                    }
 
                     game.ExecutablePath = string.Empty;
                 }
@@ -230,13 +276,17 @@ internal static class OriginGameFactory
     {
         using var client = new HttpClient();
         if (queryTimeout is not null)
+        {
             client.Timeout = queryTimeout.Value;
+        }
 
         var url = $"https://api1.origin.com/ecommerce2/public/{gameId}/en_US";
         using var webRequest = new HttpRequestMessage(HttpMethod.Get, url);
         using var response = client.Send(webRequest);
         if (!response.IsSuccessStatusCode)
+        {
             throw new HttpRequestException("Response is not OK", null, response.StatusCode);
+        }
 
         using var reader = new StreamReader(response.Content.ReadAsStream());
 
@@ -249,14 +299,20 @@ internal static class OriginGameFactory
     private static string GetOs()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
             return "PCWIN";
+        }
 
         // TODO: haven't seen a Origin Linux game yet, this line might need to be adjusted
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
             return "LINUX";
+        }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
             return "MAC";
+        }
 
         return string.Empty;
     }
