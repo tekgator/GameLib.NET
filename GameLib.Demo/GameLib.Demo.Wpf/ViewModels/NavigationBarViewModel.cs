@@ -55,7 +55,7 @@ public partial class NavigationBarViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public void NavigateGithub(string address)
+    public static void NavigateGithub(string address)
     {
         try
         {

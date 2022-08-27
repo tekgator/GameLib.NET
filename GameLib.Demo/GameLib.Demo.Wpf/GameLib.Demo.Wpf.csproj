@@ -12,6 +12,7 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1293.44" />
+		<PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
 	</ItemGroup>
 
 	<!-- 
@@ -53,6 +54,16 @@
 		<None Remove="Resources\play-white.png" />
 		<None Remove="Resources\refresh-black.png" />
 		<None Remove="Resources\refresh-white.png" />
+		<None Remove="Resources\spinner-white.gif" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj" />
+	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" />
+	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" />
+	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj" />
+	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj" />
+	  <ProjectReference Include="..\..\GameLib\GameLib.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -82,6 +93,7 @@
 		<Resource Include="Resources\play-white.png" />
 		<Resource Include="Resources\refresh-black.png" />
 		<Resource Include="Resources\refresh-white.png" />
+		<Resource Include="Resources\spinner-white.gif" />
 	</ItemGroup>
 
 	

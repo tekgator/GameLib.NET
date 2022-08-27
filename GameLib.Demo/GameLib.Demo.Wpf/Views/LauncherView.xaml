@@ -2,33 +2,422 @@
     x:Class="GameLib.Demo.Wpf.Views.LauncherView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:GameLib.Demo.Wpf.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:GameLib.Demo.Wpf.Views"
+    xmlns:gif="http://wpfanimatedgif.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:viewmodels="clr-namespace:GameLib.Demo.Wpf.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:LauncherViewModel}"
+    d:DesignHeight="600"
+    d:DesignWidth="1000"
     Background="{StaticResource PrimaryBackgroundColor}"
     FontSize="16"
     Foreground="{StaticResource PrimaryForegroundColor}"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:ImageToImageSourceConverter x:Key="ImageToImageSourceConverter" />
+
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="500" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="IsReadOnlyCaretVisible" Value="True" />
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <Border
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Panel.ZIndex="1"
+            d:Panel.ZIndex="-1"
+            Background="{StaticResource PrimaryBackgroundColor}"
+            Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="Loading..." />
+
+                <Image
+                    Width="128"
+                    Height="128"
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    gif:ImageBehavior.AnimatedSource="/Resources/spinner-white.gif" />
+            </StackPanel>
+        </Border>
+
         <ListView
             Grid.Column="0"
             d:Width="150"
             Background="{StaticResource SecondaryBackgroundColor}"
             BorderBrush="{StaticResource ThirdBackgroundColor}"
-            BorderThickness="0,0,1,0" />
+            BorderThickness="0,0,1,0"
+            Foreground="{StaticResource PrimaryForegroundColor}"
+            ItemsSource="{Binding Launchers}"
+            SelectedItem="{Binding SelectedLauncher}">
 
-        <TextBlock
-            Grid.Column="1"
-            FontSize="72"
-            Text="Launcher" />
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border
+                                    Margin="1,0,1,0"
+                                    Padding="10,15,10,15"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="0"
+                                    Cursor="Hand">
+                                    <ContentPresenter
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        TextBlock.Foreground="{TemplateBinding Foreground}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
 
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ThirdBackgroundColor}" />
+                            <Setter Property="Foreground" Value="{StaticResource ThirdForegroundColor}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource SecondaryForegroundColor}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image
+                            Grid.Column="0"
+                            Width="24"
+                            Height="24"
+                            Source="{Binding Logo, Converter={StaticResource ImageToImageSourceConverter}}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="10,0,5,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding Name}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid Grid.Column="1" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1" IsSharedSizeScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="5"
+                    Width="96"
+                    Height="96"
+                    Margin="0,10,0,10"
+                    HorizontalAlignment="Center"
+                    Source="{Binding SelectedLauncher.Logo, Converter={StaticResource ImageToImageSourceConverter}}" />
+
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Name: " />
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedLauncher.Name, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="3"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Background="#373737"
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedLauncher.Name}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Plugin ID: " />
+                <TextBox
+                    x:Name="txtId"
+                    Grid.Row="5"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedLauncher.Id, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="5"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Background="#373737"
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding ElementName=txtId, Path=Text}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Install directory: " />
+                <TextBox
+                    Grid.Row="7"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedLauncher.InstallDir, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="7"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Background="#373737"
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedLauncher.InstallDir}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                    <Button
+                        Margin="5,0,0,0"
+                        Background="#373737"
+                        Command="{Binding OpenPathCommand}"
+                        ToolTip="Open in explorer">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/open-white.png" />
+                    </Button>
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Executable path: " />
+                <TextBox
+                    Grid.Row="9"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedLauncher.ExecutablePath, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="9"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Background="#373737"
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedLauncher.ExecutablePath}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                    <Button
+                        Margin="5,0,0,0"
+                        Background="#373737"
+                        Command="{Binding RunLauncherCommand}"
+                        CommandParameter="{Binding SelectedLauncher.ExecutablePath}"
+                        ToolTip="Start launcher">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/play-white.png" />
+                    </Button>
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="11"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Executable: " />
+                <TextBox
+                    Grid.Row="11"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedLauncher.Executable, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="11"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Background="#373737"
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedLauncher.Executable}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="13"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Is installed: " />
+                <Image
+                    Grid.Row="13"
+                    Grid.Column="2"
+                    Width="24"
+                    Height="24"
+                    HorizontalAlignment="Left"
+                    Source="{Binding IsInstalledLogo}" />
+
+                <TextBlock
+                    Grid.Row="15"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Is running: " />
+
+                <Image
+                    Grid.Row="15"
+                    Grid.Column="2"
+                    Width="24"
+                    Height="24"
+                    HorizontalAlignment="Left"
+                    Source="{Binding IsRunningLogo}" />
+
+                <StackPanel
+                    Grid.Row="15"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Background="#373737"
+                        Command="{Binding RefreshIsRunningCommand}"
+                        ToolTip="Refresh">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/refresh-white.png" />
+                    </Button>
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="17"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Installed games: " />
+                <TextBlock
+                    Grid.Row="17"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="{Binding InstalledGameCount}" />
+                <StackPanel
+                    Grid.Row="17"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button Background="#373737" ToolTip="Show games">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/game-white.png" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
-
 </UserControl>

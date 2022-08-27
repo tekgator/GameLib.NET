@@ -34,6 +34,8 @@ public partial class App : Application
             DataContext = s.GetRequiredService<MainViewModel>()
         });
 
+        services.AddSingleton<LauncherManager>();
+
         _serviceProvider = services.BuildServiceProvider();
     }
 

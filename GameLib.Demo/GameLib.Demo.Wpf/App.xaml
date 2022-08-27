@@ -13,7 +13,7 @@
         <SolidColorBrush x:Key="PrimaryForegroundColor" Color="#FFFFFF" />
 
         <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="#333333" />
-        <SolidColorBrush x:Key="SecondaryForegroundColor" Color="#39D0FF" />
+        <SolidColorBrush x:Key="SecondaryForegroundColor" Color="#7fc9ff" />
 
         <SolidColorBrush x:Key="ThirdBackgroundColor" Color="#444444" />
         <SolidColorBrush x:Key="ThirdForegroundColor" Color="#bae0ff" />
