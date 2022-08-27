@@ -24,7 +24,9 @@ internal class SteamCatalog
     public void Refresh()
     {
         if (!File.Exists(_catalogPath))
+        {
             throw new FileNotFoundException("Configuration file not found, probably Steam client hasn't been started at least once.", _catalogPath);
+        }
 
         _universe = SteamUniverse.Invalid;
 
@@ -34,7 +36,9 @@ internal class SteamCatalog
         var magic = reader.ReadUInt32();
 
         if (magic != Magic)
+        {
             throw new InvalidDataException($"Unknown magic header: {magic}");
+        }
 
         _universe = (SteamUniverse)reader.ReadUInt32();
 
@@ -46,7 +50,9 @@ internal class SteamCatalog
             var appId = reader.ReadUInt32();
 
             if (appId == 0)
+            {
                 break;
+            }
 
             DeserializedSteamCatalog item = new()
             {
@@ -63,7 +69,10 @@ internal class SteamCatalog
             {
                 item.Data = deserializer.Deserialize<DeserializedSteamCatalog.DeserializedData>(stream);
             }
-            catch { continue; }
+            catch
+            {
+                continue;
+            }
 
             deserializedSteamCatalogList.Add(item);
         }

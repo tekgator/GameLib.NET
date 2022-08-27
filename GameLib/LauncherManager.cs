@@ -10,7 +10,6 @@ public class LauncherManager
 #pragma warning disable 0649
     [ImportMany(typeof(ILauncher))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0044:Add read only modifier", Justification = "read only cannot be applied for MEF framework to work")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Roslynator", "RCS1169:Make field read-only.", Justification = "read only cannot be applied for MEF framework to work")]
     private IEnumerable<ILauncher>? _launchers;
 #pragma warning restore 0649
 
@@ -25,37 +24,57 @@ public class LauncherManager
 
     private void LoadPlugins()
     {
-        var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? ".";
-        var catalog = new AggregateCatalog();
-        catalog.Catalogs.Add(new DirectoryCatalog(path));
-
-        var container = new CompositionContainer(catalog);
-        container.ComposeParts(this);
-    }
-
-    public void ClearCache()
-    {
-        foreach (var launcher in GetLaunchers())
+        if (_launchers is null)
         {
-            launcher.ClearCache();
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? ".";
+            var catalog = new AggregateCatalog();
+            catalog.Catalogs.Add(new DirectoryCatalog(path));
+
+            var container = new CompositionContainer(catalog);
+            container.ComposeParts(this);
         }
     }
 
+    /// <summary>
+    /// Returns a list of all launcher (plugins)
+    /// </summary>
     public IEnumerable<ILauncher> GetLaunchers()
     {
         if (_launchers is null)
         {
-            LoadPlugins();
+            Refresh();
         }
         return _launchers!;
     }
 
-    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Refresh all launcher plugins
+    /// </summary>
+    public void Refresh(CancellationToken cancellationToken = default)
+    {
+        RefreshAsync(cancellationToken).GetAwaiter().GetResult();
+    }
+
+    /// <summary>
+    /// Refresh all launcher plugins in parallel
+    /// </summary>
+    public async Task RefreshAsync(CancellationToken cancellationToken = default)
+    {
+        LoadPlugins();
+        var tasks = (_launchers!
+            .Select(l => Task.Run(() => l.Refresh(cancellationToken))))
+            .ToList();
+
+        await Task.WhenAll(tasks);
+    }
+
+    /// <summary>
+    /// Returns a List of Games from all launcher plugins
+    /// </summary>
+    public IEnumerable<IGame> GetAllGames()
     {
         return GetLaunchers()
-            .AsParallel()
-            .WithCancellation(cancellationToken)
-            .SelectMany(launcher => launcher.GetGames(cancellationToken))
+            .SelectMany(launcher => launcher.Games)
             .ToList();
     }
 }

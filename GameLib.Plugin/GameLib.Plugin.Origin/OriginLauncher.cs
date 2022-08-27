@@ -1,6 +1,5 @@
 ﻿using Gamelib.Core.Util;
 using GameLib.Core;
-using GameLib.Plugin.Origin.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Drawing;
@@ -12,17 +11,15 @@ namespace GameLib.Plugin.Origin;
 [Export(typeof(ILauncher))]
 public class OriginLauncher : ILauncher
 {
-    private readonly LauncherOptions _launcherOptions;
-    private IEnumerable<OriginGame>? _gameList;
-
     [ImportingConstructor]
     public OriginLauncher(LauncherOptions? launcherOptions)
     {
-        _launcherOptions = launcherOptions ?? new LauncherOptions();
-        ClearCache();
+        LauncherOptions = launcherOptions ?? new LauncherOptions();
     }
 
     #region Interface implementations
+    public LauncherOptions LauncherOptions { get; }
+
     public Guid Id => GetType().GUID;
 
     public string Name => "Origin";
@@ -39,28 +36,25 @@ public class OriginLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
-    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
-    {
-        _gameList ??= OriginGameFactory.GetGames(Id, _launcherOptions.QueryOnlineData, _launcherOptions.OnlineQueryTimeout, cancellationToken);
-        return _gameList;
-    }
+    public IEnumerable<IGame> Games { get; private set; } = Enumerable.Empty<IGame>();
 
     public bool Start() => IsRunning || ProcessUtil.StartProcess(ExecutablePath);
 
     public void Stop()
     {
         if (IsRunning)
+        {
             ProcessUtil.StopProcess(ExecutablePath);
+        }
     }
 
-    public void ClearCache()
+    public void Refresh(CancellationToken cancellationToken = default)
     {
-        _gameList = null;
-
         ExecutablePath = string.Empty;
         Executable = string.Empty;
         InstallDir = string.Empty;
         IsInstalled = false;
+        Games = Enumerable.Empty<IGame>();
 
         ExecutablePath = GetExecutable() ?? string.Empty;
         if (!string.IsNullOrEmpty(ExecutablePath))
@@ -68,6 +62,7 @@ public class OriginLauncher : ILauncher
             Executable = Path.GetFileName(ExecutablePath);
             InstallDir = Path.GetDirectoryName(ExecutablePath) ?? string.Empty;
             IsInstalled = File.Exists(ExecutablePath);
+            Games = OriginGameFactory.GetGames(this, cancellationToken);
         }
     }
     #endregion
@@ -85,7 +80,9 @@ public class OriginLauncher : ILauncher
         executablePath = PathUtil.Sanitize(executablePath);
 
         if (!PathUtil.IsExecutable(executablePath))
+        {
             executablePath = null;
+        }
 
         return executablePath;
     }

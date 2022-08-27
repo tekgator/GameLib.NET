@@ -13,19 +13,15 @@ namespace GameLib.Plugin.Steam;
 [Export(typeof(ILauncher))]
 public class SteamLauncher : ILauncher
 {
-    private readonly LauncherOptions _launcherOptions;
-    private IEnumerable<SteamLibrary>? _libraryList;
-    private IEnumerable<SteamGame>? _gameList;
-    private SteamCatalog? _localCatalog;
-
     [ImportingConstructor]
     public SteamLauncher(LauncherOptions? launcherOptions)
     {
-        _launcherOptions = launcherOptions ?? new LauncherOptions();
-        ClearCache();
+        LauncherOptions = launcherOptions ?? new LauncherOptions();
     }
 
     #region Interface implementations
+    public LauncherOptions LauncherOptions { get; }
+
     public Guid Id => GetType().GUID;
 
     public string Name => "Steam";
@@ -42,39 +38,26 @@ public class SteamLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
-    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
-    {
-        if (IsInstalled && _launcherOptions.LoadLocalCatalogData)
-        {
-            try
-            {
-                _localCatalog ??= new SteamCatalog(InstallDir);
-            }
-            catch { /* ignored */ }
-        }
-
-        _gameList ??= SteamGameFactory.GetGames(Id, GetLibraries(), _localCatalog);
-        return _gameList;
-    }
+    public IEnumerable<IGame> Games { get; private set; } = Enumerable.Empty<IGame>();
 
     public bool Start() => IsRunning || ProcessUtil.StartProcess(ExecutablePath);
 
     public void Stop()
     {
         if (IsRunning)
+        {
             Process.Start(ExecutablePath, "-shutdown");
+        }
     }
 
-    public void ClearCache()
+    public void Refresh(CancellationToken cancellationToken = default)
     {
-        _libraryList = null;
-        _gameList = null;
-        _localCatalog = null;
-
         ExecutablePath = string.Empty;
         Executable = string.Empty;
         InstallDir = string.Empty;
         IsInstalled = false;
+        Libraries = Enumerable.Empty<SteamLibrary>();
+        Games = Enumerable.Empty<IGame>();
 
         ExecutablePath = GetExecutable() ?? string.Empty;
         if (!string.IsNullOrEmpty(ExecutablePath))
@@ -82,16 +65,14 @@ public class SteamLauncher : ILauncher
             Executable = Path.GetFileName(ExecutablePath);
             InstallDir = Path.GetDirectoryName(ExecutablePath) ?? string.Empty;
             IsInstalled = File.Exists(ExecutablePath);
+            Libraries = SteamLibraryFactory.GetLibraries(InstallDir);
+            Games = SteamGameFactory.GetGames(this, Libraries);
         }
     }
     #endregion
 
-    #region Public methods
-    public IEnumerable<SteamLibrary> GetLibraries()
-    {
-        _libraryList ??= SteamLibraryFactory.GetLibraries(InstallDir);
-        return _libraryList;
-    }
+    #region Public properties
+    public IEnumerable<SteamLibrary> Libraries { get; private set; } = Enumerable.Empty<SteamLibrary>();
     #endregion
 
     #region Private methods
@@ -107,10 +88,14 @@ public class SteamLauncher : ILauncher
         executablePath = PathUtil.Sanitize(executablePath);
 
         if (!string.IsNullOrEmpty(executablePath) && !PathUtil.IsExecutable(executablePath))
+        {
             executablePath = Path.Combine(executablePath, "steam.exe");
+        }
 
         if (!PathUtil.IsExecutable(executablePath))
+        {
             executablePath = null;
+        }
 
         return executablePath;
     }

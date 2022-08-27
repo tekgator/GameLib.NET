@@ -1,6 +1,5 @@
 ﻿using Gamelib.Core.Util;
 using GameLib.Core;
-using GameLib.Plugin.Epic.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Drawing;
@@ -12,14 +11,15 @@ namespace GameLib.Plugin.Epic;
 [Export(typeof(ILauncher))]
 public class EpicLauncher : ILauncher
 {
-    private IEnumerable<EpicGame>? _gameList;
-
-    public EpicLauncher()
+    [ImportingConstructor]
+    public EpicLauncher(LauncherOptions? launcherOptions)
     {
-        ClearCache();
+        LauncherOptions = launcherOptions ?? new LauncherOptions();
     }
 
     #region Interface implementations
+    public LauncherOptions LauncherOptions { get; }
+
     public Guid Id => GetType().GUID;
 
     public string Name => "Epic Games";
@@ -36,28 +36,25 @@ public class EpicLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
-    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
-    {
-        _gameList ??= EpicGameFactory.GetGames(Id, cancellationToken);
-        return _gameList;
-    }
+    public IEnumerable<IGame> Games { get; private set; } = Enumerable.Empty<IGame>();
 
     public bool Start() => IsRunning || ProcessUtil.StartProcess(ExecutablePath);
 
     public void Stop()
     {
         if (IsRunning)
+        {
             ProcessUtil.StopProcess(ExecutablePath);
+        }
     }
 
-    public void ClearCache()
+    public void Refresh(CancellationToken cancellationToken = default)
     {
-        _gameList = null;
-
         ExecutablePath = string.Empty;
         Executable = string.Empty;
         InstallDir = string.Empty;
         IsInstalled = false;
+        Games = Enumerable.Empty<IGame>();
 
         ExecutablePath = GetExecutable() ?? string.Empty;
         if (!string.IsNullOrEmpty(ExecutablePath))
@@ -65,6 +62,7 @@ public class EpicLauncher : ILauncher
             Executable = Path.GetFileName(ExecutablePath);
             InstallDir = Path.GetDirectoryName(ExecutablePath) ?? string.Empty;
             IsInstalled = File.Exists(ExecutablePath);
+            Games = EpicGameFactory.GetGames(this, cancellationToken);
         }
     }
     #endregion
@@ -80,7 +78,9 @@ public class EpicLauncher : ILauncher
         executablePath = PathUtil.Sanitize(executablePath);
 
         if (!PathUtil.IsExecutable(executablePath))
+        {
             executablePath = null;
+        }
 
         return executablePath;
     }

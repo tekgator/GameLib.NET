@@ -1,6 +1,5 @@
 ﻿using Gamelib.Core.Util;
 using GameLib.Core;
-using GameLib.Plugin.Ubisoft.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Drawing;
@@ -12,18 +11,15 @@ namespace GameLib.Plugin.Ubisoft;
 [Export(typeof(ILauncher))]
 public class UbisoftLauncher : ILauncher
 {
-    private readonly LauncherOptions _launcherOptions;
-    private IEnumerable<UbisoftGame>? _gameList;
-    private UbisoftCatalog? _localCatalog;
-
     [ImportingConstructor]
     public UbisoftLauncher(LauncherOptions? launcherOptions)
     {
-        _launcherOptions = launcherOptions ?? new LauncherOptions();
-        ClearCache();
+        LauncherOptions = launcherOptions ?? new LauncherOptions();
     }
 
     #region Interface implementations
+    public LauncherOptions LauncherOptions { get; }
+
     public Guid Id => GetType().GUID;
 
     public string Name => "Ubisoft Connect";
@@ -40,32 +36,15 @@ public class UbisoftLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
-    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
+    public IEnumerable<IGame> Games { get; private set; } = Enumerable.Empty<IGame>();
+
+    public void Refresh(CancellationToken cancellationToken = default)
     {
-        var installDir = InstallDir;
-
-        if (!string.IsNullOrEmpty(InstallDir) && _launcherOptions.LoadLocalCatalogData)
-        {
-            try
-            {
-                _localCatalog ??= new UbisoftCatalog(installDir);
-            }
-            catch { /* ignored */ }
-        }
-
-        _gameList ??= UbisoftGameFactory.GetGames(Id, _localCatalog, cancellationToken);
-        return _gameList ?? Enumerable.Empty<UbisoftGame>();
-    }
-
-    public void ClearCache()
-    {
-        _gameList = null;
-        _localCatalog = null;
-
         ExecutablePath = string.Empty;
         Executable = string.Empty;
         InstallDir = string.Empty;
         IsInstalled = false;
+        Games = Enumerable.Empty<IGame>();
 
         ExecutablePath = GetExecutable() ?? string.Empty;
         if (!string.IsNullOrEmpty(ExecutablePath))
@@ -73,6 +52,7 @@ public class UbisoftLauncher : ILauncher
             Executable = Path.GetFileName(ExecutablePath);
             InstallDir = Path.GetDirectoryName(ExecutablePath) ?? string.Empty;
             IsInstalled = File.Exists(ExecutablePath);
+            Games = UbisoftGameFactory.GetGames(this, cancellationToken);
         }
     }
 
@@ -92,10 +72,14 @@ public class UbisoftLauncher : ILauncher
         executablePath = PathUtil.Sanitize(executablePath);
 
         if (!string.IsNullOrEmpty(executablePath) && !PathUtil.IsExecutable(executablePath))
+        {
             executablePath = Path.Combine(executablePath, "upc.exe");
+        }
 
         if (!PathUtil.IsExecutable(executablePath))
+        {
             executablePath = null;
+        }
 
         return executablePath;
     }

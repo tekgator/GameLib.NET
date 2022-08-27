@@ -5,28 +5,26 @@ var launcherManager = new LauncherManager();
 
 foreach (var launcher in launcherManager.GetLaunchers())
 {
-    var name = launcher.Name;
     SetConsoleColor(ConsoleColor.White, ConsoleColor.Red);
-    Console.WriteLine($"\n{name}:");
+    Console.WriteLine($"\n{launcher.Name}:");
     ResetConsoleColor();
 
-    foreach (var item in launcher.GetType().GetProperties().Where(p => p.Name != "Name"))
+    foreach (var property in launcher.GetType().GetProperties().Where(p => p.Name != "Name"))
     {
-        Console.WriteLine($"\t{item.Name}: {item.GetValue(launcher)}");
+        Console.WriteLine($"\t{property.Name}: {property.GetValue(launcher)}");
     }
 
-    var games = launcher.GetGames();
     SetConsoleColor(ConsoleColor.Green);
     Console.WriteLine("\n\tGames:");
     ResetConsoleColor();
-    foreach (var game in games)
+    foreach (var game in launcher.Games)
     {
         SetConsoleColor(ConsoleColor.Magenta);
         Console.WriteLine($"\tGame ID: {game.Id}");
         ResetConsoleColor();
-        foreach (var item in game.GetType().GetProperties().Where(p => p.Name != "GameId"))
+        foreach (var property in game.GetType().GetProperties().Where(p => p.Name != "GameId"))
         {
-            Console.WriteLine($"\t\t{item.Name}: {item.GetValue(game)}");
+            Console.WriteLine($"\t\t{property.Name}: {property.GetValue(game)}");
         }
     }
 }
@@ -35,7 +33,9 @@ static void SetConsoleColor(ConsoleColor foregroundColor, ConsoleColor? backgrou
 {
     Console.ForegroundColor = foregroundColor;
     if (backgroundColor is not null)
+    {
         Console.BackgroundColor = (ConsoleColor)backgroundColor;
+    }
 }
 
 static void ResetConsoleColor()

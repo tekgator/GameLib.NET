@@ -1,6 +1,5 @@
 ﻿using Gamelib.Core.Util;
 using GameLib.Core;
-using GameLib.Plugin.Gog.Model;
 using Microsoft.Win32;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -13,14 +12,15 @@ namespace GameLib.Plugin.Gog;
 [Export(typeof(ILauncher))]
 public class GogLauncher : ILauncher
 {
-    private IEnumerable<GogGame>? _gameList;
-
-    public GogLauncher()
+    [ImportingConstructor]
+    public GogLauncher(LauncherOptions? launcherOptions)
     {
-        ClearCache();
+        LauncherOptions = launcherOptions ?? new LauncherOptions();
     }
 
     #region Interface implementations
+    public LauncherOptions LauncherOptions { get; }
+
     public Guid Id => GetType().GUID;
 
     public string Name => "GOG Galaxy";
@@ -37,22 +37,15 @@ public class GogLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
-    public IEnumerable<IGame> GetGames(CancellationToken cancellationToken = default)
+    public IEnumerable<IGame> Games { get; private set; } = Enumerable.Empty<IGame>();
+
+    public void Refresh(CancellationToken cancellationToken = default)
     {
-        if (!string.IsNullOrEmpty(ExecutablePath))
-            _gameList ??= GogGameFactory.GetGames(Id, ExecutablePath, cancellationToken);
-
-        return _gameList ?? Enumerable.Empty<GogGame>();
-    }
-
-    public void ClearCache()
-    {
-        _gameList = null;
-
         ExecutablePath = string.Empty;
         Executable = string.Empty;
         InstallDir = string.Empty;
         IsInstalled = false;
+        Games = Enumerable.Empty<IGame>();
 
         ExecutablePath = GetExecutable() ?? string.Empty;
         if (!string.IsNullOrEmpty(ExecutablePath))
@@ -60,6 +53,7 @@ public class GogLauncher : ILauncher
             Executable = Path.GetFileName(ExecutablePath);
             InstallDir = Path.GetDirectoryName(ExecutablePath) ?? string.Empty;
             IsInstalled = File.Exists(ExecutablePath);
+            Games = GogGameFactory.GetGames(this, cancellationToken);
         }
     }
 
@@ -68,7 +62,9 @@ public class GogLauncher : ILauncher
     public void Stop()
     {
         if (IsRunning)
+        {
             Process.Start(ExecutablePath, "/command=shutdown");
+        }
     }
     #endregion
 
@@ -83,10 +79,14 @@ public class GogLauncher : ILauncher
         executablePath = PathUtil.Sanitize(executablePath);
 
         if (!string.IsNullOrEmpty(executablePath) && !PathUtil.IsExecutable(executablePath))
+        {
             executablePath = Path.Combine(executablePath, RegistryUtil.GetValue(RegistryHive.LocalMachine, @"SOFTWARE\GOG.com\GalaxyClient", "clientExecutable") ?? string.Empty);
+        }
 
         if (!PathUtil.IsExecutable(executablePath))
+        {
             executablePath = null;
+        }
 
         return executablePath;
     }
