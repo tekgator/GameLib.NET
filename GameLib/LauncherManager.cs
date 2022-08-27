@@ -48,24 +48,16 @@ public class LauncherManager
     }
 
     /// <summary>
-    /// Refresh all launcher plugins
+    /// Refresh all launcher plugins and returns the refreshed list
     /// </summary>
-    public void Refresh(CancellationToken cancellationToken = default)
-    {
-        RefreshAsync(cancellationToken).GetAwaiter().GetResult();
-    }
-
-    /// <summary>
-    /// Refresh all launcher plugins in parallel
-    /// </summary>
-    public async Task RefreshAsync(CancellationToken cancellationToken = default)
+    public IEnumerable<ILauncher> Refresh(CancellationToken cancellationToken = default)
     {
         LoadPlugins();
-        var tasks = (_launchers!
-            .Select(l => Task.Run(() => l.Refresh(cancellationToken))))
+        return _launchers!
+            .AsParallel()
+            .WithCancellation(cancellationToken)
+            .Select(l => { l.Refresh(cancellationToken); return l; })
             .ToList();
-
-        await Task.WhenAll(tasks);
     }
 
     /// <summary>
