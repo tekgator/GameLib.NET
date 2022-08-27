@@ -1,4 +1,5 @@
 ﻿using Gamelib.Core.Util;
+using GameLib.Core;
 using GameLib.Plugin.Steam.Model;
 using System.Runtime.InteropServices;
 using ValveKeyValue;
@@ -13,24 +14,56 @@ internal static class SteamGameFactory
     /// <summary>
     /// Get games installed in for the passed Steam libraries
     /// </summary>
-    public static IEnumerable<SteamGame> GetGames(Guid launcherId, IEnumerable<SteamLibrary> libraries, SteamCatalog? catalog = null) =>
-        libraries.SelectMany(lib => GetGames(launcherId, lib, catalog)).ToList();
+    public static IEnumerable<SteamGame> GetGames(ILauncher launcher, IEnumerable<SteamLibrary> libraries) =>
+        libraries.SelectMany(lib => GetGames(launcher, lib)).ToList();
 
     /// <summary>
     /// Get games installed in for the passed Steam library
     /// </summary>
-    public static IEnumerable<SteamGame> GetGames(Guid launcherId, SteamLibrary library, SteamCatalog? catalog = null)
+    public static IEnumerable<SteamGame> GetGames(ILauncher launcher, SteamLibrary library)
     {
         var appsPath = Path.Combine(library.Path, "steamapps");
         if (!Directory.Exists(appsPath))
+        {
             return Enumerable.Empty<SteamGame>();
+        }
+
+        SteamCatalog? localCatalog = GetCatalog(launcher);
 
         return Directory.GetFiles(appsPath, "*.acf")
             .Select(manifestFile => DeserializeManifest(library.Path, manifestFile))
             .Where(game => game is not null)
-            .Select(game => { game!.LauncherId = launcherId; return game; })
-            .Select(game => AddCatalogData(game!, appsPath, catalog))
+            .Select(game => AddLauncherId(launcher, game!))
+            .Select(game => AddCatalogData(game!, appsPath, localCatalog))
             .ToList();
+    }
+
+    /// <summary>
+    /// Add launcher ID to Game
+    /// </summary>
+    private static SteamGame AddLauncherId(ILauncher launcher, SteamGame game)
+    {
+        game.LauncherId = launcher.Id;
+        return game;
+    }
+
+    /// <summary>
+    /// Load steam local catalog data
+    /// </summary>
+    private static SteamCatalog? GetCatalog(ILauncher launcher)
+    {
+        SteamCatalog? localCatalog = null;
+
+        if (launcher.LauncherOptions.LoadLocalCatalogData)
+        {
+            try
+            {
+                localCatalog = new SteamCatalog(launcher.InstallDir);
+            }
+            catch { /* ignored */ }
+        }
+
+        return localCatalog;
     }
 
     /// <summary>
@@ -45,7 +78,10 @@ internal static class SteamGameFactory
             var serializer = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
             game = serializer.Deserialize<DeserializedSteamGame>(stream).SteamGameBuilder();
         }
-        catch { return null; }
+        catch
+        {
+            return null;
+        }
 
         game.LaunchString = $"steam://rungameid/{game.Id}";
         game.InstallDir = Path.Combine(libraryPath, "steamapps", "common", PathUtil.Sanitize(game.InstallDir) ?? string.Empty);
@@ -91,10 +127,14 @@ internal static class SteamGameFactory
         game.Executable = Path.GetFileName(game.ExecutablePath);
 
         if (!string.IsNullOrEmpty(launcher.WorkingDir))
+        {
             game.WorkingDir = Path.Combine(appsPath, "common", game.InstallDir, PathUtil.Sanitize(launcher.WorkingDir)!);
+        }
 
         if (string.IsNullOrEmpty(game.WorkingDir))
+        {
             game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
+        }
 
         return game;
     }
@@ -105,13 +145,19 @@ internal static class SteamGameFactory
     private static string GetOs()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
             return "windows";
+        }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
             return "linux";
+        }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
             return "macos";
+        }
 
         return string.Empty;
     }

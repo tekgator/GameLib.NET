@@ -25,16 +25,16 @@ var launcherManager = new LauncherManager();
 // not required to cast here just to add to the documentation
 var launcher = (GogLauncher?)launcherManager.GetLaunchers()
     .Where(launcher => launcher.Name == "GOG Galaxy")
-    // GUID of the class could also be used instead of the name
-    //.Where(launcher => launcher.GetType().GUID == new Guid("54C9D299-107E-4990-894D-9DB402F81CA3"))
+    // Plugin ID could also be used instead of the name
+    //.Where(launcher => launcher.Id == new Guid("54C9D299-107E-4990-894D-9DB402F81CA3"))
     .FirstOrDefault();
 
 if (launcher is not null)
 {
-    var games = (IEnumerable<GogGame>)launcher.GetGames();
+    var games = (IEnumerable<GogGame>)launcher.Games;
     foreach (var game in games)
     {
-        // Write addtional data GOG Galaxy is providing for a game besides from the IGame inteface
+        // Write additional data GOG Galaxy is providing for a game besides from the IGame interface
         Console.WriteLine($"\nGame");
         Console.WriteLine($"\tBuildId: {game.BuildId}");
         Console.WriteLine($"\tDependsOn: {game.DependsOn}");

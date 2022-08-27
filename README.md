@@ -42,7 +42,7 @@ foreach (var launcher in launcherManager.GetLaunchers())
     Console.WriteLine($"Launcher name: {launcher.Name}");
     Console.WriteLine("Games:");
 
-    foreach (var game in launcher.GetGames())
+    foreach (var game in launcher.Games)
     {
         Console.WriteLine($"Game ID: {game.GameId}");
         foreach (var item in game.GetType().GetProperties().Where(p => p.Name != "GameId"))
@@ -54,9 +54,9 @@ foreach (var launcher in launcherManager.GetLaunchers())
 
 ```
 
-Also have a look at the [Console Demo](GameLib.Demo/GameLib.Demo.Console) within the repository. It will run straight out of the box to give you a hint what the library can do for you.
+Have a look at the [Console Demo](GameLib.Demo/GameLib.Demo.Console) within the repository. It will run straight out of the box to give you a hint what the library can do for you.
 
-**Please note:** All values are cached within each launcher to save computing time on the next call. If you like to get refreshed values (e.g. new game installed while the lib is running) the `ClearCache()` Method on the `LauncherManager` or on the actual `ILauncher` has to be called.
+**Please note:** All values are cached within each launcher to save computing time on the next call. If you like to get refreshed values (e.g. new game installed while the lib is running) the `Refresh()` Method on the `LauncherManager` or on the actual `ILauncher` has to be called.
 
 
 ### What launcher / game information is the library providing?

@@ -21,7 +21,9 @@ public class SteamGame : IGame
         get
         {
             if (string.IsNullOrEmpty(Executable))
+            {
                 return Convert.ToBoolean(RegistryUtil.GetValue(RegistryHive.CurrentUser, $@"Software\Valve\Steam\Apps\{Id}", "Running"));
+            }
 
             return ProcessUtil.IsProcessRunning(Executable);
         }

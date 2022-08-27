@@ -2,8 +2,23 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+
+## [1.1.0] - 2022-27-08
 ### Fixed
-- disable 0649 to avoid compiler warning for MEF variable
+- disable 0649 to avoid compiler warning for MEF variables
+
+### Added
+- Add LauncherOptions to ILauncher interface to change settings on the fly for a single plugin
+- Add Documentation to LauncherOptions
+- Add Documentation to LauncherManager methods 
+
+### Changed
+- Corrected Plugin documentation concerning referencing the Plugin ID
+- Restructure of code
+- Rename ClearCache method on LauncherManager and ILauncher Interface to Refresh
+- LauncherManager will now always refresh all Plugins including the Games on initial GetLauncher call
+- Remove GetGames method on ILauncher interface and instead add Games property
 
 
 ## [1.0.6] - 2022-24-08

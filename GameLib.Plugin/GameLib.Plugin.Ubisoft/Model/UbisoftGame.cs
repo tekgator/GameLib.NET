@@ -15,8 +15,7 @@ public class UbisoftGame : IGame
     public string WorkingDir { get; internal set; } = string.Empty;
     public string LaunchString { get; internal set; } = string.Empty;
     public DateTime InstallDate { get; internal set; } = DateTime.MinValue;
-    public bool IsRunning =>
-        ProcessUtil.IsProcessRunning(Executable);
+    public bool IsRunning => ProcessUtil.IsProcessRunning(Executable);
     #endregion
 
     public string Language { get; internal set; } = string.Empty;

@@ -11,7 +11,9 @@ internal static class SteamLibraryFactory
         var libraryVdfPath = Path.Combine(installDir, "config", "libraryfolders.vdf");
 
         if (!File.Exists(libraryVdfPath))
+        {
             return Enumerable.Empty<SteamLibrary>();
+        }
 
         using var stream = File.OpenRead(libraryVdfPath);
         var serializer = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);

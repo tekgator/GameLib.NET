@@ -1,4 +1,5 @@
 ﻿using Gamelib.Core.Util;
+using GameLib.Core;
 using GameLib.Plugin.Epic.Model;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -7,19 +8,30 @@ namespace GameLib.Plugin.Epic;
 
 internal static class EpicGameFactory
 {
-    public static IEnumerable<EpicGame> GetGames(Guid launcherId, CancellationToken cancellationToken = default)
+    public static IEnumerable<EpicGame> GetGames(ILauncher launcher, CancellationToken cancellationToken = default)
     {
         var metaDataDir = GetMetadataDir();
         if (string.IsNullOrEmpty(metaDataDir))
+        {
             return Enumerable.Empty<EpicGame>();
+        }
 
         return Directory.GetFiles(metaDataDir, "*.item")
             .AsParallel()
             .WithCancellation(cancellationToken)
             .Select(DeserializeManifest)
             .Where(game => game is not null)
-            .Select(game => { game!.LauncherId = launcherId; return game; })
+            .Select(game => AddLauncherId(launcher, game!))
             .ToList()!;
+    }
+
+    /// <summary>
+    /// Add launcher ID to Game
+    /// </summary>
+    private static EpicGame AddLauncherId(ILauncher launcher, EpicGame game)
+    {
+        game.LauncherId = launcher.Id;
+        return game;
     }
 
     /// <summary>
@@ -35,13 +47,19 @@ internal static class EpicGameFactory
 
         metadataDir = PathUtil.Sanitize(metadataDir);
         if (string.IsNullOrEmpty(metadataDir))
+        {
             return null;
+        }
 
         if (!metadataDir.EndsWith("Manifests", StringComparison.OrdinalIgnoreCase))
+        {
             metadataDir = Path.Combine(metadataDir, "Manifests");
+        }
 
         if (!Directory.Exists(metadataDir))
+        {
             return null;
+        }
 
         return metadataDir;
     }
@@ -57,7 +75,9 @@ internal static class EpicGameFactory
             var manifestJson = File.ReadAllText(manifestFile);
             deserializedEpicGame = JsonConvert.DeserializeObject<DeserializedEpicGame>(manifestJson);
             if (deserializedEpicGame is null)
+            {
                 throw new ApplicationException("Cannot deserialize JSON stream");
+            }
         }
         catch { return null; }
 

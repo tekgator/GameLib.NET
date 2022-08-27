@@ -25,16 +25,16 @@ var launcherManager = new LauncherManager();
 // not required to cast here just to add to the documentation
 var launcher = (UbisoftLauncher?)launcherManager.GetLaunchers()
     .Where(launcher => launcher.Name == "Ubisoft Connect")
-    // GUID of the class could also be used instead of the name
-    //.Where(launcher => launcher.GetType().GUID == new Guid("CE276C05-6CD1-4D99-9A5A-2E03ECFB6028"))
+    // Plugin ID could also be used instead of the name
+    //.Where(launcher => launcher.Id == new Guid("CE276C05-6CD1-4D99-9A5A-2E03ECFB6028"))
     .FirstOrDefault();
 
 if (launcher is not null)
 {
-    var games = (IEnumerable<UbisoftGame>)launcher.GetGames();
+    var games = (IEnumerable<UbisoftGame>)launcher.Games;
     foreach (var game in games)
     {
-        // Write addtional data Ubisoft Connect is providing for a game besides from the IGame inteface
+        // Write additional data Ubisoft Connect is providing for a game besides from the IGame interface
         Console.WriteLine($"\nGame");
         Console.WriteLine($"\tLanguage: {game.Language}");
         Console.WriteLine($"\tHelpUrl: {game.HelpUrl}");
