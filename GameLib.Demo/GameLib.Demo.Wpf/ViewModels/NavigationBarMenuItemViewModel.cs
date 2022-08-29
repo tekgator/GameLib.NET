@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace GameLib.Demo.Wpf.Models;
+namespace GameLib.Demo.Wpf.ViewModels;
 
-public class NavigationBarMenuItemModel
+public class NavigationBarMenuItemViewModel
 {
     public string ImageSource { get; set; } = default!;
     public string Text { get; set; } = default!;

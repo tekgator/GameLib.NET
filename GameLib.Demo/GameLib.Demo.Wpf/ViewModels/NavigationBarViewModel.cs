@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GameLib.Demo.Wpf.Models;
 using GameLib.Demo.Wpf.Services;
 using System;
 using System.Collections.Generic;
@@ -14,31 +13,31 @@ namespace GameLib.Demo.Wpf.ViewModels;
 public partial class NavigationBarViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private ObservableCollection<NavigationBarMenuItemModel> _menuItems = default!;
+    private ObservableCollection<NavigationBarMenuItemViewModel> _menuItems = default!;
 
     [ObservableProperty]
-    private NavigationBarMenuItemModel? _selectedMenuItem;
+    private NavigationBarMenuItemViewModel? _selectedMenuItem;
 
     public NavigationBarViewModel(
         INavigationService<HomeViewModel> homeNavigationService,
         INavigationService<LauncherViewModel> launcherNavigationService,
         INavigationService<GameViewModel> gameNavigationService)
     {
-        MenuItems = new(new List<NavigationBarMenuItemModel>()
+        MenuItems = new(new List<NavigationBarMenuItemViewModel>()
         {
-            new NavigationBarMenuItemModel()
+            new NavigationBarMenuItemViewModel()
             {
                 Text = "Home",
                 ImageSource = "/Resources/home-white.png",
                 Navigate = homeNavigationService.Navigate
             },
-            new NavigationBarMenuItemModel()
+            new NavigationBarMenuItemViewModel()
             {
                 Text = "Launchers",
                 ImageSource = "/Resources/launcher-white.png",
                 Navigate = launcherNavigationService.Navigate
             },
-            new NavigationBarMenuItemModel()
+            new NavigationBarMenuItemViewModel()
             {
                 Text = "Games",
                 ImageSource = "/Resources/game-white.png",
@@ -49,7 +48,7 @@ public partial class NavigationBarViewModel : ViewModelBase
         SelectedMenuItem = MenuItems.FirstOrDefault();
     }
 
-    partial void OnSelectedMenuItemChanged(NavigationBarMenuItemModel? value)
+    partial void OnSelectedMenuItemChanged(NavigationBarMenuItemViewModel? value)
     {
         value?.Navigate();
     }
