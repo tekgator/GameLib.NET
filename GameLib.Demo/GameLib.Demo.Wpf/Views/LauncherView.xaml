@@ -18,6 +18,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:ImageToImageSourceConverter x:Key="ImageToImageSourceConverter" />
+        <converters:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
 
         <Style TargetType="TextBox">
             <Setter Property="Width" Value="500" />
@@ -112,7 +113,7 @@
                             Grid.Column="0"
                             Width="24"
                             Height="24"
-                            Source="{Binding Logo, Converter={StaticResource ImageToImageSourceConverter}}" />
+                            Source="{Binding ExecutableIcon, Converter={StaticResource IconToImageSourceConverter}}" />
                         <TextBlock
                             Grid.Column="1"
                             Margin="10,0,5,0"
@@ -160,16 +161,31 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <Image
+                <!--#region Header-->
+                <StackPanel
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="5"
-                    Width="96"
-                    Height="96"
                     Margin="0,10,0,10"
                     HorizontalAlignment="Center"
-                    Source="{Binding SelectedLauncher.Logo, Converter={StaticResource ImageToImageSourceConverter}}" />
+                    Orientation="Horizontal">
+                    <Image
+                        Width="32"
+                        Height="32"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{Binding SelectedLauncher.ExecutableIcon, Converter={StaticResource IconToImageSourceConverter}}" />
 
+                    <TextBlock
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="32"
+                        Text="{Binding SelectedLauncher.Name}" />
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Name-->
                 <TextBlock
                     Grid.Row="3"
                     Grid.Column="0"
@@ -199,7 +215,9 @@
                             Source="/Resources/copy-white.png" />
                     </Button>
                 </StackPanel>
+                <!--#endregion-->
 
+                <!--#region Id-->
                 <TextBlock
                     Grid.Row="5"
                     Grid.Column="0"
@@ -230,7 +248,9 @@
                             Source="/Resources/copy-white.png" />
                     </Button>
                 </StackPanel>
+                <!--#endregion-->
 
+                <!--#region Install directory-->
                 <TextBlock
                     Grid.Row="7"
                     Grid.Column="0"
@@ -272,7 +292,9 @@
                             Source="/Resources/open-white.png" />
                     </Button>
                 </StackPanel>
+                <!--#endregion-->
 
+                <!--#region Executable path-->
                 <TextBlock
                     Grid.Row="9"
                     Grid.Column="0"
@@ -315,7 +337,9 @@
                             Source="/Resources/play-white.png" />
                     </Button>
                 </StackPanel>
+                <!--#endregion-->
 
+                <!--#region Executable-->
                 <TextBlock
                     Grid.Row="11"
                     Grid.Column="0"
@@ -345,7 +369,9 @@
                             Source="/Resources/copy-white.png" />
                     </Button>
                 </StackPanel>
+                <!--#endregion-->
 
+                <!--#region IsInstalled-->
                 <TextBlock
                     Grid.Row="13"
                     Grid.Column="0"
@@ -359,14 +385,15 @@
                     Height="24"
                     HorizontalAlignment="Left"
                     Source="{Binding IsInstalledLogo}" />
+                <!--#endregion-->
 
+                <!--#region IsRunning-->
                 <TextBlock
                     Grid.Row="15"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Is running: " />
-
                 <Image
                     Grid.Row="15"
                     Grid.Column="2"
@@ -374,7 +401,6 @@
                     Height="24"
                     HorizontalAlignment="Left"
                     Source="{Binding IsRunningLogo}" />
-
                 <StackPanel
                     Grid.Row="15"
                     Grid.Column="4"
@@ -392,7 +418,9 @@
                             Source="/Resources/refresh-white.png" />
                     </Button>
                 </StackPanel>
+                <!--#endregion-->
 
+                <!--#region Installed games-->
                 <TextBlock
                     Grid.Row="17"
                     Grid.Column="0"
@@ -419,6 +447,7 @@
                             Source="/Resources/game-white.png" />
                     </Button>
                 </StackPanel>
+                <!--#endregion-->
             </Grid>
         </Grid>
     </Grid>
