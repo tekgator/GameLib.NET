@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace GameLib.Demo.Wpf.Converters;
 
-internal class ImageToImageSourceConverter : IValueConverter
+public class ImageToImageSourceConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
