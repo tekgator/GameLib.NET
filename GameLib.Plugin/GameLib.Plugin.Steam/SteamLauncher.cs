@@ -38,6 +38,8 @@ public class SteamLauncher : ILauncher
 
     public string Executable { get; private set; } = string.Empty;
 
+    public Icon? ExecutableIcon => PathUtil.GetFileIcon(ExecutablePath);
+
     public IEnumerable<IGame> Games { get; private set; } = Enumerable.Empty<IGame>();
 
     public bool Start() => IsRunning || ProcessUtil.StartProcess(ExecutablePath);

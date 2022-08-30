@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Added
 - Add ExecutableIcon property on IGame interface / implementations
+- Add ExecutableIcon property on ILauncher interface / implementations
 
 
 ## [1.1.1] - 2022-27-08
