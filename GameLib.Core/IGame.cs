@@ -1,4 +1,6 @@
-﻿namespace GameLib.Core;
+﻿using System.Drawing;
+
+namespace GameLib.Core;
 
 public interface IGame
 {
@@ -31,6 +33,11 @@ public interface IGame
     /// Just the executable name
     /// </summary>
     public string Executable { get; }
+
+    /// <summary>
+    /// The extracted icon of the game executable
+    /// </summary>
+    public Icon? ExecutableIcon { get; }
 
     /// <summary>
     /// Working directory of the game

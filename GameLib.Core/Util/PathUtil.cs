@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace Gamelib.Core.Util;
 
@@ -88,5 +89,24 @@ public static class PathUtil
         }
 
         return creationDateTime;
+    }
+
+    /// <summary>
+    /// Returns the extracted default icon of the file
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns>The extracted icon of the file; otherwise <see langword="null"/></returns>
+    public static Icon? GetFileIcon(string? path)
+    {
+        if (!string.IsNullOrEmpty(path) && File.Exists(path))
+        {
+            try
+            {
+                return Icon.ExtractAssociatedIcon(path);
+            }
+            catch { /* ignore */ }
+        }
+
+        return null;
     }
 }
