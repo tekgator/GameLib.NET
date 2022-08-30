@@ -55,6 +55,11 @@ public interface ILauncher
     public string Executable { get; }
 
     /// <summary>
+    /// The extracted icon of the launcher executable
+    /// </summary>
+    public Icon? ExecutableIcon { get; }
+
+    /// <summary>
     /// The installed games of the Launcher
     /// NOTE: if no cache is available list will be empty, Refresh must be called first
     /// </summary>
