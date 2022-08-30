@@ -4,6 +4,7 @@ using GameLib.Core;
 using GameLib.Demo.Wpf.Util;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -56,17 +57,23 @@ public partial class LauncherViewModel : ViewModelBase
         IsLoading = false;
     }
 
-    partial void OnSelectedLauncherChanged(ILauncher? value)
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-        switch (value)
+        base.OnPropertyChanged(e);
+        switch (e.PropertyName)
         {
-            case null:
-                IsInstalledLogo = CrossImagePath;
-                IsRunningLogo = CrossImagePath;
-                break;
-            default:
-                IsInstalledLogo = value.IsInstalled ? CheckImagePath : CrossImagePath;
-                IsRunningLogo = value.IsRunning ? CheckImagePath : CrossImagePath;
+            case nameof(SelectedLauncher):
+                switch (_selectedLauncher)
+                {
+                    case null:
+                        IsInstalledLogo = CrossImagePath;
+                        IsRunningLogo = CrossImagePath;
+                        break;
+                    default:
+                        IsInstalledLogo = _selectedLauncher.IsInstalled ? CheckImagePath : CrossImagePath;
+                        IsRunningLogo = _selectedLauncher.IsRunning ? CheckImagePath : CrossImagePath;
+                        break;
+                }
                 break;
         }
     }
@@ -91,7 +98,15 @@ public partial class LauncherViewModel : ViewModelBase
             return;
         }
 
-        Process.Start(launcher.ExecutablePath);
+        try
+        {
+            Process.Start(new ProcessStartInfo()
+            {
+                UseShellExecute = true,
+                FileName = launcher.ExecutablePath
+            });
+        }
+        catch { /* ignore */ }
     }
 
     [RelayCommand]
