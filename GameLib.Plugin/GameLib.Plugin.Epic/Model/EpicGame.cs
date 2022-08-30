@@ -1,5 +1,6 @@
 ﻿using Gamelib.Core.Util;
 using GameLib.Core;
+using System.Drawing;
 
 namespace GameLib.Plugin.Epic.Model;
 
@@ -12,6 +13,7 @@ public class EpicGame : IGame
     public string InstallDir { get; internal set; } = string.Empty;
     public string ExecutablePath { get; internal set; } = string.Empty;
     public string Executable { get; internal set; } = string.Empty;
+    public Icon? ExecutableIcon => PathUtil.GetFileIcon(ExecutablePath);
     public string WorkingDir { get; internal set; } = string.Empty;
     public string LaunchString { get; internal set; } = string.Empty;
     public DateTime InstallDate { get; internal set; } = DateTime.MinValue;
