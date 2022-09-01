@@ -1,0 +1,592 @@
+﻿<UserControl
+    x:Class="GameLib.Demo.Wpf.Views.GameView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:GameLib.Demo.Wpf.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gif="http://wpfanimatedgif.codeplex.com"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:GameLib.Demo.Wpf.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:GameViewModel}"
+    d:DesignHeight="600"
+    d:DesignWidth="1000"
+    Background="{StaticResource PrimaryBackgroundColor}"
+    FontSize="16"
+    Foreground="{StaticResource PrimaryForegroundColor}"
+    mc:Ignorable="d">
+
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:ImageToImageSourceConverter x:Key="ImageToImageSourceConverter" />
+        <converters:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
+
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="500" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="IsReadOnlyCaretVisible" Value="True" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#373737" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--#region Loading gif-->
+        <Border
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Panel.ZIndex="1"
+            d:Panel.ZIndex="-1"
+            Background="{StaticResource PrimaryBackgroundColor}"
+            Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="Loading..." />
+
+                <Image
+                    Width="128"
+                    Height="128"
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    gif:ImageBehavior.AnimatedSource="/Resources/spinner-white.gif" />
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region No installed games found-->
+        <Border
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Panel.ZIndex="1"
+            d:Panel.ZIndex="-1"
+            Background="{StaticResource PrimaryBackgroundColor}"
+            Visibility="{Binding NoGameFound, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="48"
+                Text="No installed games found." />
+        </Border>
+        <!--#endregion-->
+
+        <ListView
+            Grid.Column="0"
+            d:Width="150"
+            Background="{StaticResource SecondaryBackgroundColor}"
+            BorderBrush="{StaticResource ThirdBackgroundColor}"
+            BorderThickness="0,0,1,0"
+            Foreground="{StaticResource PrimaryForegroundColor}"
+            ItemsSource="{Binding Games}"
+            SelectedItem="{Binding SelectedGame}">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border
+                                    Margin="1,0,1,0"
+                                    Padding="10,15,10,15"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="0"
+                                    Cursor="Hand">
+                                    <ContentPresenter
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        TextBlock.Foreground="{TemplateBinding Foreground}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ThirdBackgroundColor}" />
+                            <Setter Property="Foreground" Value="{StaticResource ThirdForegroundColor}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource SecondaryForegroundColor}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image
+                            Grid.Column="0"
+                            Width="24"
+                            Height="24"
+                            Source="{Binding ExecutableIcon, Converter={StaticResource IconToImageSourceConverter}}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="10,0,5,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding Name}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid Grid.Column="1" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1" IsSharedSizeScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" SharedSizeGroup="content" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--#region Header-->
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="5"
+                    Margin="0,10,0,10"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Image
+                        Width="32"
+                        Height="32"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{Binding SelectedGame.ExecutableIcon, Converter={StaticResource IconToImageSourceConverter}}" />
+
+                    <TextBlock
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="32"
+                        Text="{Binding SelectedGame.Name}" />
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Launcher-->
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Launcher: " />
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding LauncherName, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="3"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding LauncherName}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                    <!--
+                    <Button Margin="5,0,0,0" ToolTip="Show launcher details">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Source="/Resources/launcher-white.png" />
+                    </Button>
+                    -->
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Name-->
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Name: " />
+                <TextBox
+                    Grid.Row="5"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedGame.Name, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="5"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedGame.Name}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Game ID-->
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Game ID: " />
+                <TextBox
+                    Grid.Row="7"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedGame.Id, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="7"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedGame.Id}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Install directory-->
+                <TextBlock
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Install directory: " />
+                <TextBox
+                    Grid.Row="9"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedGame.InstallDir, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="9"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedGame.InstallDir}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                    <Button
+                        Margin="5,0,0,0"
+                        Command="{Binding OpenPathCommand}"
+                        CommandParameter="{Binding SelectedGame.InstallDir}"
+                        ToolTip="Open in explorer">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/open-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Install date-->
+                <TextBlock
+                    Grid.Row="11"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Install date: " />
+                <TextBox
+                    x:Name="txtInstallDate"
+                    Grid.Row="11"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedGame.InstallDate, Mode=OneWay, StringFormat='g'}" />
+                <StackPanel
+                    Grid.Row="11"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding ElementName=txtInstallDate, Path=Text}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Executable path-->
+                <TextBlock
+                    Grid.Row="13"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Executable path: " />
+                <TextBox
+                    Grid.Row="13"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedGame.ExecutablePath, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="13"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedGame.ExecutablePath}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                    <Button
+                        Margin="5,0,0,0"
+                        Command="{Binding OpenPathCommand}"
+                        CommandParameter="{Binding SelectedGame.ExecutablePath}"
+                        ToolTip="Open in explorer">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/open-white.png" />
+                    </Button>
+                    <Button
+                        Margin="5,0,0,0"
+                        Command="{Binding RunGameCommand}"
+                        CommandParameter="{Binding SelectedGame}"
+                        ToolTip="Start launcher">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Source="/Resources/play-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Executable name-->
+                <TextBlock
+                    Grid.Row="15"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Executable: " />
+                <TextBox
+                    Grid.Row="15"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedGame.Executable, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="15"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedGame.Executable}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Working directory-->
+                <TextBlock
+                    Grid.Row="17"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Working directory: " />
+                <TextBox
+                    Grid.Row="17"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedGame.WorkingDir, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="17"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedGame.WorkingDir}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                    <Button
+                        Margin="5,0,0,0"
+                        Command="{Binding OpenPathCommand}"
+                        CommandParameter="{Binding SelectedGame.WorkingDir}"
+                        ToolTip="Open in explorer">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/open-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Launch string-->
+                <TextBlock
+                    Grid.Row="19"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Launch string: " />
+                <TextBox
+                    Grid.Row="19"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedGame.LaunchString, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Row="19"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding SelectedGame.LaunchString}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                    <Button
+                        Margin="5,0,0,0"
+                        Command="{Binding RunLaunchStringCommand}"
+                        CommandParameter="{Binding SelectedGame}"
+                        ToolTip="Start launcher">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Source="/Resources/play-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region IsRunning-->
+                <TextBlock
+                    Grid.Row="21"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Is running: " />
+
+                <Image
+                    Grid.Row="21"
+                    Grid.Column="2"
+                    Width="24"
+                    Height="24"
+                    HorizontalAlignment="Left"
+                    Source="{Binding IsRunningLogo}" />
+
+                <StackPanel
+                    Grid.Row="21"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button Command="{Binding RefreshGameIsRunningCommand}" ToolTip="Refresh">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/refresh-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
