@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:GameLib.Demo.Wpf.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:GameViewModel}"
-    d:DesignHeight="450"
+    d:DesignHeight="600"
     d:DesignWidth="1000"
     Background="{StaticResource PrimaryBackgroundColor}"
     FontSize="16"
@@ -38,6 +38,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!--#region Loading gif-->
         <Border
             Grid.Column="0"
             Grid.ColumnSpan="2"
@@ -63,6 +64,25 @@
                     gif:ImageBehavior.AnimatedSource="/Resources/spinner-white.gif" />
             </StackPanel>
         </Border>
+        <!--#endregion-->
+
+        <!--#region No installed games found-->
+        <Border
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Panel.ZIndex="1"
+            d:Panel.ZIndex="-1"
+            Background="{StaticResource PrimaryBackgroundColor}"
+            Visibility="{Binding NoGameFound, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="48"
+                Text="No installed games found." />
+        </Border>
+        <!--#endregion-->
 
         <ListView
             Grid.Column="0"
@@ -158,6 +178,8 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="10" />
                     <RowDefinition Height="auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -220,16 +242,14 @@
                             Margin="2"
                             Source="/Resources/copy-white.png" />
                     </Button>
-                    <Button
-                        Margin="5,0,0,0"
-                        Command="{Binding RunLaunchStringCommand}"
-                        CommandParameter="{Binding SelectedGame}"
-                        ToolTip="Start launcher">
+                    <!--
+                    <Button Margin="5,0,0,0" ToolTip="Show launcher details">
                         <Image
                             Width="20"
                             Height="20"
                             Source="/Resources/launcher-white.png" />
                     </Button>
+                    -->
                 </StackPanel>
                 <!--#endregion-->
 
@@ -337,20 +357,52 @@
                 </StackPanel>
                 <!--#endregion-->
 
-                <!--#region Executable path-->
+                <!--#region Install date-->
                 <TextBlock
                     Grid.Row="11"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
+                    Text="Install date: " />
+                <TextBox
+                    x:Name="txtInstallDate"
+                    Grid.Row="11"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{Binding SelectedGame.InstallDate, Mode=OneWay, StringFormat='g'}" />
+                <StackPanel
+                    Grid.Row="11"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CopyToClipboardCommand}"
+                        CommandParameter="{Binding ElementName=txtInstallDate, Path=Text}"
+                        ToolTip="Copy to clipboard">
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Margin="2"
+                            Source="/Resources/copy-white.png" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Executable path-->
+                <TextBlock
+                    Grid.Row="13"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
                     Text="Executable path: " />
                 <TextBox
-                    Grid.Row="11"
+                    Grid.Row="13"
                     Grid.Column="2"
                     VerticalAlignment="Center"
                     Text="{Binding SelectedGame.ExecutablePath, Mode=OneWay}" />
                 <StackPanel
-                    Grid.Row="11"
+                    Grid.Row="13"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -391,18 +443,18 @@
 
                 <!--#region Executable name-->
                 <TextBlock
-                    Grid.Row="13"
+                    Grid.Row="15"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Executable: " />
                 <TextBox
-                    Grid.Row="13"
+                    Grid.Row="15"
                     Grid.Column="2"
                     VerticalAlignment="Center"
                     Text="{Binding SelectedGame.Executable, Mode=OneWay}" />
                 <StackPanel
-                    Grid.Row="13"
+                    Grid.Row="15"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -422,18 +474,18 @@
 
                 <!--#region Working directory-->
                 <TextBlock
-                    Grid.Row="15"
+                    Grid.Row="17"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Working directory: " />
                 <TextBox
-                    Grid.Row="15"
+                    Grid.Row="17"
                     Grid.Column="2"
                     VerticalAlignment="Center"
                     Text="{Binding SelectedGame.WorkingDir, Mode=OneWay}" />
                 <StackPanel
-                    Grid.Row="15"
+                    Grid.Row="17"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -464,18 +516,18 @@
 
                 <!--#region Launch string-->
                 <TextBlock
-                    Grid.Row="17"
+                    Grid.Row="19"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Launch string: " />
                 <TextBox
-                    Grid.Row="17"
+                    Grid.Row="19"
                     Grid.Column="2"
                     VerticalAlignment="Center"
                     Text="{Binding SelectedGame.LaunchString, Mode=OneWay}" />
                 <StackPanel
-                    Grid.Row="17"
+                    Grid.Row="19"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -505,14 +557,14 @@
 
                 <!--#region IsRunning-->
                 <TextBlock
-                    Grid.Row="19"
+                    Grid.Row="21"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Is running: " />
 
                 <Image
-                    Grid.Row="19"
+                    Grid.Row="21"
                     Grid.Column="2"
                     Width="24"
                     Height="24"
@@ -520,7 +572,7 @@
                     Source="{Binding IsRunningLogo}" />
 
                 <StackPanel
-                    Grid.Row="19"
+                    Grid.Row="21"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -537,65 +589,4 @@
             </Grid>
         </Grid>
     </Grid>
-
-
-
-    <!--
-    <UserControl.Resources>
-        <converters:GameLibDataTemplateConverter x:Key="GameLibDataTemplateConverter" />
-        <converters:ImageToImageSourceConverter x:Key="ImageToImageSourceConverter" />
-    </UserControl.Resources>
-
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <TreeView
-            Grid.Column="0"
-            Background="{StaticResource SecondaryBackgroundColor}"
-            BorderBrush="{StaticResource ThirdBackgroundColor}"
-            BorderThickness="0,0,1,0"
-            Foreground="{StaticResource PrimaryForegroundColor}"
-            ItemTemplateSelector="{StaticResource GameLibDataTemplateConverter}"
-            ItemsSource="{Binding Launchers}">
-
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="TreeViewItem">
-                    <Setter Property="Foreground" Value="{StaticResource PrimaryForegroundColor}" />
-                    <Setter Property="FontSize" Value="16" />
-
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ThirdBackgroundColor}" />
-                            <Setter Property="Foreground" Value="{StaticResource ThirdForegroundColor}" />
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource SecondaryForegroundColor}" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </TreeView.ItemContainerStyle>
-
-            <TreeView.Resources>
-                <HierarchicalDataTemplate x:Key="LauncherTemplate" ItemsSource="{Binding Games}">
-                    <WrapPanel Margin="0,5,15,0">
-                        <Image Height="24" Source="{Binding Logo, Converter={StaticResource ImageToImageSourceConverter}}" />
-                        <TextBlock Text="{Binding Name}" />
-                    </WrapPanel>
-                </HierarchicalDataTemplate>
-                <DataTemplate x:Key="GameTemplate">
-                    <WrapPanel Margin="0,5,15,0">
-                        <TextBlock Text="{Binding Name}" />
-                    </WrapPanel>
-                </DataTemplate>
-            </TreeView.Resources>
-        </TreeView>
-
-        <Grid Grid.Column="1">
-            <TextBlock Text="Todo" />
-        </Grid>
-    </Grid>-->
-
 </UserControl>

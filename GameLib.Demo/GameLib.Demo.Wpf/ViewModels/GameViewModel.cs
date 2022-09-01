@@ -30,6 +30,9 @@ public partial class GameViewModel : ViewModelBase
     private bool _isLoading;
 
     [ObservableProperty]
+    private bool _noGameFound = false;
+
+    [ObservableProperty]
     private string _isRunningLogo = CrossImagePath;
 
     [ObservableProperty]
@@ -58,6 +61,10 @@ public partial class GameViewModel : ViewModelBase
         Games = new(games);
         SelectedGame = Games.FirstOrDefault();
         IsLoading = false;
+        if (!Games.Any())
+        {
+            NoGameFound = true;
+        }
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
