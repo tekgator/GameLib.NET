@@ -9,7 +9,7 @@
     xmlns:views="clr-namespace:GameLib.Demo.Wpf.Views"
     Title="GameLib.NET"
     Width="1200"
-    Height="800"
+    Height="700"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
     Background="{StaticResource PrimaryBackgroundColor}"
     Icon="/Resources/icon.ico"
