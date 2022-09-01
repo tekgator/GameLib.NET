@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+## [1.1.2] - 2022-01-09
+### Added
+- Add ExecutableIcon property on IGame interface / implementations
+- Add ExecutableIcon property on ILauncher interface / implementations
+- Add WPF GUI demo application
+
+
+## [1.1.1] - 2022-27-08
+### Fixed
+- Refresh caused an dead lock in UI applications due to incorrect async call
+- Refresh on LauncherManager also returns the Launchers collection so no extra GetLaunchers call need to be made
+
+
 ## [1.1.0] - 2022-27-08
 ### Fixed
 - disable 0649 to avoid compiler warning for MEF variables
