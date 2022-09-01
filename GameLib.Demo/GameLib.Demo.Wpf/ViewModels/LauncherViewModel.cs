@@ -28,10 +28,14 @@ public partial class LauncherViewModel : ViewModelBase
     private bool _isLoading;
 
     [ObservableProperty]
+    private bool _noLauncherFound = false;
+
+    [ObservableProperty]
     private string _isInstalledLogo = CrossImagePath;
 
     [ObservableProperty]
     private string _isRunningLogo = CrossImagePath;
+
 
     public LauncherViewModel(LauncherManager launcherManager)
     {
@@ -55,6 +59,10 @@ public partial class LauncherViewModel : ViewModelBase
         Launchers = new(launchers);
         SelectedLauncher = Launchers.FirstOrDefault();
         IsLoading = false;
+        if (!Launchers.Any())
+        {
+            NoLauncherFound = true;
+        }
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)

@@ -33,6 +33,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!--#region Loading gif-->
         <Border
             Grid.Column="0"
             Grid.ColumnSpan="2"
@@ -58,6 +59,25 @@
                     gif:ImageBehavior.AnimatedSource="/Resources/spinner-white.gif" />
             </StackPanel>
         </Border>
+        <!--#endregion-->
+
+        <!--#region No launcher plugins found-->
+        <Border
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Panel.ZIndex="1"
+            d:Panel.ZIndex="-1"
+            Background="{StaticResource PrimaryBackgroundColor}"
+            Visibility="{Binding NoLauncherFound, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="48"
+                Text="No launcher plugins found." />
+        </Border>
+        <!--#endregion-->
 
         <ListView
             Grid.Column="0"
@@ -433,6 +453,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Text="{Binding SelectedLauncher.Games.Count}" />
+                <!--
                 <StackPanel
                     Grid.Row="17"
                     Grid.Column="4"
@@ -447,6 +468,7 @@
                             Source="/Resources/game-white.png" />
                     </Button>
                 </StackPanel>
+                -->
                 <!--#endregion-->
             </Grid>
         </Grid>
