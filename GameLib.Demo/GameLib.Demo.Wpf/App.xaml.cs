@@ -3,7 +3,9 @@ using GameLib.Demo.Wpf.Store;
 using GameLib.Demo.Wpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace GameLib.Demo.Wpf;
 
@@ -13,6 +15,11 @@ public partial class App : Application
 
     public App()
     {
+        // apply user culture to application
+        FrameworkElement.LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+
         IServiceCollection services = new ServiceCollection();
 
         services.AddSingleton<NavigationStore>();
