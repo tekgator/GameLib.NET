@@ -54,8 +54,6 @@ foreach (var launcher in launcherManager.GetLaunchers())
 
 ```
 
-Have a look at the [Console Demo](GameLib.Demo/GameLib.Demo.Console) within the repository. It will run straight out of the box to give you a hint what the library can do for you.
-
 **Please note:** All values are cached within each launcher to save computing time on the next call. If you like to get refreshed values (e.g. new game installed while the lib is running) the `Refresh()` Method on the `LauncherManager` or on the actual `ILauncher` has to be called.
 
 
@@ -64,6 +62,18 @@ Have a look at the [Console Demo](GameLib.Demo/GameLib.Demo.Console) within the 
 To make a long story short have a look at the [`ILauncher`](GameLib.Core/ILauncher.cs) interface as well as the [`IGame`](GameLib.Core/IGame.cs) interface to see what values are returned by default. Each plugin can provide more information, which can be found in the README.md the corresponding plugin.
 
 **Please note:** Not all launchers will fill all properties in the ``IGame`` interface instance. Further information are provided in the README.md of each plugin.
+
+## Demo application
+
+Have a look at the [Console Demo](GameLib.Demo/GameLib.Demo.Console) as well as the [WPF GUI Demo](GameLib.Demo/GameLib.Demo.Wpf) within the repository. 
+Both will run straight out of the box to give you a hint what the library can do for you.
+
+![WPF GUI Demo Launchers Screenshot](Resources/Screenshots/WpfDemoLaunchers.png "WPF GUI Demo Launchers Screenshot") 
+
+![WPF GUI Demo Games Screenshot](Resources/Screenshots/WpfDemoGames.png "WPF GUI Demo Games Screenshot") 
+
+
+
 
 ## Support
 
@@ -87,4 +97,4 @@ If I've helped you, feel free to buy me a coffee or see the Sponsor link [at the
 
 - YAML deserializing by [YamlDotNet](https://github.com/aaubry/YamlDotNet)
 
-- The main GameLib.NET icon is created by [Flat Icons](https://www.flaticon.com)
+- Icons are provided by [Flat Icons](https://www.flaticon.com)
