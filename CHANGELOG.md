@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+## [1.2.0] - 2022-04-09
+### Added
+- Add Battle.net plugin for interacting with Battle.net launcher and games
+
+
 ## [1.1.2] - 2022-01-09
 ### Added
 - Add ExecutableIcon property on IGame interface / implementations
