@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
-	<PackageReference Include="ValveKeyValue" Version="0.8.0.139" />
+	<PackageReference Include="ValveKeyValue" Version="0.8.2.162" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
 	<PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
   </ItemGroup>
