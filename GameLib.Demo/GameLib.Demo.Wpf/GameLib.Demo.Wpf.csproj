@@ -59,6 +59,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.BattleNet\GameLib.Plugin.BattleNet.csproj" />
 	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj" />
 	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" />
 	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" />

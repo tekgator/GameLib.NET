@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Epic", "Game
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Core", "GameLib.Core\GameLib.Core.csproj", "{FBB6130A-2055-4B08-9AE9-5640E02D17A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Demo.Wpf", "GameLib.Demo\GameLib.Demo.Wpf\GameLib.Demo.Wpf.csproj", "{273BB7F0-6AFD-4B0F-A1CF-DBB4E0797BFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Demo.Wpf", "GameLib.Demo\GameLib.Demo.Wpf\GameLib.Demo.Wpf.csproj", "{273BB7F0-6AFD-4B0F-A1CF-DBB4E0797BFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Plugin.BattleNet", "GameLib.Plugin\GameLib.Plugin.BattleNet\GameLib.Plugin.BattleNet.csproj", "{9629FF2C-928F-49C8-9EB6-306BDFA85F4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{273BB7F0-6AFD-4B0F-A1CF-DBB4E0797BFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{273BB7F0-6AFD-4B0F-A1CF-DBB4E0797BFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{273BB7F0-6AFD-4B0F-A1CF-DBB4E0797BFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9629FF2C-928F-49C8-9EB6-306BDFA85F4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9629FF2C-928F-49C8-9EB6-306BDFA85F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9629FF2C-928F-49C8-9EB6-306BDFA85F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9629FF2C-928F-49C8-9EB6-306BDFA85F4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
