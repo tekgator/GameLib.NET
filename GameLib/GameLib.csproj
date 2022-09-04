@@ -61,7 +61,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameLib.Core\GameLib.Core.csproj" PrivateAssets="all" />
-    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.BattleNet\GameLib.Plugin.BattleNet.csproj" />
+    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.BattleNet\GameLib.Plugin.BattleNet.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" PrivateAssets="all" />
