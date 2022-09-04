@@ -12,6 +12,7 @@ Following plugins are already bundled with GameLib.NET to detect the game launch
 - ![Ubisoft Connect](GameLib.Plugin/GameLib.Plugin.Ubisoft/Resources/Logo32px.png) [Ubisoft Connect](GameLib.Plugin/GameLib.Plugin.Ubisoft)
 - ![Origin](GameLib.Plugin/GameLib.Plugin.Origin/Resources/Logo32px.png) [Origin](GameLib.Plugin/GameLib.Plugin.Origin)
 - ![GOG Galaxy 2.0](GameLib.Plugin/GameLib.Plugin.Gog/Resources/Logo32px.png) [GOG Galaxy 2.0](GameLib.Plugin/GameLib.Plugin.Gog)
+- ![Battle.net](GameLib.Plugin/GameLib.Plugin.BattleNet/Resources/Logo32px.png) [Battle.net](GameLib.Plugin/GameLib.Plugin.BattleNet)
 
 ## Installing
 
@@ -85,13 +86,13 @@ If I've helped you, feel free to buy me a coffee or see the Sponsor link [at the
 
 ## Dependencies and Credits
 
-- Teneko's [Teronis.DotNet](https://github.com/teneko/Teronis.DotNet/tree/develop/src/MSBuild/Packaging/ProjectBuildInPackage) which allows project reference content to be added to the NuGet-package during pack process
+- Teneko's [Teronis.DotNet](https://github.com/teneko/Teronis.DotNet/tree/develop/src/MSBuild/Packaging/ProjectBuildInPackage) for allowing project reference content to be added to the NuGet package during pack process
   
-- Thanks to [Josef Nemec](https://github.com/JosefNemec) and contributers of [Playnite](https://github.com/JosefNemec/Playnite) for the inspiration of decoding the proprietary manifest and catalog data of each launcher 
+- [Josef Nemec](https://github.com/JosefNemec) and contributers of [Playnite](https://github.com/JosefNemec/Playnite) for the inspiration of decoding the proprietary manifest and catalog data of each launcher 
 
 - The team of [SteamDB](https://steamdb.info) providing [Valve's KeyValue for .NET](https://github.com/SteamDatabase/ValveKeyValue) for reading Steam's proprietary key value format files
 
-- [protobuf-net](https://github.com/protobuf-net/protobuf-net) for decoding Ubisoft's local catalog data
+- Protocol buffer deserializing by [protobuf-net](https://github.com/protobuf-net/protobuf-net)
 
 - JSON deserializing by [Json.NET](https://www.newtonsoft.com/json)
 

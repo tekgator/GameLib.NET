@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	<TargetFramework>net6.0-windows</TargetFramework>
@@ -8,14 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
-	<PackageReference Include="ValveKeyValue" Version="0.8.2.162" />
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-	<PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
+	<ProjectReference Include="..\..\GameLib.Core\GameLib.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GameLib.Core\GameLib.Core.csproj" />
+	<PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
+	<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+	<PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
+	<PackageReference Include="protobuf-net" Version="3.1.17" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,5 +33,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\BattleNetGames.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>

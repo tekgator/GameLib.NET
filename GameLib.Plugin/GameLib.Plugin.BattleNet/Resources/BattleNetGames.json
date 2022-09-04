@@ -1,0 +1,171 @@
+{
+  "__source": [
+    "https://steamcommunity.com/sharedfiles/filedetails/?id=1113049716",
+    "https://github.com/JosefNemec/PlayniteExtensions/blob/master/source/Libraries/BattleNetLibrary/BattleNetGames.css"
+  ],
+  "Games": [
+    {
+      "InternalId": "wow",
+      "ProductId": "WoW",
+      "Name": "World of Warcraft",
+      "Executables": [
+        "World of Warcraft Launcher.exe",
+        "Wow.exe"
+      ]
+    },
+    {
+      "InternalId": "diablo3",
+      "ProductId": "D3",
+      "Name": "Diablo III",
+      "Executables": [
+        "Diablo III Launcher.exe",
+        "Diablo III.exe",
+        "Diablo III64.exe"
+      ]
+    },
+    {
+      "InternalId": "S2",
+      "ProductId": "S2",
+      "Name": "StarCraft II",
+      "Executables": [
+        "StarCraft II.exe",
+        "SC2Switcher.exe",
+        "SC2Switcher_x64.exe"
+      ]
+    },
+    {
+      "InternalId": "S1",
+      "ProductId": "S1",
+      "Name": "StarCraft",
+      "Executables": [
+        "StarCraft Launcher.exe",
+        "StarCraft.exe"
+      ]
+    },
+    {
+      "InternalId": "hs_beta",
+      "ProductId": "WTCG",
+      "Name": "Hearthstone",
+      "Executables": [
+        "Hearthstone.exe",
+        "Hearthstone Beta Launcher.exe"
+      ]
+    },
+    {
+      "InternalId": "heroes",
+      "ProductId": "Hero",
+      "Name": "Heroes of the Storm",
+      "Executables": [
+        "Heroes of the Storm.exe",
+        "HeroesSwitcher.exe",
+        "HeroesSwitcher_x64.exe"
+      ]
+    },
+    {
+      "InternalId": "prometheus",
+      "ProductId": "Pro",
+      "Name": "Overwatch",
+      "Executables": [
+        "Overwatch Launcher.exe",
+        "Overwatch"
+      ]
+    },
+    {
+      "InternalId": "Diablo II",
+      "ProductId": "D2",
+      "Name": "Diablo II",
+      "Executables": [
+        "Diablo II.exe"
+      ]
+    },
+    {
+      "InternalId": "Diablo II",
+      "ProductId": "D2X",
+      "Name": "Diablo II: Lord of Destruction",
+      "Executables": [
+        "Diablo II.exe"
+      ]
+    },
+    {
+      "InternalId": "viper",
+      "ProductId": "VIPR",
+      "Name": "Call of Duty: Black Ops 4",
+      "Executables": [
+        "Black Ops 4 Launcher.exe",
+        "BlackOps4.exe",
+        "BlackOps4_boot.exe"
+      ]
+    },
+    {
+      "InternalId": "odin",
+      "ProductId": "ODIN",
+      "Name": "Call of Duty: Modern Warfare",
+      "Executables": [
+        "Modern Warfare Launcher.exe",
+        "ModernWarfare.exe",
+        "codmw2019.exe"
+      ]
+    },
+    {
+      "InternalId": "W3",
+      "ProductId": "W3",
+      "Name": "Warcraft III: Reforged",
+      "Executables": [
+        "Warcraft III.exe"
+      ]
+    },
+    {
+      "InternalId": "lazarus",
+      "ProductId": "LAZR",
+      "Name": "Call of Duty: Modern Warfare 2 Campaign Remastered",
+      "Executables": [
+      ]
+    },
+    {
+      "InternalId": "zeus",
+      "ProductId": "ZEUS",
+      "Name": "Call of Duty: Black Ops Cold War",
+      "Executables": [
+        "Black Ops Cold War Launcher.exe",
+        "BlackOpsColdWar"
+      ]
+    },
+    {
+      "InternalId": "wlby",
+      "ProductId": "WLBY",
+      "Name": "Crash Bandicoot 4",
+      "Executables": [
+        "CrashBandicoot4.exe"
+      ]
+    },
+    {
+      "InternalId": "osi",
+      "ProductId": "OSI",
+      "Name": "Diablo II: Resurrected",
+      "Executables": [
+        "Diablo II.exe"
+      ]
+    },
+    {
+      "InternalId": "rtro",
+      "ProductId": "RTRO",
+      "Name": "Blizzard Arcade Collection",
+      "Executables": [
+      ]
+    },
+    {
+      "InternalId": "fore",
+      "ProductId": "FORE",
+      "Name": "Call of Duty: Vanguard",
+      "Executables": [
+      ]
+    },
+    {
+      "InternalId": "anbs",
+      "ProductId": "ANBS",
+      "Name": "Diablo Immortal",
+      "Executables": [
+      ]
+    }
+  ]
+}
