@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+## [1.2.1] - 2022-04-09
+### Fixed
+- Mark BattleNet Plugin as private asset so it is not a dependency
+
+
 ## [1.2.0] - 2022-04-09
 ### Added
 - Add Battle.net plugin for interacting with Battle.net launcher and games
