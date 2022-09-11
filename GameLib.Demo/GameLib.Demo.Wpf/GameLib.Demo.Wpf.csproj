@@ -59,13 +59,14 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <ProjectReference Include="..\..\GameLib\GameLib.csproj" />
 	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.BattleNet\GameLib.Plugin.BattleNet.csproj" />
 	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj" />
 	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" />
 	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" />
+	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Rockstar\GameLib.Plugin.Rockstar.csproj" />
 	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj" />
 	  <ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj" />
-	  <ProjectReference Include="..\..\GameLib\GameLib.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -25,6 +25,43 @@ public static class RegistryUtil
     }
 
     /// <summary>
+    /// Search the Windows GameConfigStore for the game executable
+    /// NOTE: this detection mode does not work for all games, also
+    /// the game must have started at least once to appear in GameConfigStore
+    /// </summary>
+    /// <param name="installDir">Installation directory of the game</param>
+    /// <returns>The path of the executable; <see langword="null"/> if not found</returns>
+    public static string? SearchGameConfigStore(string installDir)
+    {
+        const string RegistryPath = @"System\GameConfigStore\Children";
+
+        using var regKey = GetKey(RegistryHive.CurrentUser, RegistryPath, true);
+
+        if (regKey is null)
+        {
+            return null;
+        }
+
+        foreach (var subKey in regKey.GetSubKeyNames())
+        {
+            var executablePath = PathUtil.Sanitize(GetValue(RegistryHive.CurrentUser, $@"{RegistryPath}\{subKey}", "MatchedExeFullPath", string.Empty));
+            if (string.IsNullOrEmpty(executablePath))
+            {
+                continue;
+            }
+
+            if (executablePath.StartsWith(installDir, StringComparison.OrdinalIgnoreCase) &&
+                File.Exists(executablePath) &&
+                PathUtil.IsExecutable(executablePath))
+            {
+                return executablePath;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
     /// Gets the registry key for the passed Hive and KeyName
     /// Firstly it checks in the 32bit environment, if no key found in the 64bit environment
     /// </summary>

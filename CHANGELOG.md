@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+## [1.3.0] - 2022-11-09
+### Added
+- Add Rockstar Games plugin for interacting with Rockstar Games launcher and games
+- If Launcher cannot provide executable add option to search Windows GameConfigStore for the game executable
+
+
 ## [1.2.1] - 2022-04-09
 ### Fixed
 - Mark BattleNet Plugin as private asset so it is not a dependency
