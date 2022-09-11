@@ -98,10 +98,9 @@ internal static class OriginGameFactory
             game.Locale = RegistryUtil.GetValue(RegistryHive.LocalMachine, $@"SOFTWARE\Origin Games\{contendIds[0]}", "Locale", string.Empty)!;
         }
 
-        if (!string.IsNullOrEmpty(game.ExecutablePath))
+        if (!string.IsNullOrEmpty(game.Executable))
         {
-            game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
-            game.Executable = Path.GetFileName(game.ExecutablePath);
+            game.WorkingDir = Path.GetDirectoryName(game.Executable) ?? string.Empty;
         }
 
         return game;
@@ -137,24 +136,22 @@ internal static class OriginGameFactory
             contendIds.AddRange(diPManifest.contentIDs);
         }
 
-        if (string.IsNullOrEmpty(game.ExecutablePath))
+        if (string.IsNullOrEmpty(game.Executable))
         {
             var filePath = diPManifest.runtime?.FirstOrDefault(defaultValue: null)?.filePath;
             if (!string.IsNullOrEmpty(filePath))
             {
-                game.ExecutablePath = filePath;
+                game.Executable = filePath;
                 if (filePath.StartsWith('[') && filePath.Contains(']'))
                 {
-                    game.ExecutablePath = PathUtil.Sanitize(Path.Combine(game.InstallDir, filePath[(filePath.LastIndexOf(']') + 1)..]))!;
-                    game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
-                    game.Executable = Path.GetFileName(game.ExecutablePath);
+                    game.Executable = PathUtil.Sanitize(Path.Combine(game.InstallDir, filePath[(filePath.LastIndexOf(']') + 1)..]))!;
+                    game.WorkingDir = Path.GetDirectoryName(game.Executable) ?? string.Empty;
                 }
 
-                if (!PathUtil.IsExecutable(game.ExecutablePath) && !File.Exists(game.ExecutablePath))
+                if (!PathUtil.IsExecutable(game.Executable) && !File.Exists(game.Executable))
                 {
-                    game.ExecutablePath = string.Empty;
-                    game.WorkingDir = string.Empty;
                     game.Executable = string.Empty;
+                    game.WorkingDir = string.Empty;
                 }
             }
         }
@@ -205,7 +202,7 @@ internal static class OriginGameFactory
             return game;
         }
 
-        if (!string.IsNullOrEmpty(game.Name) && !string.IsNullOrEmpty(game.ExecutablePath))
+        if (!string.IsNullOrEmpty(game.Name) && !string.IsNullOrEmpty(game.Executable))
         {
             return game;
         }
@@ -235,34 +232,33 @@ internal static class OriginGameFactory
             game.Name = manifest.ItemName ?? game.Name;
         }
 
-        if (string.IsNullOrEmpty(game.ExecutablePath) && manifest.Publishing?.SoftwareList?.Software is not null)
+        if (string.IsNullOrEmpty(game.Executable) && manifest.Publishing?.SoftwareList?.Software is not null)
         {
             foreach (var item in manifest.Publishing.SoftwareList.Software
                 .Where(p => p.SoftwarePlatform is null || p.SoftwarePlatform.Contains(Os))
                 .OrderByDescending(p => (p.FulfillmentAttributes?.ProcessorArchitecture ?? string.Empty).Contains(OsArch.ToString())))
             {
-                var filePath = item.FulfillmentAttributes?.ExecutePathOverride ?? game.ExecutablePath;
+                var filePath = item.FulfillmentAttributes?.ExecutePathOverride ?? game.Executable;
                 if (!string.IsNullOrEmpty(filePath))
                 {
-                    game.ExecutablePath = filePath;
+                    game.Executable = filePath;
                     if (filePath.StartsWith('[') && filePath.Contains(']'))
                     {
-                        game.ExecutablePath = Path.Combine(game.InstallDir, PathUtil.Sanitize(filePath[(filePath.LastIndexOf(']') + 1)..])!);
+                        game.Executable = Path.Combine(game.InstallDir, PathUtil.Sanitize(filePath[(filePath.LastIndexOf(']') + 1)..])!);
                     }
 
-                    if (PathUtil.IsExecutable(game.ExecutablePath) && File.Exists(game.ExecutablePath))
+                    if (PathUtil.IsExecutable(game.Executable) && File.Exists(game.Executable))
                     {
                         break;
                     }
 
-                    game.ExecutablePath = string.Empty;
+                    game.Executable = string.Empty;
                 }
             }
 
-            if (!string.IsNullOrEmpty(game.ExecutablePath))
+            if (!string.IsNullOrEmpty(game.Executable))
             {
-                game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
-                game.Executable = Path.GetFileName(game.ExecutablePath);
+                game.WorkingDir = Path.GetDirectoryName(game.Executable) ?? string.Empty;
             }
         }
 

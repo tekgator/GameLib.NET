@@ -83,7 +83,7 @@ internal static class EpicGameFactory
 
         var game = deserializedEpicGame.EpicGameBuilder();
 
-        game.ExecutablePath = Path.Combine(PathUtil.Sanitize(game.InstallDir)!, game.Executable);
+        game.Executable = Path.Combine(PathUtil.Sanitize(game.InstallDir)!, game.Executable);
         game.LaunchString = $"com.epicgames.launcher://apps/{game.Id}?action=launch&silent=true";
         game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
 

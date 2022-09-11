@@ -46,12 +46,6 @@ public interface ILauncher
     /// The executable including the path of the Launcher<br/>
     /// <see langword="string.Empty"/> if not (properly) installed
     /// </summary>
-    public string ExecutablePath { get; }
-
-    /// <summary>
-    /// The executable name of the Launcher<br/>
-    /// <see langword="string.Empty"/> if not (properly) installed
-    /// </summary>
     public string Executable { get; }
 
     /// <summary>

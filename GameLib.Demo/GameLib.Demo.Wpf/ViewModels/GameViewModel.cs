@@ -94,7 +94,6 @@ public partial class GameViewModel : ViewModelBase
         OnPropertyChanged(nameof(SelectedGame));
     }
 
-
     [RelayCommand]
     public static void RunGame(IGame? game)
     {
@@ -114,9 +113,8 @@ public partial class GameViewModel : ViewModelBase
             Process.Start(new ProcessStartInfo()
             {
                 UseShellExecute = true,
-                FileName = game.ExecutablePath,
+                FileName = game.Executable,
                 WorkingDirectory = game.WorkingDir
-
             });
         }
         catch { /* ignore */ }
@@ -173,5 +171,4 @@ public partial class GameViewModel : ViewModelBase
 
         Clipboard.SetText(text);
     }
-
 }

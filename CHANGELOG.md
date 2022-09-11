@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+## [1.3.1] - 2022-11-09
+### Fixed
+- Activate parallel processing of installed games for Battle.net and Rockstar Games
+
+### Deleted
+- Remove "ExecutablePath" from ILauncher interface
+- Remove "ExecutablePath" from IGame interface
+
+### Changed
+- "Executable" on ILauncher interface returns the executable including the path
+- "Executable" on IGame interface returns the executable including the path
+
+
 ## [1.3.0] - 2022-11-09
 ### Added
 - Add Rockstar Games plugin for interacting with Rockstar Games launcher and games
