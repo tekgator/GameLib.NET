@@ -13,8 +13,8 @@ public static class BattleNetGameFactory
         var catalog = GetCatalog();
 
         return DeserializeProductInstalls()
-            //.AsParallel()
-            //.WithCancellation(cancellationToken)
+            .AsParallel()
+            .WithCancellation(cancellationToken)
             .Select(product => BattleNetGameBuiler(launcher, product))
             .Where(game => game is not null)
             .Select(game => AddLauncherId(launcher, game))
@@ -90,7 +90,7 @@ public static class BattleNetGameFactory
             InstallDir = PathUtil.Sanitize(productInstall.Settings.installPath) ?? string.Empty,
             WorkingDir = PathUtil.Sanitize(productInstall.Settings.installPath) ?? string.Empty,
             InstallDate = PathUtil.GetCreationTime(productInstall.Settings.installPath) ?? DateTime.MinValue,
-            LaunchString = $"\"{launcher.ExecutablePath}\" --game={productInstall.productCode.ToUpper()}",
+            LaunchString = $"\"{launcher.Executable}\" --game={productInstall.productCode.ToUpper()}",
             ProductCode = productInstall.productCode ?? string.Empty,
             PlayRegion = productInstall.Settings.playRegion ?? string.Empty,
             SpeechLanguage = productInstall.Settings.selectedSpeechLanguage ?? string.Empty,
@@ -119,7 +119,7 @@ public static class BattleNetGameFactory
         if (!string.IsNullOrEmpty(catalogItem.ProductId))
         {
             game.ProductCode = catalogItem.ProductId;
-            game.LaunchString = $"\"{launcher.ExecutablePath}\" --exec=\"launch {game.ProductCode}\"";
+            game.LaunchString = $"\"{launcher.Executable}\" --exec=\"launch {game.ProductCode}\"";
         }
 
         game.Executable = catalogItem.Executables.FirstOrDefault(defaultValue: string.Empty);
@@ -130,6 +130,4 @@ public static class BattleNetGameFactory
 
         return game;
     }
-
-
 }

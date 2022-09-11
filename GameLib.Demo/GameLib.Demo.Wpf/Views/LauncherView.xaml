@@ -314,18 +314,18 @@
                 </StackPanel>
                 <!--#endregion-->
 
-                <!--#region Executable path-->
+                <!--#region Executable-->
                 <TextBlock
                     Grid.Row="9"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Text="Executable path: " />
+                    Text="Executable: " />
                 <TextBox
                     Grid.Row="9"
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    Text="{Binding SelectedLauncher.ExecutablePath, Mode=OneWay}" />
+                    Text="{Binding SelectedLauncher.Executable, Mode=OneWay}" />
                 <StackPanel
                     Grid.Row="9"
                     Grid.Column="4"
@@ -335,7 +335,7 @@
                     <Button
                         Background="#373737"
                         Command="{Binding CopyToClipboardCommand}"
-                        CommandParameter="{Binding SelectedLauncher.ExecutablePath}"
+                        CommandParameter="{Binding SelectedLauncher.Executable}"
                         ToolTip="Copy to clipboard">
                         <Image
                             Width="20"
@@ -359,47 +359,15 @@
                 </StackPanel>
                 <!--#endregion-->
 
-                <!--#region Executable-->
-                <TextBlock
-                    Grid.Row="11"
-                    Grid.Column="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Text="Executable: " />
-                <TextBox
-                    Grid.Row="11"
-                    Grid.Column="2"
-                    VerticalAlignment="Center"
-                    Text="{Binding SelectedLauncher.Executable, Mode=OneWay}" />
-                <StackPanel
-                    Grid.Row="11"
-                    Grid.Column="4"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <Button
-                        Background="#373737"
-                        Command="{Binding CopyToClipboardCommand}"
-                        CommandParameter="{Binding SelectedLauncher.Executable}"
-                        ToolTip="Copy to clipboard">
-                        <Image
-                            Width="20"
-                            Height="20"
-                            Margin="2"
-                            Source="/Resources/copy-white.png" />
-                    </Button>
-                </StackPanel>
-                <!--#endregion-->
-
                 <!--#region IsInstalled-->
                 <TextBlock
-                    Grid.Row="13"
+                    Grid.Row="11"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Is installed: " />
                 <Image
-                    Grid.Row="13"
+                    Grid.Row="11"
                     Grid.Column="2"
                     Width="24"
                     Height="24"
@@ -409,20 +377,20 @@
 
                 <!--#region IsRunning-->
                 <TextBlock
-                    Grid.Row="15"
+                    Grid.Row="13"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Is running: " />
                 <Image
-                    Grid.Row="15"
+                    Grid.Row="13"
                     Grid.Column="2"
                     Width="24"
                     Height="24"
                     HorizontalAlignment="Left"
                     Source="{Binding IsRunningLogo}" />
                 <StackPanel
-                    Grid.Row="15"
+                    Grid.Row="13"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -442,13 +410,13 @@
 
                 <!--#region Installed games-->
                 <TextBlock
-                    Grid.Row="17"
+                    Grid.Row="15"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Installed games: " />
                 <TextBlock
-                    Grid.Row="17"
+                    Grid.Row="15"
                     Grid.Column="2"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"

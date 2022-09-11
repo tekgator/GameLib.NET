@@ -77,7 +77,7 @@ internal static class RockstarGameFactory
             game.Executable = Path.GetFileName(game.ExecutablePath);
         }
 
-        game.LaunchString = $"\"{launcher.ExecutablePath}\" -launchTitleInFolder \"{game.InstallDir}\"";
+        game.LaunchString = $"\"{launcher.Executable}\" -launchTitleInFolder \"{game.InstallDir}\"";
 
         return game;
     }

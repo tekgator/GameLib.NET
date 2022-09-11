@@ -36,7 +36,6 @@ public partial class LauncherViewModel : ViewModelBase
     [ObservableProperty]
     private string _isRunningLogo = CrossImagePath;
 
-
     public LauncherViewModel(LauncherManager launcherManager)
     {
         LoadData(launcherManager);
@@ -111,7 +110,7 @@ public partial class LauncherViewModel : ViewModelBase
             Process.Start(new ProcessStartInfo()
             {
                 UseShellExecute = true,
-                FileName = launcher.ExecutablePath
+                FileName = launcher.Executable
             });
         }
         catch { /* ignore */ }
@@ -122,8 +121,8 @@ public partial class LauncherViewModel : ViewModelBase
     {
         switch (launcher)
         {
-            case not null when !string.IsNullOrEmpty(launcher.ExecutablePath):
-                Process.Start("explorer.exe", $"/select,\"{launcher.ExecutablePath}\"");
+            case not null when !string.IsNullOrEmpty(launcher.Executable):
+                Process.Start("explorer.exe", $"/select,\"{launcher.Executable}\"");
                 break;
 
             case not null when !string.IsNullOrEmpty(launcher.InstallDir):

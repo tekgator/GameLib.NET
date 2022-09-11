@@ -28,42 +28,38 @@ public class EpicLauncher : ILauncher
 
     public bool IsInstalled { get; private set; }
 
-    public bool IsRunning => ProcessUtil.IsProcessRunning(ExecutablePath);
+    public bool IsRunning => ProcessUtil.IsProcessRunning(Executable);
 
     public string InstallDir { get; private set; } = string.Empty;
 
-    public string ExecutablePath { get; private set; } = string.Empty;
-
     public string Executable { get; private set; } = string.Empty;
 
-    public Icon? ExecutableIcon => PathUtil.GetFileIcon(ExecutablePath);
+    public Icon? ExecutableIcon => PathUtil.GetFileIcon(Executable);
 
     public IEnumerable<IGame> Games { get; private set; } = Enumerable.Empty<IGame>();
 
-    public bool Start() => IsRunning || ProcessUtil.StartProcess(ExecutablePath);
+    public bool Start() => IsRunning || ProcessUtil.StartProcess(Executable);
 
     public void Stop()
     {
         if (IsRunning)
         {
-            ProcessUtil.StopProcess(ExecutablePath);
+            ProcessUtil.StopProcess(Executable);
         }
     }
 
     public void Refresh(CancellationToken cancellationToken = default)
     {
-        ExecutablePath = string.Empty;
         Executable = string.Empty;
         InstallDir = string.Empty;
         IsInstalled = false;
         Games = Enumerable.Empty<IGame>();
 
-        ExecutablePath = GetExecutable() ?? string.Empty;
-        if (!string.IsNullOrEmpty(ExecutablePath))
+        Executable = GetExecutable() ?? string.Empty;
+        if (!string.IsNullOrEmpty(Executable))
         {
-            Executable = Path.GetFileName(ExecutablePath);
-            InstallDir = Path.GetDirectoryName(ExecutablePath) ?? string.Empty;
-            IsInstalled = File.Exists(ExecutablePath);
+            InstallDir = Path.GetDirectoryName(Executable) ?? string.Empty;
+            IsInstalled = File.Exists(Executable);
             Games = EpicGameFactory.GetGames(this, cancellationToken);
         }
     }

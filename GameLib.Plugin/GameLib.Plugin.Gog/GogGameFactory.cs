@@ -23,7 +23,7 @@ internal static class GogGameFactory
         return regKey.GetSubKeyNames()
             .AsParallel()
             .WithCancellation(cancellationToken)
-            .Select(gameId => LoadFromRegistry(launcher.ExecutablePath, gameId))
+            .Select(gameId => LoadFromRegistry(launcher, gameId))
             .Where(game => game is not null)
             .Select(game => AddLauncherId(launcher, game!))
             .ToList()!;
@@ -41,7 +41,7 @@ internal static class GogGameFactory
     /// <summary>
     /// Load the GoG game registry entry into a <see cref="GogGame"/> object
     /// </summary>
-    private static GogGame? LoadFromRegistry(string launcherExecutable, string gameId)
+    private static GogGame? LoadFromRegistry(ILauncher launcher, string gameId)
     {
         using var regKey = RegistryUtil.GetKey(RegistryHive.LocalMachine, $@"SOFTWARE\GOG.com\Games\{gameId}");
         if (regKey is null)
@@ -84,7 +84,7 @@ internal static class GogGameFactory
         }
 
         game.InstallDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
-        game.LaunchString = $"\"{launcherExecutable}\" /command=runGame /gameId={game.Id}";
+        game.LaunchString = $"\"{launcher.Executable}\" /command=runGame /gameId={game.Id}";
         if (!string.IsNullOrEmpty(game.WorkingDir))
         {
             game.LaunchString += $" /path=\"{game.WorkingDir}\"";
