@@ -122,10 +122,10 @@ public static class BattleNetGameFactory
             game.LaunchString = $"\"{launcher.Executable}\" --exec=\"launch {game.ProductCode}\"";
         }
 
-        game.Executable = catalogItem.Executables.FirstOrDefault(defaultValue: string.Empty);
-        if (!string.IsNullOrEmpty(game.Executable))
+        var executable = catalogItem.Executables.FirstOrDefault(defaultValue: string.Empty);
+        if (!string.IsNullOrEmpty(executable))
         {
-            game.ExecutablePath = Path.Combine(game.InstallDir, game.Executable);
+            game.Executable = Path.Combine(game.InstallDir, executable);
         }
 
         return game;

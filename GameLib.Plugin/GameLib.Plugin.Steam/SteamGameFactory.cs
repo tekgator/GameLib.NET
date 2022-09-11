@@ -123,8 +123,7 @@ internal static class SteamGameFactory
             return game;
         }
 
-        game.ExecutablePath = Path.Combine(appsPath, "common", game.InstallDir, PathUtil.Sanitize(launcher.Executable)!);
-        game.Executable = Path.GetFileName(game.ExecutablePath);
+        game.Executable = Path.Combine(appsPath, "common", game.InstallDir, PathUtil.Sanitize(launcher.Executable)!);
 
         if (!string.IsNullOrEmpty(launcher.WorkingDir))
         {
@@ -133,7 +132,7 @@ internal static class SteamGameFactory
 
         if (string.IsNullOrEmpty(game.WorkingDir))
         {
-            game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
+            game.WorkingDir = Path.GetDirectoryName(game.Executable) ?? string.Empty;
         }
 
         return game;

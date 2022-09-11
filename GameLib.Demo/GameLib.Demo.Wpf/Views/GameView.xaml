@@ -389,18 +389,18 @@
                 </StackPanel>
                 <!--#endregion-->
 
-                <!--#region Executable path-->
+                <!--#region Executable-->
                 <TextBlock
                     Grid.Row="13"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Text="Executable path: " />
+                    Text="Executable: " />
                 <TextBox
                     Grid.Row="13"
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    Text="{Binding SelectedGame.ExecutablePath, Mode=OneWay}" />
+                    Text="{Binding SelectedGame.Executable, Mode=OneWay}" />
                 <StackPanel
                     Grid.Row="13"
                     Grid.Column="4"
@@ -409,7 +409,7 @@
                     Orientation="Horizontal">
                     <Button
                         Command="{Binding CopyToClipboardCommand}"
-                        CommandParameter="{Binding SelectedGame.ExecutablePath}"
+                        CommandParameter="{Binding SelectedGame.Executable}"
                         ToolTip="Copy to clipboard">
                         <Image
                             Width="20"
@@ -420,7 +420,7 @@
                     <Button
                         Margin="5,0,0,0"
                         Command="{Binding OpenPathCommand}"
-                        CommandParameter="{Binding SelectedGame.ExecutablePath}"
+                        CommandParameter="{Binding SelectedGame.Executable}"
                         ToolTip="Open in explorer">
                         <Image
                             Width="20"
@@ -441,51 +441,20 @@
                 </StackPanel>
                 <!--#endregion-->
 
-                <!--#region Executable name-->
-                <TextBlock
-                    Grid.Row="15"
-                    Grid.Column="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Text="Executable: " />
-                <TextBox
-                    Grid.Row="15"
-                    Grid.Column="2"
-                    VerticalAlignment="Center"
-                    Text="{Binding SelectedGame.Executable, Mode=OneWay}" />
-                <StackPanel
-                    Grid.Row="15"
-                    Grid.Column="4"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <Button
-                        Command="{Binding CopyToClipboardCommand}"
-                        CommandParameter="{Binding SelectedGame.Executable}"
-                        ToolTip="Copy to clipboard">
-                        <Image
-                            Width="20"
-                            Height="20"
-                            Margin="2"
-                            Source="/Resources/copy-white.png" />
-                    </Button>
-                </StackPanel>
-                <!--#endregion-->
-
                 <!--#region Working directory-->
                 <TextBlock
-                    Grid.Row="17"
+                    Grid.Row="15"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Working directory: " />
                 <TextBox
-                    Grid.Row="17"
+                    Grid.Row="15"
                     Grid.Column="2"
                     VerticalAlignment="Center"
                     Text="{Binding SelectedGame.WorkingDir, Mode=OneWay}" />
                 <StackPanel
-                    Grid.Row="17"
+                    Grid.Row="15"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -516,18 +485,18 @@
 
                 <!--#region Launch string-->
                 <TextBlock
-                    Grid.Row="19"
+                    Grid.Row="17"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Launch string: " />
                 <TextBox
-                    Grid.Row="19"
+                    Grid.Row="17"
                     Grid.Column="2"
                     VerticalAlignment="Center"
                     Text="{Binding SelectedGame.LaunchString, Mode=OneWay}" />
                 <StackPanel
-                    Grid.Row="19"
+                    Grid.Row="17"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -557,14 +526,14 @@
 
                 <!--#region IsRunning-->
                 <TextBlock
-                    Grid.Row="21"
+                    Grid.Row="19"
                     Grid.Column="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Text="Is running: " />
 
                 <Image
-                    Grid.Row="21"
+                    Grid.Row="19"
                     Grid.Column="2"
                     Width="24"
                     Height="24"
@@ -572,7 +541,7 @@
                     Source="{Binding IsRunningLogo}" />
 
                 <StackPanel
-                    Grid.Row="21"
+                    Grid.Row="19"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"

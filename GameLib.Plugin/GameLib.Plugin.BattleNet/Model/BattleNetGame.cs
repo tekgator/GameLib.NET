@@ -15,11 +15,9 @@ public class BattleNetGame : IGame
 
     public string InstallDir { get; internal set; } = string.Empty;
 
-    public string ExecutablePath { get; internal set; } = string.Empty;
-
     public string Executable { get; internal set; } = string.Empty;
 
-    public Icon? ExecutableIcon => PathUtil.GetFileIcon(ExecutablePath);
+    public Icon? ExecutableIcon => PathUtil.GetFileIcon(Executable);
 
     public string WorkingDir { get; internal set; } = string.Empty;
 

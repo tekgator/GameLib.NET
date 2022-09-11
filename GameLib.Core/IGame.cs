@@ -27,11 +27,6 @@ public interface IGame
     /// <summary>
     /// Executable name including the full Path
     /// </summary>
-    public string ExecutablePath { get; }
-
-    /// <summary>
-    /// Just the executable name
-    /// </summary>
     public string Executable { get; }
 
     /// <summary>

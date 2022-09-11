@@ -108,21 +108,20 @@ internal static class UbisoftGameFactory
             foreach (var exe in exeList
                 .Where(p => !string.IsNullOrEmpty(p.path?.relative)))
             {
-                game.ExecutablePath = PathUtil.Sanitize(Path.Combine(game.InstallDir, exe.path!.relative!))!;
+                game.Executable = PathUtil.Sanitize(Path.Combine(game.InstallDir, exe.path!.relative!))!;
                 game.Name = exe.shortcut_name ?? game.Name;
 
-                game.WorkingDir = Path.GetDirectoryName(game.ExecutablePath) ?? string.Empty;
+                game.WorkingDir = Path.GetDirectoryName(game.Executable) ?? string.Empty;
                 if (exe.working_directory?.register?.StartsWith("HKEY") == false)
                 {
                     game.WorkingDir = PathUtil.Sanitize(exe.working_directory.register)!;
                 }
 
-                if (!PathUtil.IsExecutable(game.ExecutablePath))
+                if (!PathUtil.IsExecutable(game.Executable))
                 {
                     continue;
                 }
 
-                game.Executable = Path.GetFileName(game.ExecutablePath) ?? string.Empty;
                 break;
             }
         }

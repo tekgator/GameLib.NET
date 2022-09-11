@@ -20,8 +20,8 @@ internal static class RockstarGameFactory
         }
 
         return regKey.GetSubKeyNames()
-            //.AsParallel()
-            //.WithCancellation(cancellationToken)
+            .AsParallel()
+            .WithCancellation(cancellationToken)
             .Select(gameId => LoadFromRegistry(launcher, gameId))
             .Where(game => game is not null)
             .Select(game => AddLauncherId(launcher, game!))
@@ -66,17 +66,11 @@ internal static class RockstarGameFactory
 
         if (launcher.LauncherOptions.SearchGameConfigStore)
         {
-            game.ExecutablePath = RegistryUtil.SearchGameConfigStore(game.InstallDir) ?? string.Empty;
+            game.Executable = RegistryUtil.SearchGameConfigStore(game.InstallDir) ?? string.Empty;
         }
 
         game.WorkingDir = game.InstallDir;
         game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
-
-        if (!string.IsNullOrEmpty(game.ExecutablePath))
-        {
-            game.Executable = Path.GetFileName(game.ExecutablePath);
-        }
-
         game.LaunchString = $"\"{launcher.Executable}\" -launchTitleInFolder \"{game.InstallDir}\"";
 
         return game;

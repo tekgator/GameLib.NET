@@ -292,7 +292,8 @@
                         Background="#373737"
                         Command="{Binding CopyToClipboardCommand}"
                         CommandParameter="{Binding SelectedLauncher.InstallDir}"
-                        ToolTip="Copy to clipboard">
+                        ToolTip="Copy to clipboard"
+                        Visibility="{Binding SelectedLauncher.IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Image
                             Width="20"
                             Height="20"
@@ -304,7 +305,8 @@
                         Background="#373737"
                         Command="{Binding OpenPathCommand}"
                         CommandParameter="{Binding SelectedLauncher}"
-                        ToolTip="Open in explorer">
+                        ToolTip="Open in explorer"
+                        Visibility="{Binding SelectedLauncher.IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Image
                             Width="20"
                             Height="20"
@@ -336,7 +338,8 @@
                         Background="#373737"
                         Command="{Binding CopyToClipboardCommand}"
                         CommandParameter="{Binding SelectedLauncher.Executable}"
-                        ToolTip="Copy to clipboard">
+                        ToolTip="Copy to clipboard"
+                        Visibility="{Binding SelectedLauncher.IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Image
                             Width="20"
                             Height="20"
@@ -398,7 +401,8 @@
                     <Button
                         Background="#373737"
                         Command="{Binding RefreshLauncherIsRunningCommand}"
-                        ToolTip="Refresh">
+                        ToolTip="Refresh"
+                        Visibility="{Binding SelectedLauncher.IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Image
                             Width="20"
                             Height="20"
