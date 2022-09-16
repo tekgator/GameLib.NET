@@ -25,6 +25,7 @@ internal static class RockstarGameFactory
             .Select(gameId => LoadFromRegistry(launcher, gameId))
             .Where(game => game is not null)
             .Select(game => AddLauncherId(launcher, game!))
+            .Select(game => AddExecutables(launcher, game!))
             .ToList()!;
     }
 
@@ -34,6 +35,22 @@ internal static class RockstarGameFactory
     private static RockstarGame AddLauncherId(ILauncher launcher, RockstarGame game)
     {
         game.LauncherId = launcher.Id;
+        return game;
+    }
+
+    /// <summary>
+    /// Find executables within the install directory
+    /// </summary>
+    private static RockstarGame AddExecutables(ILauncher launcher, RockstarGame game)
+    {
+        if (launcher.LauncherOptions.SearchExecutables)
+        {
+            var executables = PathUtil.GetExecutables(game.InstallDir);
+
+            executables.AddRange(game.Executables);
+            game.Executables = executables.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
         return game;
     }
 

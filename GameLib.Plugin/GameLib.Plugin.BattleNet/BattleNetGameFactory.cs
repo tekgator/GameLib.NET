@@ -19,6 +19,7 @@ public static class BattleNetGameFactory
             .Where(game => game is not null)
             .Select(game => AddLauncherId(launcher, game))
             .Select(game => AddCatalogData(launcher, game, catalog))
+            .Select(game => AddExecutables(launcher, game))
             .ToList()!;
     }
 
@@ -28,6 +29,22 @@ public static class BattleNetGameFactory
     private static BattleNetGame AddLauncherId(ILauncher launcher, BattleNetGame game)
     {
         game.LauncherId = launcher.Id;
+        return game;
+    }
+
+    /// <summary>
+    /// Find executables within the install directory
+    /// </summary>
+    private static BattleNetGame AddExecutables(ILauncher launcher, BattleNetGame game)
+    {
+        if (launcher.LauncherOptions.SearchExecutables)
+        {
+            var executables = PathUtil.GetExecutables(game.InstallDir);
+
+            executables.AddRange(game.Executables);
+            game.Executables = executables.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
         return game;
     }
 
@@ -122,11 +139,12 @@ public static class BattleNetGameFactory
             game.LaunchString = $"\"{launcher.Executable}\" --exec=\"launch {game.ProductCode}\"";
         }
 
-        var executable = catalogItem.Executables.FirstOrDefault(defaultValue: string.Empty);
-        if (!string.IsNullOrEmpty(executable))
-        {
-            game.Executable = Path.Combine(game.InstallDir, executable);
-        }
+        game.Executables = catalogItem.Executables
+            .Where(e => !string.IsNullOrEmpty(e))
+            .Select(e => Path.Combine(game.InstallDir, e))
+            .ToList();
+
+        game.Executable = game.Executables.FirstOrDefault(defaultValue: string.Empty);
 
         return game;
     }

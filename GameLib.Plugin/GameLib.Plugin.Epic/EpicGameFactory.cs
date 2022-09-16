@@ -22,6 +22,7 @@ internal static class EpicGameFactory
             .Select(DeserializeManifest)
             .Where(game => game is not null)
             .Select(game => AddLauncherId(launcher, game!))
+            .Select(game => AddExecutables(launcher, game!))
             .ToList()!;
     }
 
@@ -31,6 +32,22 @@ internal static class EpicGameFactory
     private static EpicGame AddLauncherId(ILauncher launcher, EpicGame game)
     {
         game.LauncherId = launcher.Id;
+        return game;
+    }
+
+    /// <summary>
+    /// Find executables within the install directory
+    /// </summary>
+    private static EpicGame AddExecutables(ILauncher launcher, EpicGame game)
+    {
+        if (launcher.LauncherOptions.SearchExecutables)
+        {
+            var executables = PathUtil.GetExecutables(game.InstallDir);
+
+            executables.AddRange(game.Executables);
+            game.Executables = executables.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
         return game;
     }
 
@@ -81,9 +98,29 @@ internal static class EpicGameFactory
         }
         catch { return null; }
 
-        var game = deserializedEpicGame.EpicGameBuilder();
+        var game = new EpicGame()
+        {
+            Id = deserializedEpicGame.AppName,
+            Name = deserializedEpicGame.DisplayName,
+            InstallDir = PathUtil.Sanitize(deserializedEpicGame.InstallLocation) ?? string.Empty,
+            WorkingDir = deserializedEpicGame.InstallLocation,
+            InstallSize = deserializedEpicGame.InstallSize,
+            Version = deserializedEpicGame.AppVersionString,
+        };
 
-        game.Executable = Path.Combine(PathUtil.Sanitize(game.InstallDir)!, game.Executable);
+        if (PathUtil.IsExecutable(deserializedEpicGame.MainWindowProcessName))
+        {
+            game.Executable = Path.Combine(game.InstallDir, deserializedEpicGame.MainWindowProcessName);
+            if (PathUtil.IsExecutable(deserializedEpicGame.MainWindowProcessName))
+            {
+                game.Executables = new List<string>() { Path.Combine(game.InstallDir, deserializedEpicGame.LaunchExecutable) };
+            }
+        }
+        else if (PathUtil.IsExecutable(deserializedEpicGame.LaunchExecutable))
+        {
+            game.Executable = Path.Combine(game.InstallDir, deserializedEpicGame.LaunchExecutable);
+        }
+
         game.LaunchString = $"com.epicgames.launcher://apps/{game.Id}?action=launch&silent=true";
         game.InstallDate = PathUtil.GetCreationTime(game.InstallDir) ?? DateTime.MinValue;
 

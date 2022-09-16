@@ -14,13 +14,13 @@ internal static class SteamGameFactory
     /// <summary>
     /// Get games installed in for the passed Steam libraries
     /// </summary>
-    public static IEnumerable<SteamGame> GetGames(ILauncher launcher, IEnumerable<SteamLibrary> libraries) =>
-        libraries.SelectMany(lib => GetGames(launcher, lib)).ToList();
+    public static IEnumerable<SteamGame> GetGames(ILauncher launcher, IEnumerable<SteamLibrary> libraries, CancellationToken cancellationToken = default) =>
+        libraries.SelectMany(lib => GetGames(launcher, lib, cancellationToken)).ToList();
 
     /// <summary>
     /// Get games installed in for the passed Steam library
     /// </summary>
-    public static IEnumerable<SteamGame> GetGames(ILauncher launcher, SteamLibrary library)
+    public static IEnumerable<SteamGame> GetGames(ILauncher launcher, SteamLibrary library, CancellationToken cancellationToken = default)
     {
         var appsPath = Path.Combine(library.Path, "steamapps");
         if (!Directory.Exists(appsPath))
@@ -31,9 +31,12 @@ internal static class SteamGameFactory
         SteamCatalog? localCatalog = GetCatalog(launcher);
 
         return Directory.GetFiles(appsPath, "*.acf")
+            .AsParallel()
+            .WithCancellation(cancellationToken)
             .Select(manifestFile => DeserializeManifest(library.Path, manifestFile))
             .Where(game => game is not null)
             .Select(game => AddLauncherId(launcher, game!))
+            .Select(game => AddExecutables(launcher, game!))
             .Select(game => AddCatalogData(game!, appsPath, localCatalog))
             .ToList();
     }
@@ -44,6 +47,22 @@ internal static class SteamGameFactory
     private static SteamGame AddLauncherId(ILauncher launcher, SteamGame game)
     {
         game.LauncherId = launcher.Id;
+        return game;
+    }
+
+    /// <summary>
+    /// Find executables within the install directory
+    /// </summary>
+    private static SteamGame AddExecutables(ILauncher launcher, SteamGame game)
+    {
+        if (launcher.LauncherOptions.SearchExecutables)
+        {
+            var executables = PathUtil.GetExecutables(game.InstallDir);
+
+            executables.AddRange(game.Executables);
+            game.Executables = executables.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
         return game;
     }
 
@@ -76,7 +95,21 @@ internal static class SteamGameFactory
         {
             using var stream = File.OpenRead(manifestFile);
             var serializer = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
-            game = serializer.Deserialize<DeserializedSteamGame>(stream).SteamGameBuilder();
+            var deserializedSteamGame = serializer.Deserialize<DeserializedSteamGame>(stream);
+
+            game = new()
+            {
+                Id = deserializedSteamGame.AppId.ToString(),
+                Name = deserializedSteamGame.Name ?? string.Empty,
+                InstallDir = deserializedSteamGame.InstallDir ?? string.Empty,
+                Universe = (SteamUniverse)deserializedSteamGame.Universe,
+                LastUpdated = DateTimeOffset.FromUnixTimeSeconds(deserializedSteamGame.LastUpdated).LocalDateTime,
+                SizeOnDisk = deserializedSteamGame.SizeOnDisk,
+                LastOwner = deserializedSteamGame.LastOwner,
+                AutoUpdateBehavior = deserializedSteamGame.AutoUpdateBehavior,
+                AllowOtherDownloadsWhileRunning = deserializedSteamGame.AllowOtherDownloadsWhileRunning,
+                ScheduledAutoUpdate = DateTimeOffset.FromUnixTimeSeconds(deserializedSteamGame.ScheduledAutoUpdate).LocalDateTime,
+            };
         }
         catch
         {

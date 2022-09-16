@@ -13,6 +13,7 @@ public class RockstarGame : IGame
     public string InstallDir { get; internal set; } = string.Empty;
     public string Executable { get; internal set; } = string.Empty;
     public Icon? ExecutableIcon => PathUtil.GetFileIcon(Executable);
+    public IEnumerable<string> Executables { get; internal set; } = Enumerable.Empty<string>();
     public string WorkingDir { get; internal set; } = string.Empty;
     public string LaunchString { get; internal set; } = string.Empty;
     public DateTime InstallDate { get; internal set; } = DateTime.MinValue;

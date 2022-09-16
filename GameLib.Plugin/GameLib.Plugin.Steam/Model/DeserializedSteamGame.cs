@@ -13,18 +13,4 @@ internal class DeserializedSteamGame
     public bool AutoUpdateBehavior { get; set; }
     public bool AllowOtherDownloadsWhileRunning { get; set; }
     public long ScheduledAutoUpdate { get; set; }
-
-    public SteamGame SteamGameBuilder() => new()
-    {
-        Id = AppId.ToString(),
-        Name = Name ?? string.Empty,
-        InstallDir = InstallDir ?? string.Empty,
-        Universe = (SteamUniverse)Universe,
-        LastUpdated = DateTimeOffset.FromUnixTimeSeconds(LastUpdated).LocalDateTime,
-        SizeOnDisk = SizeOnDisk,
-        LastOwner = LastOwner,
-        AutoUpdateBehavior = AutoUpdateBehavior,
-        AllowOtherDownloadsWhileRunning = AllowOtherDownloadsWhileRunning,
-        ScheduledAutoUpdate = DateTimeOffset.FromUnixTimeSeconds(ScheduledAutoUpdate).LocalDateTime,
-    };
 }
