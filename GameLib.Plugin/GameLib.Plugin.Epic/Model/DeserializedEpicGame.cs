@@ -1,5 +1,4 @@
-﻿using Gamelib.Core.Util;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace GameLib.Plugin.Epic.Model;
 
@@ -118,15 +117,4 @@ public class DeserializedEpicGame
 
     [JsonProperty("MainGameAppName")]
     public string MainGameAppName { get; set; } = string.Empty;
-
-    public EpicGame EpicGameBuilder() => new()
-    {
-        Id = AppName,
-        Name = DisplayName,
-        InstallDir = InstallLocation,
-        Executable = PathUtil.IsExecutable(MainWindowProcessName) ? MainWindowProcessName : LaunchExecutable,
-        WorkingDir = InstallLocation,
-        InstallSize = InstallSize,
-        Version = AppVersionString,
-    };
 }

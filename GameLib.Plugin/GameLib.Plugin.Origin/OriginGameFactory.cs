@@ -33,6 +33,7 @@ internal static class OriginGameFactory
             .Select(manifestFile => DeserializeManifest(manifestFile))
             .Where(game => game is not null)
             .Select(game => AddLauncherId(launcher, game!))
+            .Select(game => AddExecutables(launcher, game!))
             .Select(game => AddLocalCatalogData(game!))
             .Select(game => AddOnlineData(launcher, game))
             .ToList();
@@ -71,6 +72,22 @@ internal static class OriginGameFactory
     private static OriginGame AddLauncherId(ILauncher launcher, OriginGame game)
     {
         game.LauncherId = launcher.Id;
+        return game;
+    }
+
+    /// <summary>
+    /// Find executables within the install directory
+    /// </summary>
+    private static OriginGame AddExecutables(ILauncher launcher, OriginGame game)
+    {
+        if (launcher.LauncherOptions.SearchExecutables)
+        {
+            var executables = PathUtil.GetExecutables(game.InstallDir);
+
+            executables.AddRange(game.Executables);
+            game.Executables = executables.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
         return game;
     }
 

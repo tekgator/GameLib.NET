@@ -3,7 +3,7 @@
 public class LauncherOptions
 {
     /// <summary>
-    /// Define if Launcher plugin should use local catalog data (if present) 
+    /// Define if Launcher plugin should use local catalog data (if present)
     /// to get more detailed information about specific games
     /// Note: Can in increase load time for the plugin
     /// </summary>
@@ -23,5 +23,10 @@ public class LauncherOptions
     /// <summary>
     /// Defines the timeout time for online query's
     /// </summary>
-    public TimeSpan? OnlineQueryTimeout { get; init; } = null;
+    public TimeSpan? OnlineQueryTimeout { get; init; }
+
+    /// <summary>
+    /// Search all possible game executables within the install directory and sub directories
+    /// </summary>
+    public bool SearchExecutables { get; init; } = true;
 }

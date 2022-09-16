@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+## [1.3.2] - 2022-16-09
+### Added
+- Add LauncherOption to also search for additional executables within a game install directory
+- Add Executables property to IGame interface to list all additional executables within a game install directory
+
+### Fixed
+- Steam plugin was not processing manifest entries in parallel
+
+
 ## [1.3.1] - 2022-11-09
 ### Fixed
 - Activate parallel processing of installed games for Battle.net and Rockstar Games

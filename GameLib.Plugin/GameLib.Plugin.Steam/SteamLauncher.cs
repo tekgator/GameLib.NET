@@ -64,7 +64,7 @@ public class SteamLauncher : ILauncher
             InstallDir = Path.GetDirectoryName(Executable) ?? string.Empty;
             IsInstalled = File.Exists(Executable);
             Libraries = SteamLibraryFactory.GetLibraries(InstallDir);
-            Games = SteamGameFactory.GetGames(this, Libraries);
+            Games = SteamGameFactory.GetGames(this, Libraries, cancellationToken);
         }
     }
     #endregion

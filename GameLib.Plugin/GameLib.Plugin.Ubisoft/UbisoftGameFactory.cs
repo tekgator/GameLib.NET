@@ -27,6 +27,7 @@ internal static class UbisoftGameFactory
             .Select(LoadFromRegistry)
             .Where(game => game is not null)
             .Select(game => AddLauncherId(launcher, game!))
+            .Select(game => AddExecutables(launcher, game!))
             .Select(game => AddCatalogData(game!, localCatalog))
             .ToList();
     }
@@ -37,6 +38,22 @@ internal static class UbisoftGameFactory
     private static UbisoftGame AddLauncherId(ILauncher launcher, UbisoftGame game)
     {
         game.LauncherId = launcher.Id;
+        return game;
+    }
+
+    /// <summary>
+    /// Find executables within the install directory
+    /// </summary>
+    private static UbisoftGame AddExecutables(ILauncher launcher, UbisoftGame game)
+    {
+        if (launcher.LauncherOptions.SearchExecutables)
+        {
+            var executables = PathUtil.GetExecutables(game.InstallDir);
+
+            executables.AddRange(game.Executables);
+            game.Executables = executables.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
         return game;
     }
 

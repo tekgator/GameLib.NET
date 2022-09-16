@@ -162,13 +162,24 @@ public partial class GameViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public static void CopyToClipboard(string? text)
+    public static void CopyToClipboard(object? obj)
     {
-        if (string.IsNullOrEmpty(text))
+        var copyText = string.Empty;
+
+        switch (obj)
+        {
+            case string text:
+                copyText = text;
+                break;
+            case IEnumerable<string> list:
+                copyText = string.Join("\n", list);
+                break;
+        }
+
+        if (string.IsNullOrEmpty(copyText))
         {
             return;
         }
-
-        Clipboard.SetText(text);
+        Clipboard.SetText(copyText);
     }
 }

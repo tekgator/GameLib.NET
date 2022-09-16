@@ -35,6 +35,11 @@ public interface IGame
     public Icon? ExecutableIcon { get; }
 
     /// <summary>
+    /// Additional executables found within the install directory
+    /// </summary>
+    public IEnumerable<string> Executables { get; }
+
+    /// <summary>
     /// Working directory of the game
     /// </summary>
     public string WorkingDir { get; }
