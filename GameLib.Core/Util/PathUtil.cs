@@ -112,6 +112,9 @@ public static class PathUtil
 
     public static List<string> GetExecutables(string path)
     {
-        return Directory.GetFiles(path, "*.exe", SearchOption.AllDirectories).ToList();
+        if (Directory.Exists(path))
+            return Directory.GetFiles(path, "*.exe", SearchOption.AllDirectories).ToList();
+
+        return new();
     }
 }
