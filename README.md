@@ -30,7 +30,7 @@ While this repository is providing already the plugins to gather the games from 
 
 ## Support
 
-I try to be responsive to [Stack Overflow questions in the `gamelib-net` tag](https://stackoverflow.com/questions/tagged/gamelib-net) and [issues logged on this GitHub repository](https://github.com/tekgator/GameLib.NET/issues).
+I try to be responsive to [Stack Overflow questions in the `gamelib-net` tag](https://stackoverflow.com/questions/tagged/gamelib-net) and [issues logged on this GitHub repository](https://github.com/tekgator/GameLib.NET/issues). 
 
 If I've helped you and you like some of my work, feel free to buy me a coffee ☕ (or more likely a beer 🍺)
 
