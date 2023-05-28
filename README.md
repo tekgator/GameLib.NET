@@ -1,6 +1,28 @@
-![GameLib.NET](Resources/GameLibNET-Logo-64px.png "GameLib.NET") 
+![GameLib.NET](Resources/GameLibNET-Logo-64px.png "GameLib.NET")
 GameLib.NET
 ======
+
+<p>
+  <a href="https://github.com/tekgator/GameLib.NET/blob/main/LICENSE" alt="License">
+    <img src="https://img.shields.io/github/license/tekgator/GameLib.NET" />
+  </a>
+  <img src="https://img.shields.io/github/languages/top/tekgator/GameLib.NET" />
+  <a href="https://www.nuget.org/packages/GameLib.NET" alt="Nuget">
+    <img alt="Nuget" src="https://img.shields.io/nuget/dt/GameLib.NET">
+  </a>
+  <a href="https://github.com/tekgator/GameLib.NET/actions/workflows/build-on-push.yml" alt="BuildStatus">
+    <img src="https://img.shields.io/github/actions/workflow/status/tekgator/GameLib.NET/build-on-push.yml?branch=main" />
+  </a>
+  <a href="https://github.com/tekgator/GameLib.NET/releases" alt="Releases">
+    <img src="https://img.shields.io/github/v/release/tekgator/GameLib.NET" />
+  </a>
+  <a href="https://github.com/tekgator/GameLib.NET/releases" alt="Releases">
+    <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/tekgator/GameLib.NET">
+  </a>
+  <a href="https://github.com/tekgator/GameLib.NET/commit" alt="Commit">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/tekgator/GameLib.NET">
+  </a>
+</p>
 
 GameLib.NET is a library to give .NET developers easy access to the users installed game launchers and installed games. The motivation for the library is a tool I'm currently working on which requires access to all game executables on a PC.
 
@@ -33,7 +55,7 @@ Multiple options are available to install within your project:
 
 1. Install, using the [Nuget Gallery](https://www.nuget.org/packages/GameLib.NET)
 
-2. Install using the Package Manager Console: 
+2. Install using the Package Manager Console:
    ```ps
    Install-Package GameLib.NET 
    ```
@@ -79,19 +101,19 @@ To make a long story short have a look at the [`ILauncher`](GameLib.Core/ILaunch
 
 ## Demo application
 
-Have a look at the [Console Demo](GameLib.Demo/GameLib.Demo.Console) as well as the [WPF GUI Demo](GameLib.Demo/GameLib.Demo.Wpf) within the repository. 
+Have a look at the [Console Demo](GameLib.Demo/GameLib.Demo.Console) as well as the [WPF GUI Demo](GameLib.Demo/GameLib.Demo.Wpf) within the repository.
 Both will run straight out of the box to give you a hint what the library can do for you.
 
-![WPF GUI Demo Launchers Screenshot](Resources/Screenshots/WpfDemoLaunchers.png "WPF GUI Demo Launchers Screenshot") 
+![WPF GUI Demo Launchers Screenshot](Resources/Screenshots/WpfDemoLaunchers.png "WPF GUI Demo Launchers Screenshot")
 
-![WPF GUI Demo Games Screenshot](Resources/Screenshots/WpfDemoGames.png "WPF GUI Demo Games Screenshot") 
+![WPF GUI Demo Games Screenshot](Resources/Screenshots/WpfDemoGames.png "WPF GUI Demo Games Screenshot")
 
 
 ## Dependencies and Credits
 
 - Teneko's [Teronis.DotNet](https://github.com/teneko/Teronis.DotNet/tree/develop/src/MSBuild/Packaging/ProjectBuildInPackage) for allowing project reference content to be added to the NuGet package during pack process
-  
-- [Josef Nemec](https://github.com/JosefNemec) and contributers of [Playnite](https://github.com/JosefNemec/Playnite) for the inspiration of decoding the proprietary manifest and catalog data of each launcher 
+
+- [Josef Nemec](https://github.com/JosefNemec) and contributers of [Playnite](https://github.com/JosefNemec/Playnite) for the inspiration of decoding the proprietary manifest and catalog data of each launcher
 
 - The team of [SteamDB](https://steamdb.info) providing [Valve's KeyValue for .NET](https://github.com/SteamDatabase/ValveKeyValue) for reading Steam's proprietary key value format files
 
