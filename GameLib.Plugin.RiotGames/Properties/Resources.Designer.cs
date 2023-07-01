@@ -63,39 +63,9 @@ namespace GameLib.Plugin.RiotGames.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GameLibPluginLogo128px {
+        internal static System.Drawing.Bitmap RiotGames {
             get {
-                object obj = ResourceManager.GetObject("GameLibPluginLogo128px", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GameLibPluginLogo64px {
-            get {
-                object obj = ResourceManager.GetObject("GameLibPluginLogo64px", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Logo256px {
-            get {
-                object obj = ResourceManager.GetObject("Logo256px", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Logo32px {
-            get {
-                object obj = ResourceManager.GetObject("Logo32px", resourceCulture);
+                object obj = ResourceManager.GetObject("RiotGames", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

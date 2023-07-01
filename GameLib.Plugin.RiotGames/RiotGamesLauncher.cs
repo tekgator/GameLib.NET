@@ -8,7 +8,7 @@ using System.IO;
 
 namespace GameLib.Plugin.RiotGames;
 
-[Guid("54C9D299-555E-4990-894D-9DB402F81CA3")]
+[Guid("938071a9-925e-4b1d-ae17-61a05ef5ec28")]
 [Export(typeof(ILauncher))]
 public class RiotGamesLauncher : ILauncher
 {
@@ -24,7 +24,7 @@ public class RiotGamesLauncher : ILauncher
 
     public string Name => "Riot Games";
 
-    public Image Logo => Properties.Resources.Logo256px;
+    public Image Logo => Properties.Resources.RiotGames;
 
     public bool IsInstalled { get; private set; }
     public bool IsRunning => ProcessUtil.IsProcessRunning(Executable);
