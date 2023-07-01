@@ -56,11 +56,12 @@
 	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	<PackageReference Include="ValveKeyValue" Version="0.8.2.162" />
 	<PackageReference Include="protobuf-net" Version="3.1.17" />
-	<PackageReference Include="YamlDotNet" Version="11.2.1" />
+	<PackageReference Include="YamlDotNet" Version="13.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GameLib.Core\GameLib.Core.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\GameLib.Plugin.RiotGames\GameLib.Plugin.RiotGames.csproj" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.BattleNet\GameLib.Plugin.BattleNet.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" PrivateAssets="all" />
