@@ -48,6 +48,7 @@ Following plugins are already bundled with GameLib.NET to detect the game launch
 - ![GOG Galaxy 2.0](GameLib.Plugin/GameLib.Plugin.Gog/Resources/Logo32px.png) [GOG Galaxy 2.0](GameLib.Plugin/GameLib.Plugin.Gog)
 - ![Battle.net](GameLib.Plugin/GameLib.Plugin.BattleNet/Resources/Logo32px.png) [Battle.net](GameLib.Plugin/GameLib.Plugin.BattleNet)
 - ![Rockstar](GameLib.Plugin/GameLib.Plugin.Rockstar/Resources/Logo32px.png) [Rockstar](GameLib.Plugin/GameLib.Plugin.Rockstar)
+- ![Riot Games](GameLib.Plugin/GameLib.Plugin.RiotGames/Resources/Logo32px.png) [Riot Games](GameLib.Plugin/GameLib.Plugin.RiotGames)
 
 ## Installing
 
