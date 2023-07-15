@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameLib.Core\GameLib.Core.csproj" />
+    <ProjectReference Include="..\..\GameLib.Core\GameLib.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -61,11 +61,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameLib.Core\GameLib.Core.csproj" PrivateAssets="all" />
-    <ProjectReference Include="..\GameLib.Plugin.RiotGames\GameLib.Plugin.RiotGames.csproj" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.BattleNet\GameLib.Plugin.BattleNet.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Epic\GameLib.Plugin.Epic.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Gog\GameLib.Plugin.Gog.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.RiotGames\GameLib.Plugin.RiotGames.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Rockstar\GameLib.Plugin.Rockstar.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Steam\GameLib.Plugin.Steam.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\GameLib.Plugin\GameLib.Plugin.Ubisoft\GameLib.Plugin.Ubisoft.csproj" PrivateAssets="all" />

@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.BattleNet", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Rockstar", "GameLib.Plugin\GameLib.Plugin.Rockstar\GameLib.Plugin.Rockstar.csproj", "{F939BDF8-A0BE-4933-AF20-C0705A699433}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Plugin.RiotGames", "GameLib.Plugin.RiotGames\GameLib.Plugin.RiotGames.csproj", "{C357DFFA-DFF3-47C1-9939-45BA6875EE81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Plugin.RiotGames", "GameLib.Plugin\GameLib.Plugin.RiotGames\GameLib.Plugin.RiotGames.csproj", "{C357DFFA-DFF3-47C1-9939-45BA6875EE81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

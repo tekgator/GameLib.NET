@@ -14,6 +14,7 @@
   </ItemGroup>
 		
   <ItemGroup>
+	<ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.RiotGames\GameLib.Plugin.RiotGames.csproj" />
 	<ProjectReference Include="..\..\GameLib\GameLib.csproj" />
 	<ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.BattleNet\GameLib.Plugin.BattleNet.csproj" />
 	<ProjectReference Include="..\..\GameLib.Plugin\GameLib.Plugin.Origin\GameLib.Plugin.Origin.csproj" />
