@@ -17,13 +17,13 @@ To get the additonal information this plugin is providing just cast `IGame` to `
 
 ```CSharp
 using GameLib;
-using GameLib.Plugin.Gog;
-using GameLib.Plugin.Gog.Model;
+using GameLib.Plugin.RiotGames;
+using GameLib.Plugin.RiotGames.Model;
 
 var launcherManager = new LauncherManager();
 
 // not required to cast here just to add to the documentation
-var launcher = (GogLauncher?)launcherManager.GetLaunchers()
+var launcher = (RiotGamesLauncher?)launcherManager.GetLaunchers()
     .Where(launcher => launcher.Name == "Riot Games")
     // Plugin ID could also be used instead of the name
     //.Where(launcher => launcher.Id == new Guid("938071a9-925e-4b1d-ae17-61a05ef5ec28"))
