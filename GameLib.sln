@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Demo.Wpf", "GameLib
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.BattleNet", "GameLib.Plugin\GameLib.Plugin.BattleNet\GameLib.Plugin.BattleNet.csproj", "{9629FF2C-928F-49C8-9EB6-306BDFA85F4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Plugin.Rockstar", "GameLib.Plugin\GameLib.Plugin.Rockstar\GameLib.Plugin.Rockstar.csproj", "{F939BDF8-A0BE-4933-AF20-C0705A699433}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Plugin.Rockstar", "GameLib.Plugin\GameLib.Plugin.Rockstar\GameLib.Plugin.Rockstar.csproj", "{F939BDF8-A0BE-4933-AF20-C0705A699433}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLib.Plugin.RiotGames", "GameLib.Plugin\GameLib.Plugin.RiotGames\GameLib.Plugin.RiotGames.csproj", "{C357DFFA-DFF3-47C1-9939-45BA6875EE81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{F939BDF8-A0BE-4933-AF20-C0705A699433}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F939BDF8-A0BE-4933-AF20-C0705A699433}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F939BDF8-A0BE-4933-AF20-C0705A699433}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C357DFFA-DFF3-47C1-9939-45BA6875EE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C357DFFA-DFF3-47C1-9939-45BA6875EE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C357DFFA-DFF3-47C1-9939-45BA6875EE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C357DFFA-DFF3-47C1-9939-45BA6875EE81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
