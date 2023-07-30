@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Drawing;
 using Gamelib.Core.Util;
 using Microsoft.Win32;
-using System.IO;
 
 namespace GameLib.Plugin.RiotGames;
 
@@ -64,16 +63,22 @@ public class RiotGamesLauncher : ILauncher
 
     private static string? GetExecutable()
     {
-        RegistryKey uninstallKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall");
-        var programs = uninstallKey.GetSubKeyNames();
+        var uninstallKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall");
 
+        if (uninstallKey == null)
+            return string.Empty;
+        
+        var programs = uninstallKey.GetSubKeyNames();
+        
         foreach (var program in programs)
         {
-            RegistryKey subkey = uninstallKey.OpenSubKey(program);
-            if (string.Equals("Riot Games, Inc", subkey.GetValue("Publisher", string.Empty).ToString(), StringComparison.CurrentCulture))
+            var subkey = uninstallKey.OpenSubKey(program);
+            if (subkey == null) continue;
+            
+            if (string.Equals("Riot Games, Inc", subkey.GetValue("Publisher", string.Empty)?.ToString(), StringComparison.CurrentCulture))
             {
-                var k = subkey.GetValue("UninstallString").ToString().
-                    Replace("\\RiotClientServices.exe\" --uninstall-product=bacon --uninstall-patchline=live", "")
+                var k = subkey.GetValue("UninstallString")?.ToString()?
+                    .Replace("\\RiotClientServices.exe\" --uninstall-product=bacon --uninstall-patchline=live", "")
                     .Replace("\\RiotClientServices.exe\" --uninstall-product=valorant --uninstall-patchline=live", "")
                     .Replace("\\RiotClientServices.exe\" --uninstall-product=league_of_legends --uninstall-patchline=live", "")
                     .Replace("\\RiotClientServices.exe\" --uninstall-product=league_of_legends_game --uninstall-patchline=live", "")
