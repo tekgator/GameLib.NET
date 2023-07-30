@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.4.1] - 2023-07-29
+### Fixed
+- Nuget Build to include new Plugin without releasing it as an own package
+
+
 ## [1.4.0] - 2023-07-29
 ### Added
 - Riot Games Plugin by @ZenMaxe

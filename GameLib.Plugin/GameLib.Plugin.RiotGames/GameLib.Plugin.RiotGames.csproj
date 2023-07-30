@@ -4,7 +4,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <Packable>false</Packable>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
