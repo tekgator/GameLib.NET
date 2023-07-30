@@ -17,7 +17,7 @@
     <Description>GameLib.NET is a library to give .NET developers easy access to the users installed game launchers and installed games. </Description>
     <Copyright>@Patrick Weiss 2022</Copyright>
     <PackageTags>GameLib;Game Launcher;Steam;Origin;Ubisoft Connect;Ubisoft;Epic Games;Epic;GOG;Galaxy;Rockstar;Blizzard;Battle.net</PackageTags>
-	<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(SolutionDir)/CHANGELOG.md"))</PackageReleaseNotes>
+    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../CHANGELOG.md"))</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
