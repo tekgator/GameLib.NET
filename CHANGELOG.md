@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.4.0] - 2023-07-29
+### Added
+- Riot Games Plugin by @ZenMaxe
+
+
 ## [1.3.3] - 2023-03-18
 ### Fixed
 - Reading all executables in a directory crashed if directory doesn't exists
