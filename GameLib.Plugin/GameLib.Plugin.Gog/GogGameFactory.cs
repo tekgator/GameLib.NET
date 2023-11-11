@@ -99,7 +99,7 @@ internal static class GogGameFactory
             return null;
         }
 
-        game.InstallDir = Path.GetDirectoryName(game.Executable) ?? string.Empty;
+        game.InstallDir = string.IsNullOrEmpty(game.Executable) ? string.Empty : Path.GetDirectoryName(game.Executable) ?? string.Empty;
         game.LaunchString = $"\"{launcher.Executable}\" /command=runGame /gameId={game.Id}";
         if (!string.IsNullOrEmpty(game.WorkingDir))
         {
